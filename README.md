@@ -1,4 +1,14 @@
 <p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/119260208-68842280-bbef-11eb-89bf-e86b9e967e89.png" alt="dart"/>
+</p>
+
+- Dart is a client-optimized language for fast apps on any platform.
+
+- Dart as a language, is very robust. Having been created by Google, its primary purpose was to leverage C-based Object Oriented Programming languages like C#, and Java. As it is also a general-purpose programming language, it compiles fast and is concise.
+
+---
+
+<p align="center">
   <img src="https://user-images.githubusercontent.com/47301282/119260209-69b54f80-bbef-11eb-9dc5-74c142d30da6.png" alt="Flutter"/>
 </p>
 
@@ -42,16 +52,6 @@ by Google.
 
 Image source: https://academind.com/
 
-
----
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119260208-68842280-bbef-11eb-89bf-e86b9e967e89.png" alt="dart"/>
-</p>
-
-- Dart is a client-optimized language for fast apps on any platform.
-
-- Dart as a language, is very robust. Having been created by Google, its primary purpose was to leverage C-based Object Oriented Programming languages like C#, and Java. As it is also a general-purpose programming language, it compiles fast and is concise.
 
 ---
 
