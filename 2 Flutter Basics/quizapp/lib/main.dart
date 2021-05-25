@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './question.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -16,11 +18,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // State<MyApp> pointer tells MyApp that this state is for MyApp widget
-  var questionIndex = 0;
+  var _questionIndex = 0;
 
-  void questionAnswerd() {
+  void _questionAnswerd() {
     setState(() {
-      questionIndex = (questionIndex + 1)%3;      
+      _questionIndex = (_questionIndex + 1)%3;      
     });
   }
 
@@ -39,17 +41,17 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: <Widget>[
-            Text(questions[questionIndex]),
+            Question(questions[_questionIndex]),
             ElevatedButton(
-              onPressed: questionAnswerd,
+              onPressed: _questionAnswerd,
               child: Text('Her face a river.'),
             ),
             ElevatedButton(
-              onPressed: questionAnswerd,
+              onPressed: _questionAnswerd,
               child: Text('This is a curse,'),
             ),
             ElevatedButton(
-              onPressed: questionAnswerd,
+              onPressed: _questionAnswerd,
               child: Text('A blessing too.'),
             ),
           ],

@@ -51,12 +51,17 @@ class MyApp extends StatelessWidget {
 
 ---
 
-## Stateful and stateless widgets
+### Stateful and stateless widgets
 
 - If a widget can change—when a user interacts with it, for example—it’s stateful. A stateless widget never changes. Icon, IconButton, and Text are examples of stateless widgets.
 
 - You may read about Stateful and stateless widgets in depth on the links given:
 
-  - [How to change app icon?](https://pub.dev/packages/flutter_launcher_icons)
-
   - [Creating a stateful widget](https://flutter.dev/docs/development/ui/interactive#stateful-and-stateless-widgets)
+  
+  - [Also, How to change app icon?](https://pub.dev/packages/flutter_launcher_icons)
+
+---
+
+### Creating a custom widget:
+
