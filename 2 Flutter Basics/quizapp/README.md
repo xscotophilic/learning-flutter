@@ -44,3 +44,14 @@ class MyApp extends StatelessWidget {
 5. home in MaterialApp: This is the route that is displayed first when the application is started normally, unless initialRoute is specified. It's also the route that's displayed if the initialRoute can't be displayed.
 
 6. The Text widget displays a string of text with single style.
+
+---
+
+## Stateful and stateless widgets
+
+- If a widget can change—when a user interacts with it, for example—it’s stateful. A stateless widget never changes. Icon, IconButton, and Text are examples of stateless widgets.
+
+
+- You may read about Stateful and stateless widgets in depth on the links given:
+
+  - [Creating a stateful widget](https://flutter.dev/docs/development/ui/interactive#stateful-and-stateless-widgets)
