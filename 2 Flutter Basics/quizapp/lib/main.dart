@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './question.dart';
+import './answer.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,16 +23,40 @@ class _MyAppState extends State<MyApp> {
 
   void _questionAnswerd() {
     setState(() {
-      _questionIndex = (_questionIndex + 1)%3;      
+      _questionIndex = (_questionIndex + 1) % 3;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     const questions = [
-      'What\'s your favorite color?',
-      'What\'s your favorite animal?',
-      'What\'s your favorite food?'
+      {
+        'questionText': 'What\'s your favorite color?',
+        'answers': [
+          {'text': 'Black', 'score': 9},
+          {'text': 'Red', 'score': 8},
+          {'text': 'Green', 'score': 10},
+          {'text': 'White', 'score': 7},
+        ],
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': [
+          {'text': 'Rabbit', 'score': 9},
+          {'text': 'Snake', 'score': 8},
+          {'text': 'Elephant', 'score': 10},
+          {'text': 'Lion', 'score': 8},
+        ],
+      },
+      {
+        'questionText': 'What\'s your favourite song?',
+        'answers': [
+          {'text': 'Flightless Bird, American Mouth - Iron & Wine', 'score': 9},
+          {'text': 'RIHA by Anuv Jain', 'score': 9},
+          {'text': 'Jonathan - would you', 'score': 9},
+          {'text': 'Anchor - Novo Amor', 'score': 10},
+        ],
+      },
     ];
 
     return MaterialApp(
@@ -41,40 +66,14 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: <Widget>[
-            Question(questions[_questionIndex]),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                ),
-                onPressed: _questionAnswerd,
-                child: Text('Her face a river.'),
-              ),
+            Question(
+              questions[_questionIndex]['questionText'] as String,
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                ),
-                onPressed: _questionAnswerd,
-                child: Text('This is a curse,'),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                ),
-                onPressed: _questionAnswerd,
-                child: Text('A blessing too.'),
-              ),
-            ),
+            ...(questions[_questionIndex]['answers']
+                    as List<Map<String, Object>>)
+                .map((answer) =>
+                    Answer(answer['text'] as String, _questionAnswerd))
+                .toList()
           ],
         ),
       ),
