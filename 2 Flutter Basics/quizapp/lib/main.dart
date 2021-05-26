@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,13 +20,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // State<MyApp> pointer tells MyApp that this state is for MyApp widget
   var _questionIndex = 0;
-  final questions = const [
+  var _totalScore = 0;
+
+  final _questions = const [
     {
       'questionText': 'What\'s your favorite color?',
       'answers': [
         {'text': 'Black', 'score': 9},
-        {'text': 'Red', 'score': 8},
-        {'text': 'Green', 'score': 10},
+        {'text': 'Red', 'score': 9},
+        {'text': 'Green', 'score': 7},
         {'text': 'White', 'score': 7},
       ],
     },
@@ -34,25 +36,33 @@ class _MyAppState extends State<MyApp> {
       'questionText': 'What\'s your favorite animal?',
       'answers': [
         {'text': 'Rabbit', 'score': 9},
-        {'text': 'Snake', 'score': 8},
-        {'text': 'Elephant', 'score': 10},
-        {'text': 'Lion', 'score': 8},
+        {'text': 'Snake', 'score': 7},
+        {'text': 'Elephant', 'score': 7},
+        {'text': 'Lion', 'score': 9},
       ],
     },
     {
       'questionText': 'What\'s your favourite song?',
       'answers': [
-        {'text': 'Flightless Bird, American Mouth - Iron & Wine', 'score': 9},
-        {'text': 'RIHA by Anuv Jain', 'score': 9},
+        {'text': 'Flightless Bird, American Mouth - Iron & Wine', 'score': 7},
+        {'text': 'RIHA by Anuv Jain', 'score': 7},
         {'text': 'Jonathan - would you', 'score': 9},
         {'text': 'Anchor - Novo Amor', 'score': 10},
       ],
     },
   ];
 
-  void _questionAnswerd() {
+  void _questionAnswerd(int score) {
+    this._totalScore += score;
     setState(() {
-      _questionIndex++;
+      this._questionIndex++;
+    });
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      this._totalScore = 0;
+      this._questionIndex = 0;
     });
   }
 
@@ -63,22 +73,9 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Quiz app!'),
         ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: <Widget>[
-                  Question(
-                    questions[_questionIndex]['questionText'] as String,
-                  ),
-                  ...(questions[_questionIndex]['answers']
-                          as List<Map<String, Object>>)
-                      .map((answer) =>
-                          Answer(_questionAnswerd, answer['text'] as String))
-                      .toList()
-                ],
-              )
-            : Center(
-                child: Text("You did it!"),
-              ),
+        body: _questionIndex < _questions.length
+            ? Quiz(_questionAnswerd, _questions, _questionIndex)
+            : Result(this._resetQuiz, this._totalScore),
       ),
     );
   }
