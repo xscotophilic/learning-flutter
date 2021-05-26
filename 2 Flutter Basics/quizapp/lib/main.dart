@@ -42,17 +42,38 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: <Widget>[
             Question(questions[_questionIndex]),
-            ElevatedButton(
-              onPressed: _questionAnswerd,
-              child: Text('Her face a river.'),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                onPressed: _questionAnswerd,
+                child: Text('Her face a river.'),
+              ),
             ),
-            ElevatedButton(
-              onPressed: _questionAnswerd,
-              child: Text('This is a curse,'),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                onPressed: _questionAnswerd,
+                child: Text('This is a curse,'),
+              ),
             ),
-            ElevatedButton(
-              onPressed: _questionAnswerd,
-              child: Text('A blessing too.'),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                onPressed: _questionAnswerd,
+                child: Text('A blessing too.'),
+              ),
             ),
           ],
         ),
