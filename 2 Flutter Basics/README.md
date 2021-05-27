@@ -88,3 +88,7 @@
   6. Flutter creates a `pubspec.yaml` for a basic Flutter app.
 
   7. `README.md` is a file that contains programme, utility or APP information for the user. README files often include instructions and additional help, and patch or update details.
+
+---
+
+## Details of quizapp are in that folder only.
