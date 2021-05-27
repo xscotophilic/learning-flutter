@@ -92,3 +92,7 @@
 ---
 
 ## Details of quizapp are in that folder only.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/119799380-a0de7600-bef9-11eb-8744-1e2099042f40.gif" alt="Quizapp" height="480px"/>
+</p>
