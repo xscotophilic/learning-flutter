@@ -1,6 +1,6 @@
 # Quizapp
 
-## It's hard to document everything I code. So I've tried my best and explained things. 
+## It's hard to document everything I code. So I've tried my best and explained things.
 
 ---
 
@@ -58,10 +58,68 @@ class MyApp extends StatelessWidget {
 - You may read about Stateful and stateless widgets in depth on the links given:
 
   - [Creating a stateful widget](https://flutter.dev/docs/development/ui/interactive#stateful-and-stateless-widgets)
-  
+
   - [Also, How to change app icon?](https://pub.dev/packages/flutter_launcher_icons)
 
 ---
 
 ### Creating a custom widget:
 
+#### Suppose we have main.dart file as given below.
+
+```
+import 'package:flutter/material.dart';
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: Text("Hello World!"));
+  }
+}
+```
+
+#### And when we write more code for Container, it will become larger and larger, thus we should build it as a custom widget for clear code and better interpretation. Example of refactoring is given below.
+
+`1. Create new file helloworld.dart`
+
+```
+import 'package:flutter/material.dart';
+
+class HelloWorld extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: Text("Hello World!"));
+  }
+}
+```
+
+`2. Replace code of main.dart`
+
+```
+import 'package:flutter/material.dart';
+
+import './helloworld.dart';
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+```
+
+---
+
+### Focusing on logic and functions:
+
+- Design logic for your application based on how you want it to behave. There is no other way to write and construct logic but via trial and error method.
