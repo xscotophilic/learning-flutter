@@ -1,6 +1,6 @@
 # Expenses
 
-`You can keep track of their daily expenditure by entering daily transactions.`
+`You can keep track of your daily expenditure by entering daily transactions.`
 
 ## Let's start with wireframing:
 
