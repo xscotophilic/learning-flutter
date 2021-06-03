@@ -5,6 +5,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -12,27 +13,29 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Expenses'),
-      ),
-      body: Column(
-        children: <Widget>[
-          Card(
-            child: Container(
-              width: double.infinity,
-              child: Text('Chart!'),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Expenses'),
+        ),
+        body: Column(
+          children: <Widget>[
+            Card(
+              child: Container(
+                width: double.infinity,
+                child: Text('Chart!'),
+              ),
+              elevation: 5,
             ),
-            elevation: 5,
-          ),
-          Card(
-            child: Container(
-              width: double.infinity,
-              // mainAxisAlignment: MainAxisAlignment.center,
-              child: Text('List!'),
-            ),
-          )
-        ],
+            Card(
+              child: Container(
+                width: double.infinity,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                child: Text('List!'),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

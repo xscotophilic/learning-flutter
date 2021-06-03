@@ -1,11 +1,16 @@
-# Expenses
+# expenses
 
-`You can keep track of your daily expenditure by entering daily transactions.`
+A new Flutter project.
 
-## Let's start with wireframing:
+## Getting Started
 
-Our app will resemble the illustration below. Create application logic depending on how you want it to behave. There is no other approach for writing and constructing logic but trial and error, same with designing. It's difficult to keep track of everything I code. So I've done my best to explain everything. `You may follow the modifications and what I did in the commits step by step.`
+This project is a starting point for a Flutter application.
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119976799-431f5c00-bfd5-11eb-8826-68b1ee5e3023.png" alt="wireframing"/>
-</p>
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
