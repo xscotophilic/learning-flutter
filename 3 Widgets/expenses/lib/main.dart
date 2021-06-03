@@ -19,6 +19,7 @@ class _MyAppState extends State<MyApp> {
           title: Text('Expenses'),
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Card(
               child: Container(
@@ -30,7 +31,6 @@ class _MyAppState extends State<MyApp> {
             Card(
               child: Container(
                 width: double.infinity,
-                // mainAxisAlignment: MainAxisAlignment.center,
                 child: Text('List!'),
               ),
             )
