@@ -10,14 +10,9 @@ void main() {
 }
 
 // MyApp class
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  @override
-  _MyAppState createState() => _MyAppState();
-}
 
-// MyApp state
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // material app
@@ -28,17 +23,19 @@ class _MyAppState extends State<MyApp> {
           title: Text('Expenses'),
         ),
         // outer container for styling
-        body: Container(
-          margin: EdgeInsets.all(10),
-          // column to hold chart and expenses list
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              // ***** main screen starts *****
-              Chart(),
-              UserTransactions(),
-              // ***** main screen ends *****
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.all(10),
+            // column to hold chart and expenses list
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                // ***** main screen starts *****
+                Chart(),
+                UserTransactions(),
+                // ***** main screen ends *****
+              ],
+            ),
           ),
         ),
       ),
