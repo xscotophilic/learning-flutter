@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import './transaction.dart';
 
@@ -17,7 +18,7 @@ class _MyAppState extends State<MyApp> {
     Transaction(
       id: 't0',
       title: 'Biryani',
-      amount: 59.99,
+      amount: 60.00,
       date: DateTime.now(),
     ),
     Transaction(
@@ -62,20 +63,20 @@ class _MyAppState extends State<MyApp> {
                           Container(
                             margin: EdgeInsets.symmetric(
                               horizontal: 15,
-                              vertical: 10,
+                              vertical: 12,
                             ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
-                            ),
+                            padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30),
+                              ),
                               border: Border.all(
                                 color: Colors.purple,
                                 width: 2,
                               ),
                             ),
                             child: Text(
-                              transaction.amount.toString(),
+                              '\$ ${transaction.amount.toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -87,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                                 child: Text(
                                   transaction.title,
                                   style: TextStyle(
@@ -97,8 +98,12 @@ class _MyAppState extends State<MyApp> {
                                 ),
                               ),
                               Text(
-                                transaction.date.toString(),
-                                style: TextStyle(color: Colors.grey),
+                                DateFormat.yMMMMd().format(
+                                  transaction.date,
+                                ),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
                             ],
                           ),
