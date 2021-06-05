@@ -11,65 +11,67 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // *** Expenses starts ***
-    return Column(
-      children: transactions
-          .map(
-            (transaction) => Card(
-              elevation: 5,
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 12,
+    return Container(
+      height: 300,
+      child: ListView.builder(
+        itemBuilder: (ctx, index) {
+          return Card(
+            elevation: 5,
+            child: Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 12,
+                  ),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30),
                     ),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      border: Border.all(
-                        color: Colors.purple,
-                        width: 1,
-                      ),
-                    ),
-                    child: Text(
-                      '\$ ${transaction.amount.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.purple,
-                      ),
+                    border: Border.all(
+                      color: Colors.purple,
+                      width: 1,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                        child: Text(
-                          transaction.title,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        DateFormat.yMMMMd().format(
-                          transaction.date,
-                        ),
+                  child: Text(
+                    '\$ ${transactions[index].amount.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.purple,
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: Text(
+                        transactions[index].title,
                         style: TextStyle(
-                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    Text(
+                      DateFormat.yMMMMd().format(
+                        transactions[index].date,
+                      ),
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          )
-          .toList(),
+          );
+        },
+        itemCount: transactions.length,
+      ),
     );
     // *** Expenses ends ***
   }
