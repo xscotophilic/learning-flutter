@@ -34,7 +34,7 @@ class _NewTransactionState extends State<NewTransaction> {
   Widget build(BuildContext context) {
     // *** Input field/ new transaction starts ***
     return Card(
-      elevation: 2,
+      elevation: 0,
       child: Container(
         padding: EdgeInsets.all(10),
         child: Column(
