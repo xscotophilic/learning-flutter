@@ -18,7 +18,7 @@ class Chart extends StatelessWidget {
           ),
         ),
       ),
-      elevation: 5,
+      elevation: 2,
     );
     // *** Chart ends ***
   }
