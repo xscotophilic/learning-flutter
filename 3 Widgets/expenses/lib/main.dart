@@ -51,20 +51,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   // *** List of transactions starts ***
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: 't0',
-    //   title: 'Biryani',
-    //   amount: 7.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't1',
-    //   title: 'One Dozen Eggs',
-    //   amount: 2.75,
-    //   date: DateTime.now(),
-    // ),
-  ];
+  final List<Transaction> _userTransactions = [];
   // *** List of transactions ends ***
 
   List<Transaction> get _recentTransactions {
@@ -121,6 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               // ***** main screen starts *****
               Chart(_recentTransactions),
+              SizedBox(
+                height: 30,
+              ),
               TransactionList(_userTransactions),
               // ***** main screen ends *****
             ],

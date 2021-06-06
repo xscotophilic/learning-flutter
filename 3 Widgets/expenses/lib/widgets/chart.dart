@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
+import './chart_bar.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
@@ -23,24 +24,43 @@ class Chart extends StatelessWidget {
         }
 
         return {
-          'day': DateFormat.E().format(weekDay),
+          'day': DateFormat.E().format(weekDay).substring(0, 1),
           'amount': totalSum,
         };
       },
     );
   }
 
+  double get totalWeekSpeding {
+    return groupedTransactionValues.fold(
+      0.0,
+      (sum, item) => sum + (item['amount'] as double),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues.toString());
     // *** Chart Starts ***
     return Card(
-      color: Theme.of(context).primaryColor,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(20),
         width: double.infinity,
         child: Row(
-          children: <Widget>[],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionValues
+              .map(
+                (data) => Flexible(
+                  fit: FlexFit.tight,
+                  child: ChartBar(
+                    data['day'] as String,
+                    data['amount'] as double,
+                    totalWeekSpeding == 0.0
+                        ? 0.0
+                        : (data['amount'] as double) / totalWeekSpeding,
+                  ),
+                ),
+              )
+              .toList(),
         ),
       ),
       elevation: 2,
