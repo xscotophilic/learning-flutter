@@ -16,6 +16,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Expenses',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+        accentColor: Colors.pinkAccent,
+        fontFamily: 'Roboto',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'Lumber',
+                  fontSize: 24,
+                ),
+              ),
+        ),
+      ),
       home: MyHomePage(),
     );
   }
@@ -32,18 +52,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // *** List of transactions starts ***
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't0',
-      title: 'Biryani',
-      amount: 7.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'One Dozen Eggs',
-      amount: 2.75,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't0',
+    //   title: 'Biryani',
+    //   amount: 7.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'One Dozen Eggs',
+    //   amount: 2.75,
+    //   date: DateTime.now(),
+    // ),
   ];
   // *** List of transactions ends ***
 

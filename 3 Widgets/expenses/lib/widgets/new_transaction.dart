@@ -76,7 +76,9 @@ class _NewTransactionState extends State<NewTransaction> {
                 'Add transaction',
               ),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.purple),
+                backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).primaryColor,
+                ),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
             )

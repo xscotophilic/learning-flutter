@@ -7,7 +7,7 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     // *** Chart Starts ***
     return Card(
-      color: Colors.purple,
+      color: Theme.of(context).primaryColor,
       child: Container(
         padding: EdgeInsets.all(10),
         width: double.infinity,
