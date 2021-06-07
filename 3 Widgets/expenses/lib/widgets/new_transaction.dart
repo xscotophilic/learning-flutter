@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:flutter/services.dart';
 
 class NewTransaction extends StatefulWidget {
@@ -12,19 +14,41 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   // adding transaction title input controller
-  final titleController = TextEditingController();
-  // adding transaction title amount controller
-  final amountController = TextEditingController();
+  final _titleController = TextEditingController();
+  // adding transaction amount input controller
+  final _amountController = TextEditingController();
+  // adding transaction date controller
+  DateTime _selectedDateController = DateTime(0);
 
-  void submitData() {
-    final enteredTitle = titleController.text;
-    final enteredAmount = double.parse(amountController.text);
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) return;
+      setState(() {
+        _selectedDateController = pickedDate;
+      });
+    });
+  }
 
-    if (enteredTitle.isEmpty || enteredAmount < 0) return;
+  void _submitData() {
+    if (_amountController.text.isEmpty) return;
+    final enteredTitle = _titleController.text;
+    final enteredAmount = double.parse(_amountController.text);
+
+    if (enteredTitle.isEmpty ||
+        enteredAmount < 0 ||
+        _selectedDateController.isBefore(
+          DateTime(2020),
+        )) return;
 
     widget.newTransactionHandler(
       enteredTitle,
       enteredAmount,
+      _selectedDateController,
     );
 
     Navigator.of(context).pop();
@@ -44,12 +68,12 @@ class _NewTransactionState extends State<NewTransaction> {
             Container(
               padding: EdgeInsets.only(bottom: 10),
               child: TextField(
-                controller: titleController,
+                controller: _titleController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Title',
                 ),
-                onSubmitted: (_) => submitData(),
+                onSubmitted: (_) => _submitData(),
               ),
             ),
             // *** Title field ends ***
@@ -58,26 +82,54 @@ class _NewTransactionState extends State<NewTransaction> {
             Container(
               padding: EdgeInsets.only(bottom: 5),
               child: TextField(
-                controller: amountController,
+                controller: _amountController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Amount',
                 ),
-                onSubmitted: (_) => submitData(),
+                onSubmitted: (_) => _submitData(),
               ),
             ),
             // *** Amount field ends ***
 
+            // *** date field starts ***
+            Container(
+              child: Row(
+                children: <Widget>[
+                  TextButton(
+                    onPressed: _presentDatePicker,
+                    child: Text(
+                      'Choose date',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child:
+                        _selectedDateController.isAfter(DateTime(2019, 12, 30))
+                            ? Text(
+                                'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
+                              )
+                            : Text(''),
+                  ),
+                ],
+              ),
+            ),
+            // *** date field ends ***
+
             // *** Submit button starts ***
             ElevatedButton(
-              onPressed: submitData,
+              onPressed: _submitData,
               child: Text(
                 'Add transaction',
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).primaryColor,
+                  Theme.of(context).accentColor,
                 ),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
