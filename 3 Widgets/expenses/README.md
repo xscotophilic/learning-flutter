@@ -1,4 +1,6 @@
-# Expenses
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/121049041-fc034900-c7d4-11eb-8a69-e51151dd377b.png" alt="Expenses"/>
+</p>
 
 `You can keep track of their daily expenditure by entering daily transactions.`
 
@@ -6,19 +8,25 @@
 
 Our app will resemble the illustration below. Create application logic depending on how you want it to behave. There is no other approach for writing and constructing logic but trial and error, same with designing. It's difficult to keep track of everything I code. So I've done my best to explain everything. `You may follow the modifications and what I did in the commits step by step.`
 
-### Rough idea
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/121049047-fc9bdf80-c7d4-11eb-8474-39a9a4922871.png" alt="Idea"/>
+</p>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/47301282/121022098-aa03f880-c7bf-11eb-8d28-fb302d4ed656.png" alt="rough plan"/>
 </p>
 
-### Final Results Everything comes together:
+### Final Results:
 
   <p align="center">
     <img src="https://user-images.githubusercontent.com/47301282/121034144-695dac80-c7ca-11eb-9a65-66c55b6f1292.gif" alt="everythingComesTogether"/>
   </p>
 
-### Short allusion to the entire thought and coding process.
+---
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/121049036-fad21c00-c7d4-11eb-9b2a-18c99c492b75.png" alt="ShortAllusionToTheEntireThoughtAndCodingProcess"/>
+</p>
 
 - Decoding Transaction Cards
 
