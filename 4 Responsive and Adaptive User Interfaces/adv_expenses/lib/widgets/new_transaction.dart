@@ -57,85 +57,92 @@ class _NewTransactionState extends State<NewTransaction> {
   @override
   Widget build(BuildContext context) {
     // *** Input field/ new transaction starts ***
-    return Card(
-      elevation: 0,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            // *** Title field starts ***
-            Container(
-              padding: EdgeInsets.only(bottom: 10),
-              child: TextField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Title',
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 0,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              // *** Title field starts ***
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: TextField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Title',
+                  ),
+                  onSubmitted: (_) => _submitData(),
                 ),
-                onSubmitted: (_) => _submitData(),
               ),
-            ),
-            // *** Title field ends ***
+              // *** Title field ends ***
 
-            // *** Amount field starts ***
-            Container(
-              padding: EdgeInsets.only(bottom: 5),
-              child: TextField(
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Amount',
+              // *** Amount field starts ***
+              Container(
+                padding: EdgeInsets.only(bottom: 5),
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Amount',
+                  ),
+                  onSubmitted: (_) => _submitData(),
                 ),
-                onSubmitted: (_) => _submitData(),
               ),
-            ),
-            // *** Amount field ends ***
+              // *** Amount field ends ***
 
-            // *** date field starts ***
-            Container(
-              child: Row(
-                children: <Widget>[
-                  TextButton(
-                    onPressed: _presentDatePicker,
-                    child: Text(
-                      'Choose date',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
+              // *** date field starts ***
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: _presentDatePicker,
+                      child: Text(
+                        'Choose date',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child:
-                        _selectedDateController.isAfter(DateTime(2019, 12, 30))
-                            ? Text(
-                                'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
-                              )
-                            : Text(''),
-                  ),
-                ],
-              ),
-            ),
-            // *** date field ends ***
-
-            // *** Submit button starts ***
-            ElevatedButton(
-              onPressed: _submitData,
-              child: Text(
-                'Add transaction',
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).accentColor,
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: _selectedDateController
+                              .isAfter(DateTime(2019, 12, 30))
+                          ? Text(
+                              'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
+                            )
+                          : Text(''),
+                    ),
+                  ],
                 ),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
-            )
-            // *** Submit button ends ***
-          ],
+              // *** date field ends ***
+
+              // *** Submit button starts ***
+              ElevatedButton(
+                onPressed: _submitData,
+                child: Text(
+                  'Add transaction',
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).accentColor,
+                  ),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+              )
+              // *** Submit button ends ***
+            ],
+          ),
         ),
       ),
     );
