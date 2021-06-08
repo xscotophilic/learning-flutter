@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/services.dart';
+
+import './adaptive_flat_button.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function newTransactionHandler;
@@ -73,6 +76,7 @@ class _NewTransactionState extends State<NewTransaction> {
               // *** Title field starts ***
               Container(
                 padding: EdgeInsets.only(bottom: 10),
+                // CupertinoTextField(placeholder: 'Title',), for IOS style
                 child: TextField(
                   controller: _titleController,
                   decoration: InputDecoration(
@@ -103,16 +107,10 @@ class _NewTransactionState extends State<NewTransaction> {
               Container(
                 child: Row(
                   children: <Widget>[
-                    TextButton(
-                      onPressed: _presentDatePicker,
-                      child: Text(
-                        'Choose date',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    // Choose Date button starts
+                    AdaptiveFlatButton('Choose Date', _presentDatePicker),
+                    // Choose Date button ends
+                    // Choosen date starts
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: _selectedDateController
@@ -122,6 +120,7 @@ class _NewTransactionState extends State<NewTransaction> {
                             )
                           : Text(''),
                     ),
+                    // Choosen date ends
                   ],
                 ),
               ),

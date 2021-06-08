@@ -1,5 +1,8 @@
+import 'dart:io';
+
 // importing libs
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import './models/transaction.dart';
 import './widgets/chart.dart';
@@ -123,13 +126,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final appBar = AppBar(
-      title: Text('Expenses'),
-    );
+    late final _appBar;
+    if (Platform.isIOS) {
+      _appBar = CupertinoNavigationBar(
+        middle: Text('Expenses'),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            GestureDetector(
+              child: Icon(
+                CupertinoIcons.add,
+              ),
+              onTap: () => _showAddNewTransaction(context),
+            )
+          ],
+        ),
+      );
+    } else {
+      _appBar = AppBar(
+        title: Text('Expenses'),
+      );
+    }
 
     final txListWidget = Container(
       height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
+              _appBar.preferredSize.height -
               mediaQuery.padding.top) *
           0.7,
       child: TransactionList(
@@ -138,11 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    // scaffold app
-    return Scaffold(
-      appBar: appBar,
-      // outer container for styling
-      body: SingleChildScrollView(
+    final pageBody = SafeArea(
+      child: SingleChildScrollView(
         child: Container(
           // column to hold chart and expenses list
           child: Column(
@@ -154,8 +172,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('Show Chart!'),
-                    Switch(
+                    Text(
+                      'Show Chart!',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    Switch.adaptive(
+                      activeColor: Theme.of(context).accentColor,
                       value: _showChart,
                       onChanged: (val) {
                         setState(() {
@@ -172,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ----- Chart starts -----
                     Container(
                         height: (mediaQuery.size.height -
-                                appBar.preferredSize.height -
+                                _appBar.preferredSize.height -
                                 mediaQuery.padding.top) *
                             0.7,
                         child: Chart(_recentTransactions),
@@ -186,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // ----- Chart starts -----
                 Container(
                   height: (mediaQuery.size.height -
-                          appBar.preferredSize.height -
+                          _appBar.preferredSize.height -
                           mediaQuery.padding.top) *
                       0.3,
                   child: Chart(_recentTransactions),
@@ -198,13 +220,28 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-        ),
-        onPressed: () => _showAddNewTransaction(context),
-      ),
     );
+
+    // scaffold app
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+            navigationBar: _appBar,
+          )
+        : Scaffold(
+            appBar: _appBar,
+            // outer container for styling
+            body: pageBody,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(
+                      Icons.add,
+                    ),
+                    onPressed: () => _showAddNewTransaction(context),
+                  ),
+          );
   }
 }
