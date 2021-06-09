@@ -1,4 +1,6 @@
-# Continuing expenses project
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/121357767-aef7b200-c94f-11eb-804e-894f79556f2e.png" alt="CEP"/>
+</p>
 
 Copy expenses project from previous section (3 Widgets). In this part we will improve UI and responsiveness.
 
