@@ -2,7 +2,7 @@
   <img src="https://user-images.githubusercontent.com/47301282/121462257-f755b500-c9cd-11eb-9f15-4eecef3dbd5e.png" alt="Flutter Deep Dive"/>
 </p>
 
-### Widget, Element and Render Object
+<img src="https://user-images.githubusercontent.com/47301282/121463719-2b31da00-c9d0-11eb-996b-a31a36241e11.png" alt="Widget, Element and Render Object"/>
 
 - Widget: Anyone who has worked with Flutter is familiar with the term "Widget." A Widget is immutable, any changes to the user interface need the creation of a new Widget. How come it is so fast if a new Widget is required every time we alter something in the UI? Flutter makes use of three instances of trees under the hood. `Widget tree, Element tree, and Render Object tree`; when combined, they provide quick UI rendering and high performance.
 
@@ -10,7 +10,7 @@
 
 - Render Object: is the source of information for drawing the UI. Flutter tries to create a new Render Object only when necessary.
 
-### Combining all trees
+<img src="https://user-images.githubusercontent.com/47301282/121463711-29681680-c9d0-11eb-96e9-11ddb5d4475c.png" alt="Combining all trees"/>
 
 ```
   String _text = "Hello";
@@ -33,7 +33,7 @@
   Image scource iteo.com
 </p>
 
-### Example of how trees are managed
+<img src="https://user-images.githubusercontent.com/47301282/121463717-2a994380-c9d0-11eb-8493-92f5b876be08.png" alt="how trees are managed"/>
 
 - Suppose we create a Button Widget (Refere above code). When we press this button, the text inside it will change from "Hello" to "World”.
 
@@ -47,7 +47,7 @@
 
 - the widget tree is constantly changing basically whenever you call set state for example, so whenever the build methods get executed, Flutter rebuilds that widget tree, whilst that happens relatively often, the element tree is managed differently and does not rebuild with every call to the build method.
 
-## How Flutter Rebuilds & Repaints the Screen
+<img src="https://user-images.githubusercontent.com/47301282/121463715-2a00ad00-c9d0-11eb-9ea4-e530c9e7bcc8.png" alt="How Flutter Rebuilds & Repaints the Screen"/>
 
 what happens if the widgets are replaced with new instances?
 
