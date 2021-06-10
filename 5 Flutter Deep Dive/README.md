@@ -75,3 +75,76 @@ So since that is known, when we get a new stateful widget up there which replace
 So for example if the background color is the same but the text changed (As we change text using Set State), the render object will only re-render the text pixels.
 
 It has this element tree which is not rebuilt whenever build is called, only the widget tree is rebuilt. this is how repainting is done.
+
+<img src="https://user-images.githubusercontent.com/47301282/121525107-9b168380-ca15-11eb-877d-f51b5c11f15d.png" alt="Using const"/>
+
+What is the distinction between the given two?
+
+```
+child: const Text('Learning flutter.');
+
+or
+
+child: Text('Learning flutter.');
+```
+
+While using const, the object does not change, and flutter does not have to create a new object when re-building.
+It is a minor performance boost, but it might build up in larger apps or apps where the display is rebuilt frequently, such as due to animations. `Const decreases the amount of work required of the Garbage Collector`.
+
+Flutter recommends using const to instantiate constant constructors. This allows Flutter to rebuild only the widgets that need to be updated.
+
+<img src="https://user-images.githubusercontent.com/47301282/121525108-9baf1a00-ca15-11eb-9d48-a93d9bc7fdfd.png" alt="Widget life cycle"/>
+
+1. createState()
+2. mounted is true
+3. initState()
+4. didChangeDependencies()
+5. build()
+6. didUpdateWidget(Widget oldWidget)
+7. setState()
+8. deactivate()
+9. dispose()
+10. mounted is false
+
+Read in details: [Life cycle in flutter - stackoverflow](https://stackoverflow.com/questions/41479255/life-cycle-in-flutter)
+
+<img src="https://user-images.githubusercontent.com/47301282/121525097-98b42980-ca15-11eb-8844-7dc77ad26c14.png" alt="App life cycle"/>
+
+1. Inactive — The application is in an inactive state and is not receiving user input.
+2. Paused — The application is not currently visible to the user, not responding to user input, and running in the background.
+3. Resumed — The application is visible and responding to user input.
+4. Suspending — The application is suspended momentarily.
+
+Read in details: [Flutter App Life cycle - on medium](https://medium.com/pharos-production/flutter-app-lifecycle-4b0ab4a4211a), [Flutter App Life cycle - on medium](https://medium.com/pharos-production/flutter-app-lifecycle-4b0ab4a4211a)
+
+<img src="https://user-images.githubusercontent.com/47301282/121525101-99e55680-ca15-11eb-9c39-c7161f5eda13.png" alt="BuildContext"/>
+
+BuildContext is the context in which a specific widget is built.
+
+- Generally speaking, there are 2 use cases for context :
+  - Interact with your parents (get/post data mostly)
+  - Once rendered on screen, get your screen size and position
+
+For example, when you want to push a new route, you'll do `Navigator.of(context).pushNamed('myRoute').` Notice the context here. It'll be used to get the closest instance of NavigatorState widget above in the tree. Then call the method pushNamed on that instance.
+
+BuildContext is really useful when you want to pass data downward without having to manually assign it to every widgets' configurations for example ; you'll want to access them everywhere. But you don't want to pass it on every single constructor.
+
+Every Flutter widget has an @override build() method with the argument of BuildContext. A BuildContext only belongs to one widget. BuildContext objects are passed to WidgetBuilder functions.
+
+<img src="https://user-images.githubusercontent.com/47301282/121525104-9a7ded00-ca15-11eb-9d3d-b15361f58b1b.png" alt="Keys"/>
+
+You don't need to use Keys most of the time, the framework handles it for you and uses them internally to differentiate between widgets. There are a few cases where you may need to use them though.
+
+Another example is that if you have a child you want to access from a parent, you can make a GlobalKey in the parent and pass it to the child's constructor. Then you can do globalKey.state to get the child's state.
+
+If you find yourself adding, removing, or reordering a collection of widgets of the same type that hold some state, using keys is likely in your future. keys are necessary if you have stateful widgets in the subtree that you are modifying.
+
+Example of using keys to diffrentiate widgets: [Keys! What are they good for?](https://medium.com/flutter/keys-what-are-they-good-for-13cb51742e7d)
+
+Watch: [When to use Keys - by Google](https://youtu.be/kn0EOS-ZiIc)
+
+---
+
+- You can read about `Flutter` in details on provided links:
+
+  - [Inside flutter](https://flutter.dev/docs/resources/inside-flutter)
