@@ -5,15 +5,17 @@ import 'package:appetite_assorted/const.dart';
 
 // Base widget for category screen.
 class CategoryMeals extends StatelessWidget {
-  final String categoryID;
-  final String categoryTitle;
-
-  const CategoryMeals(this.categoryID, this.categoryTitle);
+  static const routeName = '/category-meals';
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    // final categoryID = routeArgs['id'].toString();
+    final categoryTitle = routeArgs['title'].toString();
+
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: buildAppBar(categoryTitle),
       body: Container(
         child: Center(
           child: Text(
@@ -25,7 +27,7 @@ class CategoryMeals extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(String title) {
     return AppBar(
       elevation: 0,
       leading: IconButton(
@@ -35,7 +37,7 @@ class CategoryMeals extends StatelessWidget {
         ),
         onPressed: () {},
       ),
-      title: Text(categoryTitle),
+      title: Text(title),
     );
   }
 }

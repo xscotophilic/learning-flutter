@@ -24,6 +24,7 @@ class HomePage extends StatelessWidget {
         ),
         onPressed: () {},
       ),
+      title: Text('Appetite Assorted'),
     );
   }
 }

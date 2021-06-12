@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/const.dart';
-import 'package:appetite_assorted/widgets/categories_home/category_main.dart';
 import 'package:appetite_assorted/widgets/categories_home/custom_clipper.dart';
+import 'package:appetite_assorted/widgets/categories_home/category_meals.dart';
 
 class CategoryCardMain extends StatelessWidget {
   final String id;
@@ -21,9 +21,9 @@ class CategoryCardMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.topLeft,
+      alignment: Alignment.topCenter,
       child: Container(
-        margin: const EdgeInsets.only(right: 15.0),
+        // margin: const EdgeInsets.only(right: 15.0),
         width: ((MediaQuery.of(context).size.width -
                 (Constants.paddingSide * 2 + Constants.paddingSide / 2)) /
             2),
@@ -90,12 +90,12 @@ class CategoryCardMain extends StatelessWidget {
   }
 
   void SelectCategory(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return CategoryMeals(id, title);
-        },
-      ),
+    Navigator.of(context).pushNamed(
+      CategoryMeals.routeName,
+      arguments: {
+        'id': id,
+        'title': title,
+      },
     );
   }
 }
