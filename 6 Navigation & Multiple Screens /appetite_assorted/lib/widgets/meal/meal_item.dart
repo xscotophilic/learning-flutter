@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:appetite_assorted/models/meal.dart';
+import 'package:appetite_assorted/screens/meal_detail_screen.dart';
 
 class MealCard extends StatelessWidget {
   final Meal meal;
@@ -11,13 +13,39 @@ class MealCard extends StatelessWidget {
     required this.meal,
   });
 
+  String get complexityText {
+    switch (meal.complexity) {
+      case Complexity.Simple:
+        return 'Simple';
+      case Complexity.Challenging:
+        return 'Challenging';
+      case Complexity.Hard:
+        return 'Hard';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  String get affordabilityText {
+    switch (meal.affordability) {
+      case Affordability.Affordable:
+        return 'Affordable';
+      case Affordability.Luxurious:
+        return 'Luxurious';
+      case Affordability.Pricey:
+        return 'Pricey';
+      default:
+        return 'Unknown';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     double defaultSize = SizeConfig.defaultSize;
 
     return InkWell(
-      onTap: selectMeal,
+      onTap: () => selectMeal(context, meal.id),
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).accentColor,
@@ -51,13 +79,13 @@ class MealCard extends StatelessWidget {
                     buildInfoRow(
                       defaultSize,
                       iconSrc: "assets/icons/meals/complexity.svg",
-                      text: "${meal.complexity}",
+                      text: "${complexityText}",
                     ),
                     SizedBox(height: defaultSize * 0.7), //5
                     buildInfoRow(
                       defaultSize,
                       iconSrc: "assets/icons/meals/money.svg",
-                      text: "${meal.affordability}",
+                      text: "${affordabilityText}",
                     ),
                     Spacer(),
                   ],
@@ -79,7 +107,9 @@ class MealCard extends StatelessWidget {
     );
   }
 
-  void selectMeal() {}
+  void selectMeal(BuildContext context, String id) {
+    Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: id);
+  }
 
   Row buildInfoRow(double defaultSize, {required String iconSrc, text}) {
     return Row(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:appetite_assorted/const.dart';
 import 'package:appetite_assorted/data.dart';
 import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:appetite_assorted/widgets/meal/meal_item.dart';
@@ -26,7 +24,7 @@ class CategoryMeals extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: buildAppBar(context, categoryTitle),
+        appBar: buildAppBar(categoryTitle),
         body: Column(
           children: <Widget>[
             Expanded(
@@ -59,18 +57,9 @@ class CategoryMeals extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar(BuildContext context, String title) {
+  AppBar buildAppBar(String title) {
     return AppBar(
       elevation: 0,
-      leading: IconButton(
-        icon: SvgPicture.asset(
-          "assets/icons/back.svg",
-          color: Constants.lightAccent,
-        ),
-        onPressed: () {
-          Navigator.of(context).pushNamed('/');
-        },
-      ),
       title: Text(title),
     );
   }

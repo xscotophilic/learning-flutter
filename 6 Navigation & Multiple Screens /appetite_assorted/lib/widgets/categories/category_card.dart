@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/const.dart';
-import 'package:appetite_assorted/widgets/categories_home/custom_clipper.dart';
+import 'package:appetite_assorted/widgets/categories/custom_clipper.dart';
 import 'package:appetite_assorted/screens/category_meals_screen.dart';
 
 class CategoryCardMain extends StatelessWidget {

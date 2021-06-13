@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/data.dart';
-import 'package:appetite_assorted/widgets/categories_home/category_card.dart';
+import 'package:appetite_assorted/widgets/categories/category_card.dart';
 
 // Mapping all categories on screen
 class CategoriesScreen extends StatelessWidget {

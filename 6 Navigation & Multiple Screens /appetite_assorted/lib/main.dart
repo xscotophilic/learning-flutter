@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:appetite_assorted/const.dart';
 import 'package:appetite_assorted/screens/home.dart';
 import 'package:appetite_assorted/screens/category_meals_screen.dart';
+import 'package:appetite_assorted/screens/meal_detail_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       home: HomePage(), // Home page
       routes: {
         CategoryMeals.routeName: (ctx) => CategoryMeals(),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
       }, // routes
     );
   }
