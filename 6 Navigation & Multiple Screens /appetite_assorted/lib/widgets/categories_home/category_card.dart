@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/const.dart';
 import 'package:appetite_assorted/widgets/categories_home/custom_clipper.dart';
-import 'package:appetite_assorted/widgets/categories_home/category_meals.dart';
+import 'package:appetite_assorted/screens/category_meals_screen.dart';
 
 class CategoryCardMain extends StatelessWidget {
   final String id;

@@ -6,7 +6,7 @@ class Constants {
 
   // Material Design Color
   static Color lightPrimary = Color(0xfffcfcff);
-  static Color lightAccent = Colors.amber;
+  static Color lightAccent = Colors.pink;
   static Color lightBackground = Color(0xfffcfcff);
 
   static Color darkPrimary = Colors.black;
