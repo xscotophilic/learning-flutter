@@ -1,30 +1,37 @@
-import 'package:appetite_assorted/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'package:appetite_assorted/models/meal.dart';
+import 'package:appetite_assorted/widgets/main_drawer.dart';
 import 'package:appetite_assorted/screens/all_categories_screen.dart';
 import 'package:appetite_assorted/screens/favorites_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final List<Meal> favouriteMeals;
+  const HomeScreen({Key? key, required this.favouriteMeals}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': CategoriesScreen(),
-      'title': 'Categories',
-    },
-    {
-      'page': FavoritesScreen(),
-      'title': 'Favorites',
-    },
-  ];
-
+  late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+
+  @override
+  void initState() {
+    _pages = [
+      {
+        'page': CategoriesScreen(),
+        'title': 'Categories',
+      },
+      {
+        'page': FavoritesScreen(favouriteMeals: widget.favouriteMeals),
+        'title': 'Favorites',
+      },
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

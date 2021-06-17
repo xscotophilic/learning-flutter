@@ -1,13 +1,15 @@
-import 'package:appetite_assorted/models/meal.dart';
 import 'package:flutter/material.dart';
 
-import 'package:appetite_assorted/data.dart';
+import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:appetite_assorted/widgets/meal/meal_item_card.dart';
 
 // Base widget for category screen.
 class CategoryMeals extends StatefulWidget {
   static const routeName = '/category-meals';
+
+  final List<Meal> availableMeals;
+  CategoryMeals(this.availableMeals);
 
   @override
   _CategoryMealsState createState() => _CategoryMealsState();
@@ -31,19 +33,13 @@ class _CategoryMealsState extends State<CategoryMeals> {
       final categoryID = routeArgs['id'].toString();
       categoryTitle = routeArgs['title'].toString();
 
-      displayedMeals = FOOD_MEALS
+      displayedMeals = widget.availableMeals
           .where((meal) => meal.categories.contains(categoryID))
           .toList();
 
       _loadedInitData = true;
     }
     super.didChangeDependencies();
-  }
-
-  void _removeMeal(String mealID) {
-    setState(() {
-      displayedMeals.removeWhere((meal) => meal.id == mealID);
-    });
   }
 
   @override
@@ -75,7 +71,6 @@ class _CategoryMealsState extends State<CategoryMeals> {
                   ),
                   itemBuilder: (context, index) => MealCard(
                     meal: displayedMeals[index],
-                    removeItem: _removeMeal,
                   ),
                 ),
               ),

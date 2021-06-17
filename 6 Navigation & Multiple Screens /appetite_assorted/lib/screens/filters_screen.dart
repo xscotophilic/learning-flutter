@@ -1,20 +1,110 @@
-import 'package:appetite_assorted/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class FiltersScreen extends StatelessWidget {
+import 'package:appetite_assorted/widgets/main_drawer.dart';
+
+class FiltersScreen extends StatefulWidget {
   static const routeName = '/filters';
 
-  const FiltersScreen({Key? key}) : super(key: key);
+  final Map<String, bool> currentFilters;
+  final Function setFiltersHandler;
+  const FiltersScreen({
+    Key? key,
+    required this.setFiltersHandler,
+    required this.currentFilters,
+  }) : super(key: key);
+
+  @override
+  _FiltersScreenState createState() => _FiltersScreenState();
+}
+
+class _FiltersScreenState extends State<FiltersScreen> {
+  bool _isGlutenFree = false;
+  bool _isVegan = false;
+  bool _isVegetarian = false;
+  bool _isLactoseFree = false;
+
+  @override
+  void initState() {
+    _isGlutenFree = widget.currentFilters['isGlutenFree'] as bool;
+    _isLactoseFree = widget.currentFilters['isLactoseFree'] as bool;
+    _isVegan = widget.currentFilters['isVegan'] as bool;
+    _isVegetarian = widget.currentFilters['isVegetarian'] as bool;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: buildAppBar(context, 'Filters'),
         drawer: MainDrawer(),
-        body: null,
+        appBar: buildAppBar(context, 'Filters'),
+        body: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'Adjust your meal selection!',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildSwitchListTile(
+                    'Gluten Free',
+                    _isGlutenFree,
+                    (newValue) {
+                      setState(() {
+                        _isGlutenFree = newValue;
+                      });
+                    },
+                  ),
+                  _buildSwitchListTile(
+                    'Vegan',
+                    _isVegan,
+                    (newValue) {
+                      setState(() {
+                        _isVegan = newValue;
+                      });
+                    },
+                  ),
+                  _buildSwitchListTile(
+                    'Vegetarian',
+                    _isVegetarian,
+                    (newValue) {
+                      setState(() {
+                        _isVegetarian = newValue;
+                      });
+                    },
+                  ),
+                  _buildSwitchListTile(
+                    'Lactose Free',
+                    _isLactoseFree,
+                    (newValue) {
+                      setState(() {
+                        _isLactoseFree = newValue;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildSwitchListTile(
+    String title,
+    bool currentValue,
+    updateValue,
+  ) {
+    return SwitchListTile(
+      title: Text(title),
+      value: currentValue,
+      onChanged: updateValue,
     );
   }
 
@@ -31,6 +121,19 @@ class FiltersScreen extends StatelessWidget {
         ),
       ),
       title: Text(title),
+      actions: [
+        IconButton(
+          onPressed: () => widget.setFiltersHandler({
+            'isGlutenFree': _isGlutenFree,
+            'isVegan': _isVegan,
+            'isVegetarian': _isVegetarian,
+            'isLactoseFree': _isLactoseFree,
+          }),
+          icon: Icon(
+            Icons.save,
+          ),
+        )
+      ],
     );
   }
 }

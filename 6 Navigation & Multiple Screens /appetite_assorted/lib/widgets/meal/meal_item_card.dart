@@ -8,11 +8,9 @@ import 'package:appetite_assorted/screens/meal_detail_screen.dart';
 
 class MealCard extends StatelessWidget {
   final Meal meal;
-  final Function removeItem;
 
   MealCard({
     required this.meal,
-    required this.removeItem,
   });
 
   String get complexityText {
@@ -110,17 +108,9 @@ class MealCard extends StatelessWidget {
   }
 
   void selectMeal(BuildContext context, String id) {
-    Navigator.of(context)
-        .pushNamed(
+    Navigator.of(context).pushNamed(
       MealDetailScreen.routeName,
       arguments: id,
-    )
-        .then(
-      (value) {
-        if (value != null) {
-          removeItem(value);
-        }
-      },
     );
   }
 
