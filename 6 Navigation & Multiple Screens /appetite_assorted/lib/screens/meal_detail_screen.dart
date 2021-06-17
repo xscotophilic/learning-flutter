@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/data.dart';
@@ -15,6 +16,14 @@ class MealDetailScreen extends StatelessWidget {
       appBar: buildAppBar(selectedMeal.title, context),
       body: MealDetails(selectedMeal),
       // bottomNavigationBar: BottomNavBar(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.visibility_off,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop(mealID);
+        },
+      ),
     );
   }
 
