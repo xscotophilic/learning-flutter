@@ -5,13 +5,15 @@ class Constants {
   static String appName = "Appetite Assorted";
 
   // Material Design Color
-  static Color lightPrimary = Color(0xfffcfcff);
-  static Color lightAccent = Colors.pink;
+  static Color lightPrimary = Color(0xff57cc99);
+  static Color lightAccent = Color(0xfffcfcff);
   static Color lightBackground = Color(0xfffcfcff);
 
   static Color darkPrimary = Colors.black;
   static Color darkAccent = Color(0xFF3B72FF);
   static Color darkBackground = Colors.black;
+  static Color darkgrey = Color(0xFF242423);
+  static Color textDarkPrimary = Color(0xFFf4f3ee);
 
   static Color grey = Color(0xff707070);
   static Color textPrimary = Color(0xFF486581);
@@ -47,6 +49,10 @@ class Constants {
               fontFamily: mainFontName,
               fontSize: 18,
             ),
+            headline5: TextStyle(
+              fontFamily: mainFontName,
+              fontSize: 16,
+            ),
           ),
       appBarTheme: AppBarTheme(
         textTheme: ThemeData.dark().textTheme.copyWith(
@@ -69,10 +75,22 @@ class Constants {
       scaffoldBackgroundColor: darkBackground,
       primaryColor: darkPrimary,
       accentColor: darkAccent,
+      canvasColor: darkgrey,
       textTheme: ThemeData.dark().textTheme.copyWith(
             headline6: TextStyle(
               fontFamily: mainFontName,
               fontSize: 18,
+              color: textDarkPrimary,
+            ),
+            headline5: TextStyle(
+              fontFamily: mainFontName,
+              fontSize: 15,
+              color: textDarkPrimary,
+            ),
+            headline3: TextStyle(
+              fontFamily: mainFontName,
+              fontSize: 24,
+              color: textDarkPrimary,
             ),
           ),
       appBarTheme: AppBarTheme(

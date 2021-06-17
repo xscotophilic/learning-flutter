@@ -1,8 +1,9 @@
+import 'package:appetite_assorted/screens/filters_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/const.dart';
-import 'package:appetite_assorted/screens/home.dart';
-import 'package:appetite_assorted/screens/category_meals_screen.dart';
+import 'package:appetite_assorted/screens/home_screen.dart';
+import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
 import 'package:appetite_assorted/screens/meal_detail_screen.dart';
 
 void main() {
@@ -16,14 +17,21 @@ class MyApp extends StatelessWidget {
       title: 'Appetite Assorted',
 
       // ------- Theme data starts -------
-      theme: Constants.lighTheme(context),
+      theme: Constants.darkTheme(context),
       // ------- Theme data ends -------
 
-      home: HomePage(), // Home page
+      home: HomeScreen(), // Home page
       routes: {
         CategoryMeals.routeName: (ctx) => CategoryMeals(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-      }, // routes
+        FiltersScreen.routeName: (ctx) => FiltersScreen(),
+      },
+      onGenerateRoute: (settings) {},
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => HomeScreen(),
+        );
+      },
     );
   }
 }

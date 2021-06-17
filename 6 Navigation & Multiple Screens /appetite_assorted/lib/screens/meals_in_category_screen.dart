@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/data.dart';
 import 'package:appetite_assorted/widgets/meal/size_config.dart';
-import 'package:appetite_assorted/widgets/meal/meal_item.dart';
+import 'package:appetite_assorted/widgets/meal/meal_item_card.dart';
 
 // Base widget for category screen.
 class CategoryMeals extends StatelessWidget {

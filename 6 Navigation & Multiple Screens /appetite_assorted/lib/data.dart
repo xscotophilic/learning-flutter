@@ -5,7 +5,7 @@ import 'package:appetite_assorted/models/meal.dart';
 
 const Color color_one = Color(0xFFfbd4f2);
 const Color color_two = Color(0xFFa5d8ff);
-const Color color_three = Color(0xFF96f2d7);
+const Color color_three = Color(0xFF3B72FF);
 
 const FOOD_CATEGORIES = const [
   Category(
@@ -82,6 +82,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798854-4dcd2880-cc46-11eb-8e60-afc484e667d2.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/121798854-4dcd2880-cc46-11eb-8e60-afc484e667d2.png',
     duration: 20,
     ingredients: [
       '4 Tomatoes',
@@ -115,6 +117,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121797824-502c8400-cc40-11eb-8d7b-6b1a3df4aed2.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/121797824-502c8400-cc40-11eb-8d7b-6b1a3df4aed2.png',
     duration: 10,
     ingredients: [
       '1 Slice White Bread',
@@ -144,6 +148,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798842-47d74780-cc46-11eb-9593-de41bdc7268c.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/121797814-4acf3980-cc40-11eb-9fba-cb205268883d.png',
     duration: 45,
     ingredients: [
       '300g Cattle Hack',
@@ -174,7 +180,9 @@ const FOOD_MEALS = const [
     affordability: Affordability.Luxurious,
     complexity: Complexity.Challenging,
     imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798848-4ad23800-cc46-11eb-94fa-55e6e9bb94e4.png',
+        'https://user-images.githubusercontent.com/47301282/122035834-827ce380-cdf0-11eb-8e1d-e01af8fde950.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/122035834-827ce380-cdf0-11eb-8e1d-e01af8fde950.png',
     duration: 60,
     ingredients: [
       '8 Veal Cutlets',
@@ -212,6 +220,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798853-4d349200-cc46-11eb-8d64-2201be7c3979.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/121797822-4efb5700-cc40-11eb-8aca-331ca98176bc.png',
     duration: 15,
     ingredients: [
       'Arugula',
@@ -247,6 +257,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Hard,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798851-4c036500-cc46-11eb-908d-07887fc3b203.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/121797820-4dca2a00-cc40-11eb-977a-6565603d83cc.png',
     duration: 240,
     ingredients: [
       '4 Sheets of Gelatine',
@@ -282,6 +294,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798852-4c9bfb80-cc46-11eb-927c-16d7e8241f69.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/121797821-4e62c080-cc40-11eb-93c2-42c6b7dba41c.png',
     duration: 20,
     ingredients: [
       '1 1/2 Cups all-purpose Flour',
@@ -313,6 +327,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Challenging,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798847-4a39a180-cc46-11eb-9792-032b1793f407.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/121797815-4c98fd00-cc40-11eb-994f-45caa8ec5913.png',
     duration: 35,
     ingredients: [
       '4 Chicken Breasts',
@@ -345,6 +361,8 @@ const FOOD_MEALS = const [
     affordability: Affordability.Affordable,
     complexity: Complexity.Hard,
     imageURL:
+        'https://user-images.githubusercontent.com/47301282/121797817-4d319380-cc40-11eb-9b66-8727f710f2ea.png',
+    mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797817-4d319380-cc40-11eb-9b66-8727f710f2ea.png',
     duration: 45,
     ingredients: [
@@ -397,6 +415,8 @@ const FOOD_MEALS = const [
     complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798432-f1690980-cc43-11eb-9703-c4c64a38dfcb.png',
+    mainPageImageURL:
+        'https://user-images.githubusercontent.com/47301282/122035825-7e50c600-cdf0-11eb-87fe-a25f759c6df8.png',
     duration: 30,
     ingredients: [
       'White and Green Asparagus',

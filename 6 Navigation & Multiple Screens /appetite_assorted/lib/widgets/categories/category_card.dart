@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/const.dart';
 import 'package:appetite_assorted/widgets/categories/custom_clipper.dart';
-import 'package:appetite_assorted/screens/category_meals_screen.dart';
+import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
 
 class CategoryCardMain extends StatelessWidget {
   final String id;
@@ -71,7 +71,7 @@ class CategoryCardMain extends StatelessWidget {
                           Expanded(
                             child: Text(
                               title,
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.headline5,
                             ),
                           ),
                         ],
