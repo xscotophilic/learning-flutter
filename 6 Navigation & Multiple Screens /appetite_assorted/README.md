@@ -1,6 +1,10 @@
 # appetite_assorted
 
-A new Flutter project.
+> Recipe app. Follow Commits to track progress of build.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/122519194-cf9ac880-d02f-11eb-8612-58468691e264.gif" alt="FinalResults"/>
+</p>
 
 ## Getting Started
 
