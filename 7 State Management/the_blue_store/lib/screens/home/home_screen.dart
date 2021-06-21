@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import './components/body.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,
@@ -19,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           appBar: buildAppBar(context),
           body: Center(
-            child: Text('Hello!'),
+            child: Body(),
           ),
         ),
       ),
@@ -35,16 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: SvgPicture.asset(
             "assets/icons/menu.svg",
             color: Theme.of(context).accentColor,
+            width: 20,
           ),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
       ),
-      title: Image.asset(
-        "assets/icons/logo.png",
-        fit: BoxFit.contain,
-        height: 30,
+      title: SvgPicture.asset(
+        "assets/icons/logo.svg",
+        height: 26,
       ),
-      actions: [],
+      actions: [
+        IconButton(
+          icon: SvgPicture.asset(
+            "assets/icons/cart.svg",
+            color: Theme.of(context).accentColor,
+            width: 20,
+          ),
+          onPressed: () {},
+        ),
+      ],
     );
   }
 }

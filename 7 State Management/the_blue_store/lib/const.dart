@@ -91,4 +91,6 @@ class Constants {
       ),
     );
   }
+
+  static const kDefaultPaddin = 15.0;
 }
