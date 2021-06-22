@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:the_blue_store/providers/orders.dart';
+import 'package:the_blue_store/screens/orders/orders_screen.dart';
 
-import './providers/products.dart';
 import './const.dart';
-import './screens/product_details/product_details.dart';
+import './providers/products.dart';
+import './providers/cart.dart';
 import './screens/home/home_screen.dart';
+import './screens/product_details/product_details.dart';
+import './screens/cart/cart_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,8 +22,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Products(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Orders(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Appetite Assorted',
 
@@ -30,6 +44,8 @@ class _MyAppState extends State<MyApp> {
         home: HomeScreen(), // Home page
         routes: {
           ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
+          CartScreen.routeName: (ctx) => CartScreen(),
+          OrdersScreen.routeName: (ctx) => OrdersScreen(),
         },
       ),
     );

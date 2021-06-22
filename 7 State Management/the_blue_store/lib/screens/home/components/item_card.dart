@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/cart.dart';
 import '../../../providers/product.dart';
 import '../../../const.dart';
 
@@ -19,6 +20,8 @@ class ItemCard extends StatelessWidget {
       context,
       listen: false,
     );
+
+    final cart = Provider.of<Cart>(context, listen: false);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,9 +57,13 @@ class ItemCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      product.title,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Container(
+                      width: MediaQuery.of(context).size.width < 400 ? 80 : 200,
+                      child: Text(
+                        product.title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.fade,
+                      ),
                     ),
                     SizedBox(
                       height: 4,
@@ -77,7 +84,7 @@ class ItemCard extends StatelessWidget {
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: Color(0xFFff7096),
-                          size: 18,
+                          size: 22,
                         ),
                       ),
                     ),
@@ -85,11 +92,15 @@ class ItemCard extends StatelessWidget {
                       width: 10,
                     ),
                     GestureDetector(
-                      onTap: null,
+                      onTap: () => cart.addItem(
+                        ProductId: product.id,
+                        title: product.title,
+                        price: product.price,
+                      ),
                       child: SvgPicture.asset(
                         "assets/icons/cart.svg",
                         color: Theme.of(context).accentColor,
-                        width: 17,
+                        width: 22,
                       ),
                     ),
                   ],

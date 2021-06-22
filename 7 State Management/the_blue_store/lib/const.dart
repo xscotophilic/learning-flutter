@@ -33,11 +33,13 @@ class Constants {
             fontFamily: mainFontName,
             fontSize: 14,
             color: BodyTextColor,
+            fontWeight: FontWeight.normal,
           ),
           bodyText2: TextStyle(
             fontFamily: mainFontName,
             fontSize: 13,
             color: BodyTextColor,
+            fontWeight: FontWeight.normal,
           ),
         );
   }
@@ -60,7 +62,6 @@ class Constants {
       scaffoldBackgroundColor: lightBackground,
       primaryColor: lightPrimary,
       accentColor: lightAccent,
-      canvasColor: lightCanvasColor,
       textTheme: ThemeText(
         lightAccent,
         textDarkColor,
@@ -79,7 +80,6 @@ class Constants {
       scaffoldBackgroundColor: darkBackground,
       primaryColor: darkPrimary,
       accentColor: darkAccent,
-      canvasColor: canvasColorDarkgrey,
       textTheme: ThemeText(
         darkAccent,
         textLightColor,

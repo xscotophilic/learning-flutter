@@ -24,12 +24,12 @@ class ProductDetailsScreen extends StatelessWidget {
     return Scaffold(
       // each product have a color
       backgroundColor: product.color,
-      appBar: buildAppBar(context, product.color),
+      appBar: buildAppBar(context, product.title, product.color),
       body: Body(selectedProduct: product),
     );
   }
 
-  AppBar buildAppBar(BuildContext context, Color product_color) {
+  AppBar buildAppBar(BuildContext context, String title, Color product_color) {
     return AppBar(
       backgroundColor: product_color,
       elevation: 0,
@@ -39,6 +39,13 @@ class ProductDetailsScreen extends StatelessWidget {
           color: Colors.white,
         ),
         onPressed: () => Navigator.pop(context),
+      ),
+      title: Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .headline5!
+            .copyWith(color: Theme.of(context).primaryColor),
       ),
       actions: <Widget>[
         IconButton(

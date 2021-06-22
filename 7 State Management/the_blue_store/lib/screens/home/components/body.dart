@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../providers/product.dart';
 import '../../../const.dart';
-import '../../../data.dart';
 import './products_grid.dart';
 
 class Body extends StatelessWidget {
-  final List<Product> products = PRODUCTS;
+  final bool showOnlyFavs;
 
   Body({
     Key? key,
+    required this.showOnlyFavs,
   }) : super(key: key);
 
   @override
@@ -21,7 +20,7 @@ class Body extends StatelessWidget {
             padding: const EdgeInsets.all(
               Constants.kDefaultPaddin,
             ),
-            child: productsGrid(),
+            child: productsGrid(showOnlyFavs),
           ),
         ),
       ],

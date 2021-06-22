@@ -14,17 +14,11 @@ class ProductTitleWithImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Constants.kDefaultPaddin),
+      padding:
+          const EdgeInsets.symmetric(horizontal: Constants.kDefaultPaddin * 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            product.title,
-            style: Theme.of(context)
-                .textTheme
-                .headline4!
-                .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
           SizedBox(height: Constants.kDefaultPaddin),
           Row(
             children: <Widget>[
