@@ -9,9 +9,10 @@ A store to buy and sell products.
   <img src="https://user-images.githubusercontent.com/47301282/123053053-1e29d780-d421-11eb-84b9-6bb0333887c1.jpg" alt="Prototype"/>
 </p>
 
-- Final Results
+## Final Results
+
 <p align="center">
-  <img src="" alt="FinalResults"/>
+  <img src="https://user-images.githubusercontent.com/47301282/123069596-8c29cb00-d430-11eb-8dba-3246a74d239c.gif" alt="FinalResults" />
 </p>
 
 ---
