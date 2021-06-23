@@ -49,36 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 26,
             ),
             actions: [
-              PopupMenuButton(
-                onSelected: (FilterOptions option) {
-                  setState(() {
-                    if (option == FilterOptions.Favorites) {
-                      _showOnlyFavs = true;
-                    } else {
-                      _showOnlyFavs = false;
-                    }
-                  });
-                },
-                itemBuilder: (_) => [
-                  PopupMenuItem(
-                    child: Text(
-                      'Favorites Only',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    value: FilterOptions.Favorites,
-                  ),
-                  PopupMenuItem(
-                    child: Text(
-                      'Show All',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    value: FilterOptions.All,
-                  ),
-                ],
-                icon: Icon(
-                  Icons.more_vert,
-                ),
-              ),
               Consumer<Cart>(
                 builder: (_, cart, child) => Badge(
                   child: child as Widget,
@@ -100,6 +70,50 @@ class _HomeScreenState extends State<HomeScreen> {
           drawer: AppDrawer(),
           body: Center(
             child: Body(showOnlyFavs: _showOnlyFavs),
+          ),
+          floatingActionButton: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).accentColor,
+                width: 1,
+              ),
+              shape: BoxShape.circle,
+            ),
+            child: PopupMenuButton(
+              onSelected: (FilterOptions option) {
+                setState(() {
+                  if (option == FilterOptions.Favorites) {
+                    _showOnlyFavs = true;
+                  } else {
+                    _showOnlyFavs = false;
+                  }
+                });
+              },
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  child: Text(
+                    'Favorites Only',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  value: FilterOptions.Favorites,
+                ),
+                PopupMenuItem(
+                  child: Text(
+                    'Show All',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  value: FilterOptions.All,
+                ),
+              ],
+              child: Container(
+                padding: EdgeInsets.all(8),
+                child: SvgPicture.asset(
+                  "assets/icons/more.svg",
+                  color: Theme.of(context).accentColor,
+                  width: 16,
+                ),
+              ),
+            ),
           ),
         ),
       ),
