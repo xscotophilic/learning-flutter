@@ -1,6 +1,20 @@
 # the_blue_store
 
-A new Flutter project.
+A store to buy and sell products.
+
+> Note: Because I utilised commercial font-families, I won't be able to upload it here. Please modify/remove font families from `pubspec.yaml` and Theme in `Main.dart`. Simply remove the font family lines. Follow Commits to track progress of build.
+
+- App design
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/123053053-1e29d780-d421-11eb-84b9-6bb0333887c1.jpg" alt="Prototype"/>
+</p>
+
+- Final Results
+<p align="center">
+  <img src="" alt="FinalResults"/>
+</p>
+
+---
 
 ## Getting Started
 
