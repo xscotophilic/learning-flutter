@@ -26,6 +26,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _colorFocusNode = FocusNode();
   var _isInit = true;
   var _initValues = {
+    'id': 'tinfoilhat',
     'title': '',
     'description': '',
     'price': 0.0,
@@ -34,7 +35,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   };
 
   var _editedProduct = Product(
-    id: '',
+    id: 'tinfoilhat',
     title: '',
     description: '',
     price: 0.0,
@@ -56,6 +57,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
         _editedProduct =
             Provider.of<Products>(context, listen: false).findByID(prodID);
         _initValues = {
+          'id': _editedProduct.id,
           'title': _editedProduct.title,
           'description': _editedProduct.description,
           'price': _editedProduct.price.toString(),
@@ -351,6 +353,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _form.currentState!.save();
+    print(_editedProduct.id);
     if (_editedProduct.id != 'tinfoilhat') {
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
