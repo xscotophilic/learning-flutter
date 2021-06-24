@@ -4,15 +4,15 @@ A store to buy and sell products.
 
 > Note: Because I utilised commercial font-families, I won't be able to upload it here. Please modify/remove font families from `pubspec.yaml` and Theme in `Main.dart`. Simply remove the font family lines. Follow Commits to track progress of build.
 
-- App design
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/123053053-1e29d780-d421-11eb-84b9-6bb0333887c1.jpg" alt="Prototype"/>
-</p>
-
 ## Final Results
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/123069596-8c29cb00-d430-11eb-8dba-3246a74d239c.gif" alt="FinalResults" />
+  <img src="https://user-images.githubusercontent.com/47301282/123251416-cebed680-d508-11eb-8653-84541c3b57d8.gif" alt="FinalResults" />
+</p>
+
+- App design
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/123053053-1e29d780-d421-11eb-84b9-6bb0333887c1.jpg" alt="Prototype"/>
 </p>
 
 ---
