@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'providers/product.dart';
 
 List<Product> PRODUCTS = [
@@ -10,7 +8,7 @@ List<Product> PRODUCTS = [
     price: 5.99,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/122718310-695db200-d28a-11eb-8428-56548c06b4fb.png',
-    color: Color(0xFF636363),
+    color: '636363',
   ),
   Product(
     id: 'p2',
@@ -20,7 +18,7 @@ List<Product> PRODUCTS = [
     price: 5.99,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/122718311-69f64880-d28a-11eb-90a6-11ca60d90f6e.png',
-    color: Color(0xFF636363),
+    color: '636363',
   ),
   Product(
     id: 'p3',
@@ -29,7 +27,7 @@ List<Product> PRODUCTS = [
     price: 10.00,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/122718315-6a8edf00-d28a-11eb-9bbf-3a4abbea77de.png',
-    color: Color(0xFFf5cbb6),
+    color: 'f5cbb6',
   ),
   Product(
     id: 'p4',
@@ -38,7 +36,7 @@ List<Product> PRODUCTS = [
     price: 8.49,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/122718316-6b277580-d28a-11eb-8e45-80bf302627c8.png',
-    color: Color(0xFFe2d2c4),
+    color: 'e2d2c4',
   ),
   Product(
     id: 'p5',
@@ -48,7 +46,7 @@ List<Product> PRODUCTS = [
     price: 2.50,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/122718321-6bc00c00-d28a-11eb-9ec8-6feae43921dd.png',
-    color: Color(0xFFedb5d1),
+    color: 'edb5d1',
   ),
   Product(
     id: 'p6',
@@ -57,6 +55,6 @@ List<Product> PRODUCTS = [
     price: 12.99,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/122718323-6c58a280-d28a-11eb-91e8-b8d660eb5e3b.png',
-    color: Color(0xFFf1c983),
+    color: 'f1c983',
   ),
 ];

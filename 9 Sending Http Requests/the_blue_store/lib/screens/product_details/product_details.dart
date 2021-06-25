@@ -23,8 +23,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       // each product have a color
-      backgroundColor: product.color,
-      appBar: buildAppBar(context, product.title, product.color),
+      backgroundColor: convertToColor(product.color),
+      appBar:
+          buildAppBar(context, product.title, convertToColor(product.color)),
       body: Body(selectedProduct: product),
     );
   }
@@ -55,5 +56,15 @@ class ProductDetailsScreen extends StatelessWidget {
         SizedBox(width: Constants.kDefaultPaddin / 2)
       ],
     );
+  }
+
+  Color convertToColor(String color) {
+    color = color.replaceAll("#", "");
+    if (color.length == 6) {
+      return Color(int.parse("0xFF" + color));
+    } else if (color.length == 8) {
+      return Color(int.parse("0x" + color));
+    }
+    return Color(0xFFFFFFFF);
   }
 }

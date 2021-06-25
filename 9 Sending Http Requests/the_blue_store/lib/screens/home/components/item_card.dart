@@ -32,7 +32,7 @@ class ItemCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(Constants.kDefaultPaddin),
               decoration: BoxDecoration(
-                color: product.color,
+                color: convertToColor(product.color),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
@@ -136,5 +136,15 @@ class ItemCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Color convertToColor(String color) {
+    color = color.replaceAll("#", "");
+    if (color.length == 6) {
+      return Color(int.parse("0xFF" + color));
+    } else if (color.length == 8) {
+      return Color(int.parse("0x" + color));
+    }
+    return Color(0xFFFFFFFF);
   }
 }
