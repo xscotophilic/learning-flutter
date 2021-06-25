@@ -1,6 +1,9 @@
 # Fonts
 **/assets/fonts
 
+# dev.dart
+**/dev.dart
+
 # Miscellaneous
 *.class
 *.lock
