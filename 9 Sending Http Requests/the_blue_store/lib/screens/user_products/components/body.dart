@@ -9,21 +9,26 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context);
-    return ListView.builder(
-      itemCount: productsData.items.length,
-      itemBuilder: (_, index) => Column(
-        children: [
-          UserProductItem(
-            id: productsData.items[index].id,
-            title: productsData.items[index].title,
-            imageURL: productsData.items[index].imageURL,
-            productColor: convertToColor(productsData.items[index].color),
-          ),
-          SizedBox(
-            height: 3,
-          )
-        ],
+    final productsData = Provider.of<Products>(
+      context,
+    );
+    return RefreshIndicator(
+      onRefresh: () => _refreshProducts(context),
+      child: ListView.builder(
+        itemCount: productsData.items.length,
+        itemBuilder: (_, index) => Column(
+          children: [
+            UserProductItem(
+              id: productsData.items[index].id,
+              title: productsData.items[index].title,
+              imageURL: productsData.items[index].imageURL,
+              productColor: convertToColor(productsData.items[index].color),
+            ),
+            SizedBox(
+              height: 3,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -36,5 +41,9 @@ class Body extends StatelessWidget {
       return Color(int.parse("0x" + color));
     }
     return Color(0xFFFFFFFF);
+  }
+
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
   }
 }

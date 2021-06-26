@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:the_blue_store/app_drawer.dart';
 
+import '../../app_drawer.dart';
 import '../../providers/cart.dart';
+import '../../providers/products.dart';
+import '../../screens/cart/cart_screen.dart';
 import './components/body.dart';
 import './components/badge.dart';
-import '../../screens/cart/cart_screen.dart';
 
 enum FilterOptions {
   Favorites,
@@ -24,6 +25,26 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var _showOnlyFavs = false;
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Products>(context, listen: false).fetchAndSetProducts().then(
+        (_) {
+          setState(() {
+            _isLoading = false;
+          });
+        },
+      );
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           drawer: AppDrawer(),
           body: Center(
-            child: Body(showOnlyFavs: _showOnlyFavs),
+            child: _isLoading
+                ? CircularProgressIndicator()
+                : Body(showOnlyFavs: _showOnlyFavs),
           ),
           floatingActionButton: Container(
             decoration: BoxDecoration(
