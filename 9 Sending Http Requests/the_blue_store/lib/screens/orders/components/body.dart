@@ -9,12 +9,28 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ordersData = Provider.of<Orders>(context);
-    return ListView.builder(
-      itemCount: ordersData.orders.length,
-      itemBuilder: (context, index) => OrderItemCard(
-        order: ordersData.orders[index],
-      ),
+    return FutureBuilder(
+      future: Provider.of<Orders>(context, listen: false).fetchAndSetOrder(),
+      builder: (ctx, dataSnapshot) {
+        if (dataSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          if (dataSnapshot.error != null) {
+            return Center(
+              child: Text('An error occured!'),
+            );
+          } else {
+            return Consumer<Orders>(
+              builder: (ctx, orderData, child) => ListView.builder(
+                itemCount: orderData.orders.length,
+                itemBuilder: (context, index) => OrderItemCard(
+                  order: orderData.orders[index],
+                ),
+              ),
+            );
+          }
+        }
+      },
     );
   }
 }

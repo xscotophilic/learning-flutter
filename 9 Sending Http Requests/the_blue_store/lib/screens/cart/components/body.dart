@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:the_blue_store/providers/orders.dart';
 
 import './cart_item.dart';
+import './order_now_button.dart';
 import '../../../const.dart';
 import '../../../providers/cart.dart';
 
@@ -38,27 +38,7 @@ class Body extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Provider.of<Orders>(
-                        context,
-                        listen: false,
-                      ).addOrder(
-                        cart.items.values.toList(),
-                        cart.totalAmmount,
-                      );
-                      cart.clear();
-                    },
-                    child: Text(
-                      'Order Now',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).accentColor),
-                  ),
+                  OrderNowButton(cart: cart),
                 ],
               ),
             ),
