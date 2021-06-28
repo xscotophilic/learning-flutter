@@ -9,27 +9,33 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(
-      context,
-    );
-    return RefreshIndicator(
-      onRefresh: () => _refreshProducts(context),
-      child: ListView.builder(
-        itemCount: productsData.items.length,
-        itemBuilder: (_, index) => Column(
-          children: [
-            UserProductItem(
-              id: productsData.items[index].id,
-              title: productsData.items[index].title,
-              imageURL: productsData.items[index].imageURL,
-              productColor: convertToColor(productsData.items[index].color),
-            ),
-            SizedBox(
-              height: 3,
-            )
-          ],
-        ),
-      ),
+    return FutureBuilder(
+      future: _refreshProducts(context),
+      builder: (ctx, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? Center(child: CircularProgressIndicator())
+              : RefreshIndicator(
+                  onRefresh: () => _refreshProducts(context),
+                  child: Consumer<Products>(
+                    builder: (ctx, productsData, _) => ListView.builder(
+                      itemCount: productsData.items.length,
+                      itemBuilder: (_, index) => Column(
+                        children: [
+                          UserProductItem(
+                            id: productsData.items[index].id,
+                            title: productsData.items[index].title,
+                            imageURL: productsData.items[index].imageURL,
+                            productColor:
+                                convertToColor(productsData.items[index].color),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
     );
   }
 
@@ -44,6 +50,7 @@ class Body extends StatelessWidget {
   }
 
   Future<void> _refreshProducts(BuildContext context) async {
-    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+    await Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts(true);
   }
 }

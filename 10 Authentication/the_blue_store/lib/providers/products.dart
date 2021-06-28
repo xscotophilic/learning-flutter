@@ -30,9 +30,11 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    String filterString =
+        filterByUser ? '&orderBy="creatorId"&equalTo="${_userID}"' : '';
     var url = Uri.parse(
-      '${DevConfig.APIEndPoint}/products.json?auth=${_token}',
+      '${DevConfig.APIEndPoint}/products.json?auth=${_token}${filterString}',
     );
     try {
       final response = await http.get(url);
