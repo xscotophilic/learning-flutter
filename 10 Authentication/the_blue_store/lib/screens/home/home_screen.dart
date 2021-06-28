@@ -15,6 +15,8 @@ enum FilterOptions {
 }
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = '/home';
+
   const HomeScreen({
     Key? key,
   }) : super(key: key);

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:the_blue_store/providers/auth.dart';
 
 import '../../../providers/cart.dart';
+import '../../../providers/auth.dart';
 import '../../../providers/product.dart';
 import '../../../const.dart';
 
@@ -20,8 +22,8 @@ class ItemCard extends StatelessWidget {
       context,
       listen: false,
     );
-
     final cart = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +80,8 @@ class ItemCard extends StatelessWidget {
                   children: [
                     Consumer<Product>(
                       builder: (context, product, _) => GestureDetector(
-                        onTap: () => product.toggleFavoriteStatus(),
+                        onTap: () => product.toggleFavoriteStatus(
+                            authData.token, authData.userID),
                         child: Icon(
                           product.isFavorite
                               ? Icons.favorite

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../../providers/dev.dart';
 
 class Product with ChangeNotifier {
+  // final String userId;
   final String id;
   final String title;
   final String description;
@@ -15,6 +16,7 @@ class Product with ChangeNotifier {
   bool isFavorite;
 
   Product({
+    // required this.userId,
     required this.id,
     required this.title,
     required this.description,
@@ -29,20 +31,18 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token, String userID) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     final url = Uri.parse(
-      DevConfig.APIEndPoint + '/products/$id.json',
+      '${DevConfig.APIEndPoint}/userFavorites/${userID}/${id}.json?auth=${token}',
     );
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
         body: json.encode(
-          {
-            'isFavorite': isFavorite,
-          },
+          isFavorite,
         ),
       );
       if (response.statusCode >= 400) {

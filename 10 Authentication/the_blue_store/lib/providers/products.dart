@@ -9,9 +9,17 @@ import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [];
+  var _token;
+  var _userID;
 
   List<Product> get items {
     return [..._items];
+  }
+
+  void update(String token, String userID, products) {
+    _token = token;
+    _items = products;
+    _userID = userID;
   }
 
   List<Product> get favItems {
@@ -23,17 +31,25 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    final url = Uri.parse(
-      DevConfig.APIEndPoint + '/products.json',
+    var url = Uri.parse(
+      '${DevConfig.APIEndPoint}/products.json?auth=${_token}',
     );
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData.isEmpty) {
+        return;
+      }
+      url = Uri.parse(
+        '${DevConfig.APIEndPoint}/userFavorites/${_userID}.json?auth=${_token}',
+      );
+      final favoritesResponse = await http.get(url);
+      final favoritesData = json.decode(favoritesResponse.body);
+
       final List<Product> loadedProducts = [];
       extractedData.forEach(
         (prodId, prodData) {
-          loadedProducts.insert(
-            0,
+          loadedProducts.add(
             Product(
               id: prodId,
               title: prodData['title'],
@@ -41,6 +57,9 @@ class Products with ChangeNotifier {
               price: prodData['price'],
               imageURL: prodData['imageURL'],
               color: prodData['color'],
+              isFavorite: favoritesData == null
+                  ? false
+                  : favoritesData[prodId] ?? false,
             ),
           );
         },
@@ -54,7 +73,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final url = Uri.parse(
-      DevConfig.APIEndPoint + '/products.json',
+      '${DevConfig.APIEndPoint}/products.json?auth=${_token}',
     );
 
     try {
@@ -63,11 +82,11 @@ class Products with ChangeNotifier {
         body: jsonEncode(
           {
             'id': DateTime.now().toString(),
+            'creatorId': _userID,
             'title': product.title,
             'description': product.description,
             'price': product.price,
             'imageURL': product.imageURL,
-            'isFavorite': product.isFavorite,
             'color': product.color,
           },
         ),
@@ -92,7 +111,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex > -1) {
       final url = Uri.parse(
-        DevConfig.APIEndPoint + '/products/$id.json',
+        '${DevConfig.APIEndPoint}/products/$id.json?auth=${_token}',
       );
       try {
         await http.patch(
@@ -102,7 +121,6 @@ class Products with ChangeNotifier {
             'description': newProduct.description,
             'price': newProduct.price,
             'imageURL': newProduct.imageURL,
-            'isFavorite': newProduct.isFavorite,
             'color': newProduct.color,
           }),
         );
@@ -116,7 +134,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
-      DevConfig.APIEndPoint + '/products/$id.json',
+      '${DevConfig.APIEndPoint}/products/$id.json?auth=${_token}',
     );
     final existingProductIndex =
         _items.indexWhere((product) => product.id == id);

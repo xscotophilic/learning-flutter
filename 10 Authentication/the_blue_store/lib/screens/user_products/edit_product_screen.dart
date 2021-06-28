@@ -152,7 +152,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
           context: context,
           builder: (ctx) => AlertDialog(
             title: Text('An erroroccured!'),
-            content: Text('Something went wrong!'),
+            content: Text(
+              'Something went wrong!',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(ctx).pop(),

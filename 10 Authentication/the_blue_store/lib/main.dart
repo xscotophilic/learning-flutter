@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:the_blue_store/screens/home/home_screen.dart';
 
 import './const.dart';
+import './providers/auth.dart';
 import './providers/products.dart';
 import './providers/orders.dart';
 import './providers/cart.dart';
@@ -27,30 +29,46 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => Products(),
+          create: (context) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          update: (context, auth, previousProducts) => Products()
+            ..update(
+              auth.token,
+              auth.userID,
+              previousProducts == null ? [] : previousProducts.items,
+            ),
+          create: (_) => Products(),
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Orders(),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          update: (context, auth, previousOrders) => Orders()
+            ..update(auth.token,
+                previousOrders == null ? [] : previousOrders.orders),
+          create: (_) => Orders(),
         ),
+        // Orders
       ],
-      child: MaterialApp(
-        title: 'Appetite Assorted',
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          title: 'Appetite Assorted',
 
-        // ------- Theme data starts -------
-        theme: Constants.lightTheme(context),
-        // ------- Theme data ends -------
+          // ------- Theme data starts -------
+          theme: Constants.lightTheme(context),
+          // ------- Theme data ends -------
 
-        home: AuthScreen(), // Home page
-        routes: {
-          ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
-          CartScreen.routeName: (ctx) => CartScreen(),
-          OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
-          EditProductScreen.routeName: (ctx) => EditProductScreen(),
-        },
+          home: auth.isAuth ? HomeScreen() : AuthScreen(), // Home page
+          routes: {
+            HomeScreen.routeName: (ctx) => HomeScreen(),
+            ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
+            CartScreen.routeName: (ctx) => CartScreen(),
+            OrdersScreen.routeName: (ctx) => OrdersScreen(),
+            UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen(),
+          },
+        ),
       ),
     );
   }
