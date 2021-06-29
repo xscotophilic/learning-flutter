@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:the_blue_store/screens/home/home_screen.dart';
 
 import './const.dart';
 import './providers/auth.dart';
 import './providers/products.dart';
 import './providers/orders.dart';
 import './providers/cart.dart';
+import './screens/home/home_screen.dart';
+import './loading_screen.dart';
 import './screens/product_details/product_details.dart';
 import './screens/cart/cart_screen.dart';
 import './screens/orders/orders_screen.dart';
@@ -45,8 +46,11 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
           update: (context, auth, previousOrders) => Orders()
-            ..update(auth.token,
-                previousOrders == null ? [] : previousOrders.orders),
+            ..update(
+              auth.token,
+              auth.userID,
+              previousOrders == null ? [] : previousOrders.orders,
+            ),
           create: (_) => Orders(),
         ),
         // Orders
@@ -59,7 +63,15 @@ class _MyAppState extends State<MyApp> {
           theme: Constants.lightTheme(context),
           // ------- Theme data ends -------
 
-          home: auth.isAuth ? HomeScreen() : AuthScreen(), // Home page
+          home: auth.isAuth
+              ? HomeScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResult) =>
+                      authResult.connectionState == ConnectionState.waiting
+                          ? LoadingScreen()
+                          : AuthScreen(),
+                ),
           routes: {
             HomeScreen.routeName: (ctx) => HomeScreen(),
             ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),

@@ -238,12 +238,12 @@ class _AuthCardState extends State<AuthCard> {
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: Constants.kDefaultPaddin * 2.8,
-                      vertical: Constants.kDefaultPaddin / 2,
+                      vertical: Constants.kDefaultPaddin / 1.5,
                     ),
                     decoration: new BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                       gradient: new LinearGradient(
-                        colors: [Color(0xFFffc0f0), Color(0xFFffeffb)],
+                        colors: [Color(0xFFffc0f0), Color(0xFFffcff4)],
                         begin: FractionalOffset.topCenter,
                         end: FractionalOffset.bottomCenter,
                       ),
