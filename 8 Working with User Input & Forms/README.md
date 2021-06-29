@@ -1,8 +1,10 @@
-# Working with User Input & Forms
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47301282/123751450-63448280-d8d5-11eb-8be6-4603b8e534f1.png" alt="Working with User Input & Forms"/>
+</p>
 
 - Take user input in addition to input widgets in Material Components and Cupertino. TextFields do not have an ID like in Android/ Html, text cannot be retrieved upon demand and must instead be stored in a variable on change or use a controller. You can use forms also.
 
-## Introduction to TextField
+<img src="https://user-images.githubusercontent.com/47301282/123751440-617abf00-d8d5-11eb-9505-77b3c1578e23.png" alt="Introduction to TextField"/>
 
 - A TextField widget allows collection of information from the user. The code for a basic TextField is as simple as:
 
@@ -41,7 +43,7 @@ TextField()
     controller.text = 'Hello World'; // Set new value
     ```
 
-## Using Forms
+<img src="https://user-images.githubusercontent.com/47301282/123751447-62135580-d8d5-11eb-9131-eae0c10ebf4d.png" alt="Using Forms"/>
 
 - It is mainly used to interact with the app as well as gather information from the users.
 
