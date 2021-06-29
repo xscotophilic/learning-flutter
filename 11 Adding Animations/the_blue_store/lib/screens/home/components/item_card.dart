@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:the_blue_store/providers/auth.dart';
 
 import '../../../providers/cart.dart';
 import '../../../providers/auth.dart';
@@ -38,8 +37,12 @@ class ItemCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
-                tag: "${product.id}",
-                child: Image.network(product.imageURL),
+                tag: product.id,
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/images/loading.png'),
+                  image: NetworkImage(product.imageURL),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

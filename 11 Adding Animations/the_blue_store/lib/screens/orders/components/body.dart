@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/orders.dart';
 import './order_item.dart';
+import '../../../providers/orders.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);

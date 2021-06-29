@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../app_drawer.dart';
 import '../../providers/cart.dart';
 import '../../providers/products.dart';
+import '../../helpers/app_drawer.dart';
 import '../../screens/cart/cart_screen.dart';
 import './components/body.dart';
 import './components/badge.dart';

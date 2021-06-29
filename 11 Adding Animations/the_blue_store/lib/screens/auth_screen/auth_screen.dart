@@ -19,42 +19,40 @@ class AuthScreen extends StatelessWidget {
       // resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
-          SingleChildScrollView(
-            child: Container(
-              height: deviceSize.height,
-              width: deviceSize.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      margin: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/store.png"),
-                          fit: BoxFit.contain,
-                          alignment: Alignment.bottomCenter,
-                        ),
+          Container(
+            height: deviceSize.height,
+            width: deviceSize.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    margin: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/store.png"),
+                        fit: BoxFit.contain,
+                        alignment: Alignment.bottomCenter,
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 20),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        "assets/icons/logo.svg",
-                        height: 32,
-                      ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      "assets/icons/logo.svg",
+                      height: 32,
                     ),
                   ),
-                  Expanded(
-                    flex: deviceSize.width > 600 ? 6 : 3,
-                    child: AuthCard(),
-                  ),
-                ],
-              ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: SingleChildScrollView(child: AuthCard()),
+                ),
+              ],
             ),
           ),
         ],
@@ -72,7 +70,56 @@ class AuthCard extends StatefulWidget {
   _AuthCardState createState() => _AuthCardState();
 }
 
-class _AuthCardState extends State<AuthCard> {
+class _AuthCardState extends State<AuthCard>
+    with SingleTickerProviderStateMixin {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  AuthMode _authMode = AuthMode.Login;
+  Map<String, String> _authData = {
+    'email': '',
+    'password': '',
+  };
+  var _isLoading = false;
+  final _passwordController = TextEditingController();
+  late AnimationController _animationController;
+  late Animation<Size> _heightAnimation;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 150),
+    );
+
+    _heightAnimation = Tween<Size>(
+      begin: Size(double.infinity, 260),
+      end: Size(double.infinity, 320),
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    _heightAnimation.addListener(
+      () => setState(() {}),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
+  }
+
   void _showErrorDiag(String errorMessage) {
     showDialog(
       context: context,
@@ -94,15 +141,6 @@ class _AuthCardState extends State<AuthCard> {
       ),
     );
   }
-
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  AuthMode _authMode = AuthMode.Login;
-  Map<String, String> _authData = {
-    'email': '',
-    'password': '',
-  };
-  var _isLoading = false;
-  final _passwordController = TextEditingController();
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
@@ -159,62 +197,74 @@ class _AuthCardState extends State<AuthCard> {
       setState(() {
         _authMode = AuthMode.Signup;
       });
+      _animationController.forward();
     } else {
       setState(() {
         _authMode = AuthMode.Login;
       });
+      _animationController.reverse();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: _authMode == AuthMode.Signup ? 320 : 260,
-      constraints:
-          BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
-      margin: EdgeInsets.symmetric(
-        vertical: Constants.kDefaultPaddin,
-        horizontal: Constants.kDefaultPaddin * 2,
-      ),
+    return AnimatedBuilder(
+      animation: _heightAnimation,
+      builder: (ctx, passedChild) => Container(
+          height: _heightAnimation.value.height,
+          constraints: BoxConstraints(
+              minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+          margin: EdgeInsets.symmetric(
+            vertical: Constants.kDefaultPaddin,
+            horizontal: Constants.kDefaultPaddin * 2,
+          ),
+          child: passedChild),
       child: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                style: Theme.of(context).textTheme.bodyText1,
-                decoration: InputDecoration(labelText: 'E-Mail'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  var pattern =
-                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
-                  final result = new RegExp(pattern, caseSensitive: false)
-                      .firstMatch(value as String);
-                  if (value.isEmpty || result == null) {
-                    return 'Invalid email!';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _authData['email'] = value as String;
-                },
+        child: Column(
+          children: <Widget>[
+            TextFormField(
+              style: Theme.of(context).textTheme.bodyText1,
+              decoration: InputDecoration(labelText: 'E-Mail'),
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                var pattern =
+                    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
+                final result = new RegExp(pattern, caseSensitive: false)
+                    .firstMatch(value as String);
+                if (value.isEmpty || result == null) {
+                  return 'Invalid email!';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _authData['email'] = value as String;
+              },
+            ),
+            TextFormField(
+              style: Theme.of(context).textTheme.bodyText1,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              controller: _passwordController,
+              validator: (value) {
+                if (value!.isEmpty || value.length < 5) {
+                  return 'Password is too short!';
+                }
+              },
+              onSaved: (value) {
+                _authData['password'] = value as String;
+              },
+            ),
+            AnimatedContainer(
+              constraints: BoxConstraints(
+                minHeight: _authMode == AuthMode.Signup ? 60 : 0,
+                maxHeight: _authMode == AuthMode.Signup ? 120 : 0,
               ),
-              TextFormField(
-                style: Theme.of(context).textTheme.bodyText1,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                controller: _passwordController,
-                validator: (value) {
-                  if (value!.isEmpty || value.length < 5) {
-                    return 'Password is too short!';
-                  }
-                },
-                onSaved: (value) {
-                  _authData['password'] = value as String;
-                },
-              ),
-              if (_authMode == AuthMode.Signup)
-                TextFormField(
+              curve: Curves.easeIn,
+              duration: Duration(milliseconds: 150),
+              child: FadeTransition(
+                opacity: _opacityAnimation,
+                child: TextFormField(
                   style: Theme.of(context).textTheme.bodyText1,
                   enabled: _authMode == AuthMode.Signup,
                   decoration: InputDecoration(labelText: 'Confirm Password'),
@@ -227,42 +277,43 @@ class _AuthCardState extends State<AuthCard> {
                         }
                       : null,
                 ),
-              SizedBox(
-                height: 20,
               ),
-              if (_isLoading)
-                CircularProgressIndicator()
-              else
-                InkWell(
-                  onTap: () => _submit(),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Constants.kDefaultPaddin * 2.8,
-                      vertical: Constants.kDefaultPaddin / 1.5,
-                    ),
-                    decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(40),
-                      gradient: new LinearGradient(
-                        colors: [Color(0xFFffc0f0), Color(0xFFffcff4)],
-                        begin: FractionalOffset.topCenter,
-                        end: FractionalOffset.bottomCenter,
-                      ),
-                    ),
-                    child: Text(
-                      _authMode == AuthMode.Login ? 'Sign In' : 'Sign Up',
-                      style: Theme.of(context).textTheme.headline6,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            if (_isLoading)
+              CircularProgressIndicator()
+            else
+              InkWell(
+                onTap: () => _submit(),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Constants.kDefaultPaddin * 2.8,
+                    vertical: Constants.kDefaultPaddin / 1.5,
+                  ),
+                  decoration: new BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    gradient: new LinearGradient(
+                      colors: [Color(0xFFffc0f0), Color(0xFFffcff4)],
+                      begin: FractionalOffset.topCenter,
+                      end: FractionalOffset.bottomCenter,
                     ),
                   ),
+                  child: Text(
+                    _authMode == AuthMode.Login ? 'Sign In' : 'Sign Up',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                 ),
-              TextButton(
-                child: Text(
-                  '${_authMode == AuthMode.Login ? 'Sign Up' : 'Sign In'} Instead',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                onPressed: _switchAuthMode,
               ),
-            ],
-          ),
+            TextButton(
+              child: Text(
+                '${_authMode == AuthMode.Login ? 'Sign Up' : 'Sign In'} Instead',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              onPressed: _switchAuthMode,
+            ),
+          ],
         ),
       ),
     );

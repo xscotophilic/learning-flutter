@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app_drawer.dart';
 import '../../../const.dart';
 import '../../../providers/product.dart';
 import '../../../providers/products.dart';
+import '../../../helpers/app_drawer.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
