@@ -29,14 +29,14 @@
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/47301282/121461838-40f1d000-c9cd-11eb-8dd6-36a83ec4c209.png" alt="trees"/>
-  
-  Image scource iteo.com
+
+Image scource iteo.com
+
 </p>
 
 <img src="https://user-images.githubusercontent.com/47301282/121463717-2a994380-c9d0-11eb-8493-92f5b876be08.png" alt="how trees are managed"/>
 
 - Suppose we create a Button Widget (Refere above code). When we press this button, the text inside it will change from "Hello" to "World”.
-
   - The runtime types of the Text Widget (child of ElevatedButton) and its Render Object will be compared by an element object that contains references to both. If they differ, a new Render Object with new values is created.
 
   - If the runtime type remains the same, there is no need to construct a new Render Object; only properties will change, and updateRenderObject() will be called, saving a significant amount of time.
@@ -110,10 +110,10 @@ Read in details: [Life cycle in flutter - stackoverflow](https://stackoverflow.c
 
 <img src="https://user-images.githubusercontent.com/47301282/121525097-98b42980-ca15-11eb-8844-7dc77ad26c14.png" alt="App life cycle"/>
 
-1. Inactive — The application is in an inactive state and is not receiving user input.
-2. Paused — The application is not currently visible to the user, not responding to user input, and running in the background.
-3. Resumed — The application is visible and responding to user input.
-4. Suspending — The application is suspended momentarily.
+1. Inactive - The application is in an inactive state and is not receiving user input.
+2. Paused - The application is not currently visible to the user, not responding to user input, and running in the background.
+3. Resumed - The application is visible and responding to user input.
+4. Suspending - The application is suspended momentarily.
 
 Read in details: [Flutter App Life cycle - on medium](https://medium.com/pharos-production/flutter-app-lifecycle-4b0ab4a4211a), [Flutter App Life cycle - on medium](https://medium.com/pharos-production/flutter-app-lifecycle-4b0ab4a4211a)
 
@@ -146,5 +146,4 @@ Watch: [When to use Keys - by Google](https://youtu.be/kn0EOS-ZiIc)
 ---
 
 - You can read about `Flutter` in details on provided links:
-
   - [Inside flutter](https://flutter.dev/docs/resources/inside-flutter)

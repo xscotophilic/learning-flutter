@@ -1,55 +1,67 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119260208-68842280-bbef-11eb-89bf-e86b9e967e89.png" alt="dart"/>
-</p>
+# Learning Flutter
 
-- Dart is a client-optimized language for fast apps on any platform.
+This project is a comprehensive collection of modules and practical examples designed to guide you through the journey of mastering Flutter and Dart-from the absolute basics to advanced app development techniques.
 
-- Dart as a language, is very robust. Having been created by Google, its primary purpose was to leverage C-based Object Oriented Programming languages like C#, and Java. As it is also a general-purpose programming language, it compiles fast and is concise.
+## Curriculum
 
----
+The repository is organized into sequential learning modules. Each folder focuses on a specific key concept in Flutter development:
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119260209-69b54f80-bbef-11eb-9dc5-74c142d30da6.png" alt="Flutter"/>
-</p>
+| Module | Topic                  | Description                                                                                   |
+| :----- | :--------------------- | :-------------------------------------------------------------------------------------------- |
+| 01     | **Introduction**       | Getting started with the Flutter echosystem and your first "Hello World" app.                 |
+| 02     | **Flutter Basics**     | Understanding the widget tree, basic layout, and the core building blocks of UI.              |
+| 03     | **Widgets**            | A deeper look into stateless and stateful widgets, and styling your apps.                     |
+| 04     | **Responsive UI**      | Building adaptive user interfaces that look great on different screen sizes and orientations. |
+| 05     | **Flutter Deep Dive**  | Exploring internal mechanics and advanced configuration options.                              |
+| 06     | **Navigation**         | Managing multiple screens, passing data, and understanding the navigation stack.              |
+| 07     | **State Management**   | practical guides to managing app state effectively (Provider, etc.).                          |
+| 08     | **Forms & User Input** | Handling user input, validation, and form submission.                                         |
+| 09     | **HTTP Requests**      | Connecting your app to the internet, fetching data, and handling APIs.                        |
+| 10     | **Authentication**     | Implementing user signup, login, and secure sessions.                                         |
+| 11     | **Animations**         | Adding polish to your app with implicit and explicit animations.                              |
+| 12     | **Native Features**    | Accessing device capabilities like the camera, location services, and storage.                |
 
-- Flutter is an open-source UI software development kit created by Google. It is used to develop cross platform applications for Android, iOS, Linux, Mac, Windows, Google Fuchsia, and the web from a single codebase.
+## Getting Started
 
-- Flutter is an open-source mobile SDK (Software Development Kit). An SDK or devkit functions in much the same way, providing a set of tools, libraries, relevant documentation, code samples, processes, and or guides that allow developers to create software applications on a specific platform. SDK: Tools to compile your code to native machine code + develop with ease.
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-- It is used to develop cross platform applications from a single codebase. A codebase is a source code repository or a set of repositories that share a common root, Here we do not need to write different code for IOS and ANDROID to run a same App.
+### Prerequisites
 
-- In flutter, App's UI is a Widget Tree! The widget tree is how you create your UI; you position widgets within each other to build simple and complex layouts. A smart approach is to attempt and maintain the widget tree as shallow as possible.
+Before you begin, ensure you have the following installed:
 
-Flutter and Dart
+- [Flutter SDK](https://flutter.dev/docs/get-started/install): Version mentioned in pubspec.yaml files in each module.
+- [Dart SDK](https://dart.dev/get-dart): Usually included with Flutter (No extra installation needed).
+- An IDE (VS Code, Android Studio, or IntelliJ IDEA) with the Flutter/Dart plugins installed.
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/47301282/119261049-307ede80-bbf3-11eb-82aa-1787d163d6ad.png" alt="Flutter and Dart"/>
-</p>
+### How to Run the Project
 
-## Architecture of Flutter
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/xscotophilic/learning-flutter.git
+   cd learning-flutter
+   ```
+2. **Navigate to a module**: Choose the module you are interested in. For example:
+   ```bash
+   cd 01.introduction
+   ```
+3. **README**: Read the README.md file in the module.
+4. **Install dependencies**: You'll need to fetch the packages for the specific project you are running:
+   ```bash
+   flutter pub get
+   ```
+5. **Running the app**: To run an application on an emulator or connected device:
+   ```bash
+   flutter run
+   ```
+   If you have multiple devices connected, you can specify one:
+   ```bash
+   flutter run -d <device-id>
+   ```
 
-> Flutter is designed as an extensible, layered system. It exists as a series of independent libraries that each depend on the underlying layer. No layer has privileged access to the layer below, and every part of the framework level is designed to be optional and replaceable.
+## Important Notes
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/47301282/119260348-0677ed00-bbf0-11eb-8531-e7cbbe611530.png" alt="archdiagram"/>
-</p>
+> **Font Usage**: Some projects in this repository may reference commercial font families in their `pubspec.yaml` file. For public distribution or strict open-source usage, please remove these references or replace them with open-source alternatives to avoid build errors or licensing issues.
 
-To the underlying operating system, Flutter applications are packaged in the same way as any other native application.
+## 📄 License
 
-1. A platform-specific embedder provides an entrypoint; coordinates with the underlying operating system for access to services like rendering surfaces, accessibility, and input; and manages the message event loop. The embedder is written in a language that is appropriate for the platform: currently Java and C++ for Android, Objective-C/Objective-C++ for iOS and macOS, and C++ for Windows and Linux. Using the embedder, Flutter code can be integrated into an existing application as a module, or the code may be the entire content of the application. Flutter includes a number of embedders for common target platforms, but other embedders also exist.
-
-2. At the core of Flutter is the Flutter engine, which is mostly written in C++ and supports the primitives necessary to support all Flutter applications. The engine is responsible for rasterizing composited scenes whenever a new frame needs to be painted. It provides the low-level implementation of Flutter’s core API. The engine is exposed to the Flutter framework through dart:ui, which wraps the underlying C++ code in Dart classes.
-
-3. Typically, developers interact with Flutter through the Flutter framework, which provides a modern, reactive framework written in the Dart language. It includes a rich set of platform, layout, and foundational libraries, composed of a series of layers.
-
-by Google.
-
-## How is Flutter/ Dart "transformed" to a Native App?
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119261373-b64f5980-bbf4-11eb-9b63-aeb0d9842b18.png" alt="transformed"/>
-</p>
-
-Image source: https://academind.com/
-
-> Note: Because I utilised commercial font-families, I won't be able to upload it here. Please modify/remove font families from `pubspec.yaml` and Theme in `Main.dart`. Simply remove the font family lines.
+Distributed under the MIT License. See `LICENSE` for more information.
