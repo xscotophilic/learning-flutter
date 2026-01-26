@@ -6,14 +6,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hello_World',
+      title: 'Hello World Example',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Welcome to Hello_World'),
+          title: Text('Hello World Example'),
         ),
         body: Center(
-          child: Text('Her face a river. This is a curse, a blessing too.'),
+          child: Text('Hello World!'),
         ),
       ),
     );

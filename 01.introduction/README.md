@@ -1,15 +1,30 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119266192-734ab180-bc07-11eb-85be-bbf14000cbf6.png" alt="Getting started with flutter"/>
-</p>
+# Introduction
 
-1. [Installing Flutter](https://flutter.dev/docs/get-started/install)
-2. Updating Flutter path [For Linux](https://flutter.dev/docs/get-started/install/linux#update-your-path), [For mac](https://flutter.dev/docs/get-started/install/macos#update-your-path), [For Windows](https://flutter.dev/docs/get-started/install/windows#update-your-path).
-3. Creating New App using terminal. Go to the directory where you want to save your project. Run below command in terminal/ cmd. 
+In this module, we will create our very first Flutter application, understand the basic project structure, and dissect the famous "Hello World" example.
+
+Before we start, if you want to understand the basic concepts of Flutter, please read the [About Flutter](./about-flutter.md) document.
+
+## What We'll Build
+
+We will build a simple app that displays a welcome message on the screen. This introduces you to the core concepts of specific widgets and how a Flutter app launches.
+
+## Step-by-Step Guide
+
+### 1. Create a New App
+
+To start a new project, we use the Flutter CLI command `flutter create`. Open your terminal, navigate to your project directory (like this repo's root), and run:
+
+```bash
+flutter create helloworld
 ```
-$ flutter create helloworld
-```
-4. Editing contents of lib/main.dart in helloworld project.
-```
+
+This command generates all the necessary files for a Flutter project, including native code for Android (`android/`), iOS (`ios/`), web (`web/`), and desktop platforms.
+
+### 2. The Code (`lib/main.dart`)
+
+The entry point of every Flutter application is the `lib/main.dart` file. Open this file in your IDE and replace its contents with the following code:
+
+```dart
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -18,29 +33,70 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hello_World',
+      title: 'Hello World Example',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Welcome to Hello_World'),
+          title: Text('Hello World Example'),
         ),
         body: Center(
-          child: Text('Her face a river. This is a curse, a blessing too.'),
+          child: Text('Hello World!'),
         ),
       ),
     );
   }
 }
 ```
-5. Change directory to helloworld and Run your project
-``` 
-$ cd helloworld 
-$ flutter run 
+
+### 3. Understanding the Code
+
+Let's break down what's happening above:
+
+- **`main()`**: The main function is the entry point of the application.
+- **`runApp(MyApp())`**: This tells Flutter to launch the app and mount the `MyApp` widget as the root of the widget tree.
+- **`StatelessWidget`**: A widget that doesn't store any mutable state. It just describes what the UI should look like based on its configuration.
+- **`MaterialApp`**: A convenience widget that wraps a number of widgets that are commonly required for Material Design applications.
+- **`Scaffold`**: Implements the basic Material Design visual layout structure. It gives you slots for an `AppBar`, `body`, and more.
+- **`Center` & `Text`**: These are basic widgets. `Center` positions its child in the middle, and `Text` displays a string of characters.
+
+### 4. Run the Project
+
+Make sure your emulator is running or your physical device is connected or this will run on local browser. Then run:
+
+```bash
+flutter run
 ```
-6. This will probably start App in browser. You can configure an emulator and run the app on it, or you may run the app on an Android or iOS smartphone.
 
-- You can read about Flutter Introduction in details on provided links:
+You should see your app launch on your device!
 
-  - [Get-started with Flutter on flutter.dev](https://flutter.dev/docs/get-started)
+### 5. Test the Project
 
-  - [Write your first Flutter app on flutter.dev](https://flutter.dev/docs/get-started/codelab)
+To verify if widgets are appearing correctly, we can write automated tests.
+
+Flutter provides a `test` directory for your tests. update the content of the `widget_test.dart` file that verifies our "Hello World" app:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:helloworld/main.dart';
+
+void main() {
+  testWidgets('Hello World smoke test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(MyApp());
+
+    // Verify that our app does not display 'Goodbye World!'.
+    expect(find.text('Goodbye World!'), findsNothing);
+
+    // Verify that our app displays 'Hello World!'.
+    expect(find.text('Hello World!'), findsOneWidget);
+  });
+}
+```
+
+**Run the tests**: To execute the tests, run:
+
+```bash
+flutter test
+```
