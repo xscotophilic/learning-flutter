@@ -53,13 +53,3 @@ by Google.
 Image source: https://academind.com/
 
 > Note: Because I utilised commercial font-families, I won't be able to upload it here. Please modify/remove font families from `pubspec.yaml` and Theme in `Main.dart`. Simply remove the font family lines.
-
----
-
-### If you enjoy my work, You can help me with donation on
-
-<a href="https://www.buymeacoffee.com/xscotophilic" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" height="30"/></a> or <a href="https://www.patreon.com/xscotophilic" target="_blank"><img src="https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white" alt="patreon" height="30"/></a>
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119249633-c268f600-bbb7-11eb-8f83-113142958427.png" alt="Thankyou!"/>
-</p>
