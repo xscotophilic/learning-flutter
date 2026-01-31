@@ -4,7 +4,42 @@
 # This file should be version controlled and should not be manually edited.
 
 version:
-  revision: b22742018b3edf16c6cadd7b76d9db5e7f9064b5
-  channel: stable
+  revision: "67323de285b00232883f53b84095eb72be97d35c"
+  channel: "stable"
 
 project_type: app
+
+# Tracks metadata for the flutter migrate command
+migration:
+  platforms:
+    - platform: root
+      create_revision: 67323de285b00232883f53b84095eb72be97d35c
+      base_revision: 67323de285b00232883f53b84095eb72be97d35c
+    - platform: android
+      create_revision: 67323de285b00232883f53b84095eb72be97d35c
+      base_revision: 67323de285b00232883f53b84095eb72be97d35c
+    - platform: ios
+      create_revision: 67323de285b00232883f53b84095eb72be97d35c
+      base_revision: 67323de285b00232883f53b84095eb72be97d35c
+    - platform: linux
+      create_revision: 67323de285b00232883f53b84095eb72be97d35c
+      base_revision: 67323de285b00232883f53b84095eb72be97d35c
+    - platform: macos
+      create_revision: 67323de285b00232883f53b84095eb72be97d35c
+      base_revision: 67323de285b00232883f53b84095eb72be97d35c
+    - platform: web
+      create_revision: 67323de285b00232883f53b84095eb72be97d35c
+      base_revision: 67323de285b00232883f53b84095eb72be97d35c
+    - platform: windows
+      create_revision: 67323de285b00232883f53b84095eb72be97d35c
+      base_revision: 67323de285b00232883f53b84095eb72be97d35c
+
+  # User provided section
+
+  # List of Local paths (relative to this file) that should be
+  # ignored by the migrate tool.
+  #
+  # Files that are not part of the templates will be ignored by default.
+  unmanaged_files:
+    - 'lib/main.dart'
+    - 'ios/Runner.xcodeproj/project.pbxproj'
