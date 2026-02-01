@@ -6,20 +6,20 @@ This project is a comprehensive collection of modules and practical examples des
 
 The repository is organized into sequential learning modules. Each folder focuses on a specific key concept in Flutter development:
 
-| Module | Topic                  | Description                                                                                   |
-| :----- | :--------------------- | :-------------------------------------------------------------------------------------------- |
-| 01     | **Introduction**       | Getting started with the Flutter echosystem and your first "Hello World" app.                 |
-| 02     | **Flutter Basics**     | Understanding the widget tree, basic layout, and the core building blocks of UI.              |
-| 03     | **Widgets**            | A deeper look into stateless and stateful widgets, and styling your apps.                     |
-| 04     | **Responsive UI**      | Building adaptive user interfaces that look great on different screen sizes and orientations. |
-| 05     | **Flutter Deep Dive**  | Exploring internal mechanics and advanced configuration options.                              |
-| 06     | **Navigation**         | Managing multiple screens, passing data, and understanding the navigation stack.              |
-| 07     | **State Management**   | practical guides to managing app state effectively (Provider, etc.).                          |
-| 08     | **Forms & User Input** | Handling user input, validation, and form submission.                                         |
-| 09     | **HTTP Requests**      | Connecting your app to the internet, fetching data, and handling APIs.                        |
-| 10     | **Authentication**     | Implementing user signup, login, and secure sessions.                                         |
-| 11     | **Animations**         | Adding polish to your app with implicit and explicit animations.                              |
-| 12     | **Native Features**    | Accessing device capabilities like the camera, location services, and storage.                |
+| Module | Topic                       | Description                                                                                     |
+| :----- | :-------------------------- | :---------------------------------------------------------------------------------------------- |
+| 01     | **Introduction**            | Getting started with the Flutter echosystem and your first "Hello World" app.                   |
+| 02     | **Dart and Flutter Basics** | Understanding the Dart language, widget tree, basic layout, and the core building blocks of UI. |
+| 03     | **Widgets**                 | A deeper look into stateless and stateful widgets, and styling your apps.                       |
+| 04     | **Responsive UI**           | Building adaptive user interfaces that look great on different screen sizes and orientations.   |
+| 05     | **Flutter Deep Dive**       | Exploring internal mechanics and advanced configuration options.                                |
+| 06     | **Navigation**              | Managing multiple screens, passing data, and understanding the navigation stack.                |
+| 07     | **State Management**        | practical guides to managing app state effectively (Provider, etc.).                            |
+| 08     | **Forms & User Input**      | Handling user input, validation, and form submission.                                           |
+| 09     | **HTTP Requests**           | Connecting your app to the internet, fetching data, and handling APIs.                          |
+| 10     | **Authentication**          | Implementing user signup, login, and secure sessions.                                           |
+| 11     | **Animations**              | Adding polish to your app with implicit and explicit animations.                                |
+| 12     | **Native Features**         | Accessing device capabilities like the camera, location services, and storage.                  |
 
 ## Getting Started
 
