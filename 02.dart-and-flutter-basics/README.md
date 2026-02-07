@@ -55,7 +55,7 @@ The `quizapp` folder contains a complete project that puts these basics into pra
 - **Lifting State Up**: How to pass data and callbacks between parent and child widgets.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/119799380-a0de7600-bef9-11eb-8744-1e2099042f40.gif" alt="Quiz App Demo" height="400px"/>
+  <img src="assets/demo.gif" alt="Quiz App Demo" width="256px"/>
 </p>
 
 ### How to Run:
