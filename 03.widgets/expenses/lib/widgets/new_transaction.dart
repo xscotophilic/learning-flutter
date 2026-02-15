@@ -37,13 +37,13 @@ class _NewTransactionState extends State<NewTransaction> {
   void _submitData() {
     if (_amountController.text.isEmpty) return;
     final enteredTitle = _titleController.text;
-    final enteredAmount = double.parse(_amountController.text);
+    final enteredAmount = double.tryParse(_amountController.text) ?? 0.0;
 
     if (enteredTitle.isEmpty ||
-        enteredAmount < 0 ||
-        _selectedDateController.isBefore(
-          DateTime(2020),
-        )) return;
+        enteredAmount <= 0 ||
+        _selectedDateController.isBefore(DateTime(2020))) {
+      return;
+    }
 
     widget.newTransactionHandler(
       enteredTitle,
@@ -111,10 +111,10 @@ class _NewTransactionState extends State<NewTransaction> {
                     margin: EdgeInsets.only(left: 10),
                     child:
                         _selectedDateController.isAfter(DateTime(2019, 12, 30))
-                            ? Text(
-                                'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
-                              )
-                            : Text(''),
+                        ? Text(
+                            'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
+                          )
+                        : Text(''),
                   ),
                 ],
               ),
@@ -124,16 +124,14 @@ class _NewTransactionState extends State<NewTransaction> {
             // *** Submit button starts ***
             ElevatedButton(
               onPressed: _submitData,
-              child: Text(
-                'Add transaction',
-              ),
+              child: Text('Add transaction'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).accentColor,
+                  Theme.of(context).colorScheme.secondary,
                 ),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
-            )
+            ),
             // *** Submit button ends ***
           ],
         ),

@@ -1,144 +1,39 @@
 // importing libs
 import 'package:flutter/material.dart';
 
-import './models/transaction.dart';
-import './widgets/chart.dart';
-import './widgets/transaction_list.dart';
-import './widgets/new_transaction.dart';
+import 'home_page.dart';
 
 // main function
 void main() {
   runApp(MyApp());
 }
 
+// main widget
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Expenses',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        accentColor: Colors.pinkAccent,
-        errorColor: Colors.red,
-        fontFamily: 'Roboto',
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          primary: Colors.indigo,
+          secondary: Colors.pinkAccent,
+          error: Colors.red,
+        ),
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-        appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                  fontFamily: 'Lumber',
-                  fontSize: 24,
-                ),
-              ),
+          titleLarge: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
       ),
       home: MyHomePage(),
-    );
-  }
-}
-
-// MyApp class
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  // *** List of transactions starts ***
-  final List<Transaction> _userTransactions = [];
-  // *** List of transactions ends ***
-
-  List<Transaction> get _recentTransactions {
-    return _userTransactions
-        .where(
-          (element) => element.date.isAfter(
-            DateTime.now().subtract(
-              Duration(days: 7),
-            ),
-          ),
-        )
-        .toList();
-  }
-
-  void _addNewTransaction(String title, double amount, DateTime chosenDate) {
-    final newTx = Transaction(
-      id: DateTime.now().toString(),
-      title: title,
-      amount: amount,
-      date: chosenDate,
-    );
-    setState(() {
-      _userTransactions.add(newTx);
-    });
-  }
-
-  void _deleteTransaction(String id) {
-    setState(() {
-      _userTransactions.removeWhere((tx) => tx.id == id);
-    });
-  }
-
-  void _showAddNewTransaction(BuildContext context) => {
-        showModalBottomSheet(
-          context: context,
-          builder: (_) {
-            return GestureDetector(
-              onTap: () {},
-              child: NewTransaction(_addNewTransaction),
-              behavior: HitTestBehavior.opaque,
-            );
-          },
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0)),
-          ),
-        ),
-      };
-
-  @override
-  Widget build(BuildContext context) {
-// scaffold app
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Expenses'),
-      ),
-      // outer container for styling
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(10),
-          // column to hold chart and expenses list
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              // ***** main screen starts *****
-              Chart(_recentTransactions),
-              SizedBox(
-                height: 30,
-              ),
-              TransactionList(
-                _userTransactions.reversed.toList(),
-                _deleteTransaction,
-              ),
-              // ***** main screen ends *****
-            ],
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-        ),
-        onPressed: () => _showAddNewTransaction(context),
-      ),
     );
   }
 }
