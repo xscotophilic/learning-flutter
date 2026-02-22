@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return GestureDetector(
           onTap: () {},
           behavior: HitTestBehavior.opaque,
-          child: NewTransaction(_addNewTransaction),
+          child: NewTransaction(newTransactionHandler: _addNewTransaction),
         );
       },
       shape: RoundedRectangleBorder(
@@ -78,11 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               // ***** main screen starts *****
-              Chart(_recentTransactions),
+              Chart(recentTransactions: _recentTransactions),
               SizedBox(height: 30),
               TransactionList(
-                _userTransactions.reversed.toList(),
-                _deleteTransaction,
+                transactions: _userTransactions.reversed.toList(),
+                deleteTxHandler: _deleteTransaction,
               ),
               // ***** main screen ends *****
             ],

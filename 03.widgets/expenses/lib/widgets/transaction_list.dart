@@ -4,16 +4,19 @@ import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
+  const TransactionList({
+    super.key,
+    required this.transactions,
+    required this.deleteTxHandler,
+  });
+
   final List<Transaction> transactions;
-
   final Function deleteTxHandler;
-
-  TransactionList(this.transactions, this.deleteTxHandler);
 
   @override
   Widget build(BuildContext context) {
     // *** Expenses starts ***
-    return Container(
+    return SizedBox(
       height: 400,
       child: transactions.isEmpty
           ? Column(
@@ -23,7 +26,7 @@ class TransactionList extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: 20),
-                Container(
+                SizedBox(
                   height: 150,
                   child: Image.asset(
                     'assets/images/waiting.png',

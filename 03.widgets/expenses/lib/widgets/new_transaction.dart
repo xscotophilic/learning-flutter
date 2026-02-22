@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:flutter/services.dart';
-
 class NewTransaction extends StatefulWidget {
+  const NewTransaction({super.key, required this.newTransactionHandler});
+
   final Function newTransactionHandler;
 
-  NewTransaction(this.newTransactionHandler);
-
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  State<NewTransaction> createState() => _NewTransactionState();
 }
 
 class _NewTransactionState extends State<NewTransaction> {
@@ -19,6 +17,13 @@ class _NewTransactionState extends State<NewTransaction> {
   final _amountController = TextEditingController();
   // adding transaction date controller
   DateTime _selectedDateController = DateTime(0);
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
 
   void _presentDatePicker() {
     showDatePicker(
@@ -94,43 +99,40 @@ class _NewTransactionState extends State<NewTransaction> {
             // *** Amount field ends ***
 
             // *** date field starts ***
-            Container(
-              child: Row(
-                children: <Widget>[
-                  TextButton(
-                    onPressed: _presentDatePicker,
-                    child: Text(
-                      'Choose date',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+            Row(
+              children: <Widget>[
+                TextButton(
+                  onPressed: _presentDatePicker,
+                  child: Text(
+                    'Choose date',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child:
-                        _selectedDateController.isAfter(DateTime(2019, 12, 30))
-                        ? Text(
-                            'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
-                          )
-                        : Text(''),
-                  ),
-                ],
-              ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: _selectedDateController.isAfter(DateTime(2019, 12, 30))
+                      ? Text(
+                          'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
+                        )
+                      : Text(''),
+                ),
+              ],
             ),
             // *** date field ends ***
 
             // *** Submit button starts ***
             ElevatedButton(
               onPressed: _submitData,
-              child: Text('Add transaction'),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
+                backgroundColor: WidgetStateProperty.all(
                   Theme.of(context).colorScheme.secondary,
                 ),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
+                foregroundColor: WidgetStateProperty.all(Colors.white),
               ),
+              child: Text('Add transaction'),
             ),
             // *** Submit button ends ***
           ],
