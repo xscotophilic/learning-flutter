@@ -11,12 +11,9 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  // adding transaction title input controller
   final _titleController = TextEditingController();
-  // adding transaction amount input controller
   final _amountController = TextEditingController();
-  // adding transaction date controller
-  DateTime _selectedDateController = DateTime(0);
+  DateTime? _selectedDateController;
 
   @override
   void dispose() {
@@ -29,7 +26,7 @@ class _NewTransactionState extends State<NewTransaction> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
+      firstDate: DateTime(2000),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
       if (pickedDate == null) return;
@@ -46,7 +43,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
     if (enteredTitle.isEmpty ||
         enteredAmount <= 0 ||
-        _selectedDateController.isBefore(DateTime(2020))) {
+        _selectedDateController == null) {
       return;
     }
 
@@ -65,13 +62,13 @@ class _NewTransactionState extends State<NewTransaction> {
     return Card(
       elevation: 0,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             // *** Title field starts ***
             Container(
-              padding: EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(bottom: 12),
               child: TextField(
                 controller: _titleController,
                 decoration: InputDecoration(
@@ -85,7 +82,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
             // *** Amount field starts ***
             Container(
-              padding: EdgeInsets.only(bottom: 5),
+              padding: EdgeInsets.only(bottom: 4),
               child: TextField(
                 controller: _amountController,
                 keyboardType: TextInputType.number,
@@ -104,20 +101,21 @@ class _NewTransactionState extends State<NewTransaction> {
                 TextButton(
                   onPressed: _presentDatePicker,
                   child: Text(
-                    'Choose date',
+                    _selectedDateController == null
+                        ? 'Choose date'
+                        : 'Change date',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: _selectedDateController.isAfter(DateTime(2019, 12, 30))
-                      ? Text(
-                          'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController)}',
-                        )
-                      : Text(''),
+                Expanded(child: SizedBox(width: 12)),
+                Text(
+                  _selectedDateController == null
+                      ? ''
+                      : 'Picked date: ${DateFormat().add_yMMMMd().format(_selectedDateController!)}',
+                  textAlign: TextAlign.right,
                 ),
               ],
             ),

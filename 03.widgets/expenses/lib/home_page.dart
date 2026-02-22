@@ -19,23 +19,20 @@ class _MyHomePageState extends State<MyHomePage> {
   /// recent transactions getter
   /// returns transactions from the last 7 days
   List<Transaction> get _recentTransactions {
-    return _userTransactions
-        .where(
-          (element) =>
-              element.date.isAfter(DateTime.now().subtract(Duration(days: 7))),
-        )
-        .toList();
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
   }
 
   void _addNewTransaction(String title, double amount, DateTime chosenDate) {
-    final newTx = Transaction(
-      id: DateTime.now().toString(),
+    final transaction = Transaction(
+      id: DateTime.now().toIso8601String(),
       title: title,
       amount: amount,
       date: chosenDate,
     );
     setState(() {
-      _userTransactions.add(newTx);
+      _userTransactions.add(transaction);
     });
   }
 
@@ -45,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _showAddNewTransaction(BuildContext context) => {
+  void _showAddNewTransaction() {
     showModalBottomSheet(
       context: context,
       builder: (_) {
@@ -57,42 +54,39 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10.0),
-          topRight: Radius.circular(10.0),
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
         ),
       ),
-    ),
-  };
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // scaffold app
     return Scaffold(
       appBar: AppBar(title: Text('Expenses')),
-      // outer container for styling
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(10),
-          // column to hold chart and expenses list
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // ***** main screen starts *****
               Chart(recentTransactions: _recentTransactions),
-              SizedBox(height: 30),
-              TransactionList(
-                transactions: _userTransactions.reversed.toList(),
-                deleteTxHandler: _deleteTransaction,
+              SizedBox(height: 16),
+              Expanded(
+                child: TransactionList(
+                  transactions: _userTransactions.reversed.toList(),
+                  deleteTxHandler: _deleteTransaction,
+                ),
               ),
-              // ***** main screen ends *****
             ],
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        onPressed: _showAddNewTransaction,
         child: Icon(Icons.add),
-        onPressed: () => _showAddNewTransaction(context),
       ),
     );
   }

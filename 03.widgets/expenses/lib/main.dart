@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.indigo,
           primary: Colors.indigo,
-          secondary: Colors.pinkAccent,
+          secondary: Colors.black,
           error: Colors.red,
         ),
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -28,9 +28,6 @@ class MyApp extends StatelessWidget {
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
-        ),
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
       ),
       home: MyHomePage(),

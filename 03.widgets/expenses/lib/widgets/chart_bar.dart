@@ -12,47 +12,65 @@ class ChartBar extends StatelessWidget {
   final double spendingAmount;
   final double spendingPctOfTotal;
 
+  BorderRadius get _borderRadius => BorderRadius.circular(8);
+
+  Color _barColor(BuildContext context) {
+    return Theme.of(context).colorScheme.secondary.withAlpha(50);
+  }
+
+  Color _fillColor(BuildContext context) {
+    switch (spendingPctOfTotal) {
+      case < 0.25:
+        return Colors.green;
+      case < 0.5:
+        return Colors.amber;
+      case < 0.75:
+        return Colors.orange;
+      default:
+        return Colors.red;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(3),
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 20,
-            child: FittedBox(
-              child: Text('\$ ${spendingAmount.toStringAsFixed(0)}'),
-            ),
+    return Column(
+      children: <Widget>[
+        FittedBox(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text('\$${spendingAmount.round().toString()}'),
           ),
-          SizedBox(height: 4),
-          SizedBox(
-            height: 60,
-            width: 10,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
-                    color: Color.fromRGBO(220, 220, 220, 0.9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+        ),
+        SizedBox(height: 4),
+        SizedBox(
+          height: 64,
+          width: 8,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: _barColor(context),
+                  borderRadius: _borderRadius,
                 ),
-                FractionallySizedBox(
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
                   heightFactor: spendingPctOfTotal,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(10),
+                      color: _fillColor(context),
+                      borderRadius: _borderRadius,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          SizedBox(height: 4),
-          Text(label),
-        ],
-      ),
+        ),
+        SizedBox(height: 4),
+        Text(label),
+      ],
     );
   }
 }
