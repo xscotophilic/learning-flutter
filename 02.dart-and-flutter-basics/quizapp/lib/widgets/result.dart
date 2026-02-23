@@ -28,7 +28,7 @@ class Result extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text("Score: $totalScore/30", style: const TextStyle(fontSize: 16)),
+            Text('Score: $totalScore/30', style: const TextStyle(fontSize: 16)),
             Text(_resultPhrase, style: const TextStyle(fontSize: 24)),
             const SizedBox(height: 8),
             SizedBox(
@@ -46,7 +46,7 @@ class Result extends StatelessWidget {
                   ),
                 ),
                 onPressed: resetHandler,
-                child: const Text("Restart Quiz!"),
+                child: const Text('Restart Quiz!'),
               ),
             ),
           ],

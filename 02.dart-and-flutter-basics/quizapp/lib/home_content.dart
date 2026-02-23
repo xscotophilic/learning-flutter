@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/quiz.dart';
-import 'widgets/result.dart';
+import 'package:quizapp/widgets/quiz.dart';
+import 'package:quizapp/widgets/result.dart';
 
 /// This widget provides the main content of the application.
 /// It is a stateful widget that keeps track of the current question index and the total score.
