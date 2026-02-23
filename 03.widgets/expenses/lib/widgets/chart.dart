@@ -1,8 +1,7 @@
+import 'package:expenses/models/transaction.dart';
+import 'package:expenses/widgets/chart_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../models/transaction.dart';
-import './chart_bar.dart';
 
 class Chart extends StatelessWidget {
   const Chart({super.key, required this.recentTransactions});
@@ -43,7 +42,7 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Container(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

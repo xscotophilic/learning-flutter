@@ -1,9 +1,8 @@
+import 'package:expenses/models/transaction.dart';
+import 'package:expenses/widgets/chart.dart';
+import 'package:expenses/widgets/new_transaction.dart';
 import 'package:expenses/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
-
-import 'models/transaction.dart';
-import 'widgets/chart.dart';
-import 'widgets/new_transaction.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -20,7 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
   /// returns transactions from the last 7 days
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
-      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+      return tx.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
     }).toList();
   }
 
@@ -43,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showAddNewTransaction() {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       builder: (_) {
         return GestureDetector(
@@ -52,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: NewTransaction(newTransactionHandler: _addNewTransaction),
         );
       },
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12.0),
           topRight: Radius.circular(12.0),
@@ -64,15 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Expenses')),
+      appBar: AppBar(title: const Text('Expenses')),
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.all(10),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Chart(recentTransactions: _recentTransactions),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Expanded(
                 child: TransactionList(
                   transactions: _userTransactions.reversed.toList(),
@@ -86,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddNewTransaction,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

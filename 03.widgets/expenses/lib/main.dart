@@ -1,14 +1,10 @@
-// importing libs
+import 'package:expenses/home_page.dart';
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
-
-// main function
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-// main widget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -30,7 +26,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }

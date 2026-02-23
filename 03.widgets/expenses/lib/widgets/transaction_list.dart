@@ -1,7 +1,6 @@
+import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   const TransactionList({
@@ -15,7 +14,6 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // *** Expenses starts ***
     if (transactions.isEmpty) {
       return Column(
         children: <Widget>[
@@ -24,7 +22,7 @@ class TransactionList extends StatelessWidget {
             fit: BoxFit.cover,
             height: 100,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             'No transactions added yet!',
             style: Theme.of(context).textTheme.titleLarge,
@@ -37,12 +35,12 @@ class TransactionList extends StatelessWidget {
         itemBuilder: (ctx, index) {
           return Card(
             elevation: 1,
-            margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+            margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
             child: ListTile(
               leading: CircleAvatar(
                 radius: 32,
                 child: Padding(
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   child: FittedBox(
                     child: Text(
                       '\$ ${transactions[index].amount.toStringAsFixed(2)}',
@@ -59,7 +57,7 @@ class TransactionList extends StatelessWidget {
               ),
               trailing: IconButton(
                 onPressed: () => deleteTxHandler(transactions[index].id),
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 color: Theme.of(context).colorScheme.error,
               ),
             ),
@@ -67,6 +65,5 @@ class TransactionList extends StatelessWidget {
         },
       );
     }
-    // *** Expenses ends ***
   }
 }

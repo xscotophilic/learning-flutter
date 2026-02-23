@@ -41,7 +41,7 @@ class ChartBar extends StatelessWidget {
             child: Text('\$${spendingAmount.round().toString()}'),
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         SizedBox(
           height: 64,
           width: 8,
@@ -68,7 +68,7 @@ class ChartBar extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(label),
       ],
     );

@@ -11,9 +11,16 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
+  late final TextEditingController _titleController;
+  late final TextEditingController _amountController;
   DateTime? _selectedDateController;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController();
+    _amountController = TextEditingController();
+  }
 
   @override
   void dispose() {
@@ -37,9 +44,8 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _submitData() {
-    if (_amountController.text.isEmpty) return;
-    final enteredTitle = _titleController.text;
-    final enteredAmount = double.tryParse(_amountController.text) ?? 0.0;
+    final enteredTitle = _titleController.text.trim();
+    final enteredAmount = double.tryParse(_amountController.text.trim()) ?? 0.0;
 
     if (enteredTitle.isEmpty ||
         enteredAmount <= 0 ||
@@ -58,44 +64,35 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    // *** Input field/ new transaction starts ***
     return Card(
       elevation: 0,
-      child: Container(
-        padding: EdgeInsets.all(12),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            // *** Title field starts ***
-            Container(
-              padding: EdgeInsets.only(bottom: 12),
-              child: TextField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Title',
-                ),
-                onSubmitted: (_) => _submitData(),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Title',
               ),
+              onSubmitted: (_) => _submitData(),
             ),
-            // *** Title field ends ***
+            const SizedBox(height: 12),
 
-            // *** Amount field starts ***
-            Container(
-              padding: EdgeInsets.only(bottom: 4),
-              child: TextField(
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Amount',
-                ),
-                onSubmitted: (_) => _submitData(),
+            TextField(
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Amount',
               ),
+              onSubmitted: (_) => _submitData(),
             ),
-            // *** Amount field ends ***
+            const SizedBox(height: 8),
 
-            // *** date field starts ***
             Row(
               children: <Widget>[
                 TextButton(
@@ -110,7 +107,7 @@ class _NewTransactionState extends State<NewTransaction> {
                     ),
                   ),
                 ),
-                Expanded(child: SizedBox(width: 12)),
+                const Expanded(child: SizedBox(width: 12)),
                 Text(
                   _selectedDateController == null
                       ? ''
@@ -119,9 +116,8 @@ class _NewTransactionState extends State<NewTransaction> {
                 ),
               ],
             ),
-            // *** date field ends ***
+            const SizedBox(height: 8),
 
-            // *** Submit button starts ***
             ElevatedButton(
               onPressed: _submitData,
               style: ButtonStyle(
@@ -130,13 +126,12 @@ class _NewTransactionState extends State<NewTransaction> {
                 ),
                 foregroundColor: WidgetStateProperty.all(Colors.white),
               ),
-              child: Text('Add transaction'),
+              child: const Text('Add transaction'),
             ),
-            // *** Submit button ends ***
+            const SizedBox(height: 12),
           ],
         ),
       ),
     );
-    // *** Input fields ends ***
   }
 }
