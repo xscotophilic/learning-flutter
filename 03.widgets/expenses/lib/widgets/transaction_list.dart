@@ -34,6 +34,7 @@ class TransactionList extends StatelessWidget {
         itemCount: transactions.length,
         itemBuilder: (ctx, index) {
           return Card(
+            key: ValueKey(transactions[index].id),
             elevation: 1,
             margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
             child: ListTile(

@@ -174,3 +174,24 @@ Understand the difference between **`StatelessWidget`** (static UI) and **`State
 
 > [!TIP]
 > Keep your widgets small and modular. If a part of your widget tree becomes too deeply nested, extract it into a separate widget class for better readability and performance.
+
+## The "Expenses App"
+
+The `expenses` folder contains a complete project that puts all the concepts from this module into practice — from widget composition and styling to stateful UI and custom data models.
+
+### What you'll learn from it:
+
+- **`StatefulWidget` & `setState`**: The home page (`MyHomePage`) manages a live list of transactions. Adding or deleting an item calls `setState`, triggering a UI rebuild.
+- **Custom Data Models**: The `Transaction` class (in `lib/models/`) is an `@immutable` data model with `id`, `title`, `amount`, and `date` fields — a clean way to structure app data.
+- **Custom Widgets & Decomposition**: The UI is broken into focused, reusable widgets:
+  - **`Chart`**: Displays a 7-day spending bar chart by grouping transactions per day.
+  - **`ChartBar`**: A single bar in the chart, driven by a percentage of total weekly spending.
+  - **`TransactionList`**: A scrollable list of all transactions with a delete option.
+  - **`NewTransaction`**: A modal bottom sheet form for adding a new transaction.
+- **App-Level Theming**: `main.dart` uses `ThemeData` with a `ColorScheme` and custom `textTheme` to apply consistent styles across the whole app.
+
+### How to Run:
+
+1. Change directory to `expenses`.
+2. Run `flutter pub get` to fetch dependencies.
+3. Run `flutter run` to launch it on your connected device or emulator.
