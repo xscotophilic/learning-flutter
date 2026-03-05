@@ -68,10 +68,9 @@ class _NewTransactionState extends State<NewTransaction> {
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        child: ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            const SizedBox(height: 12),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
@@ -128,7 +127,6 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
               child: const Text('Add transaction'),
             ),
-            const SizedBox(height: 12),
           ],
         ),
       ),

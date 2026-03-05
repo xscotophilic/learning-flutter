@@ -5,6 +5,7 @@ import 'package:expenses/widgets/chart.dart';
 import 'package:expenses/widgets/new_transaction.dart';
 import 'package:expenses/widgets/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -49,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showAddNewTransaction() {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       builder: (_) {
         return GestureDetector(
           onTap: () {},
@@ -72,8 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           GestureDetector(
+            onTap: _showAddNewTransaction,
             child: const Icon(CupertinoIcons.add),
-            onTap: () => _showAddNewTransaction(),
           ),
         ],
       ),
@@ -81,25 +83,27 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   PreferredSizeWidget _buildAndroidAppBar() {
-    return AppBar(title: const Text('Expenses'));
+    return AppBar(
+      title: const Text('Expenses', style: TextStyle(color: Colors.white)),
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+
+  void _toggleShowChart(bool value) {
+    setState(() {
+      _showChart = value;
+    });
   }
 
   Widget _buildChartSwitch() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text('Show Chart!', style: Theme.of(context).textTheme.titleLarge),
-        Switch.adaptive(
-          value: _showChart,
-          onChanged: (updatedValue) {
-            setState(() {
-              _showChart = updatedValue;
-            });
-          },
-          trackColor: WidgetStateProperty.all(
-            Theme.of(context).colorScheme.secondary,
-          ),
-        ),
+        Text('Show Chart', style: Theme.of(context).textTheme.titleLarge),
+        const Spacer(),
+        if (kIsWeb ? false : Platform.isIOS)
+          CupertinoSwitch(value: _showChart, onChanged: _toggleShowChart)
+        else
+          Switch.adaptive(value: _showChart, onChanged: _toggleShowChart),
       ],
     );
   }
@@ -143,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (kIsWeb ? false : Platform.isIOS) {
       return CupertinoPageScaffold(
         navigationBar: _buildIosNavBar(),
         child: _buildBody(),
@@ -152,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: _buildAndroidAppBar(),
       body: _buildBody(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddNewTransaction,
         child: const Icon(Icons.add),
