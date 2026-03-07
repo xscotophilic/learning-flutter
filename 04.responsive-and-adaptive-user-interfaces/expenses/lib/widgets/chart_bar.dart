@@ -33,44 +33,58 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        FittedBox(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text('\$${spendingAmount.round().toString()}'),
-          ),
-        ),
-        const SizedBox(height: 4),
-        SizedBox(
-          height: 64,
-          width: 8,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: _barColor(context),
-                  borderRadius: _borderRadius,
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        return Column(
+          children: <Widget>[
+            SizedBox(
+              height: constraints.maxHeight * 0.15,
+              child: FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text('\$${spendingAmount.round().toString()}'),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: FractionallySizedBox(
-                  heightFactor: spendingPctOfTotal,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: _fillColor(context),
-                      borderRadius: _borderRadius,
+            ),
+            SizedBox(height: constraints.maxHeight * 0.08),
+            Expanded(
+              child: SizedBox(
+                width: 8,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: _barColor(context),
+                        borderRadius: _borderRadius,
+                      ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FractionallySizedBox(
+                        heightFactor: spendingPctOfTotal,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: _fillColor(context),
+                            borderRadius: _borderRadius,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(label),
-      ],
+            ),
+            SizedBox(height: constraints.maxHeight * 0.08),
+            SizedBox(
+              height: constraints.maxHeight * 0.15,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: FittedBox(child: Text(label)),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

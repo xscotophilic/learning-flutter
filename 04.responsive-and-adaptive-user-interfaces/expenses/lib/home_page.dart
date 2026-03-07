@@ -111,16 +111,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildBody() {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final height = mediaQuery.size.height;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: <Widget>[
-            if (isLandscape) ...[
+            if (kIsWeb ? height < 600 : isLandscape) ...[
               _buildChartSwitch(),
               const SizedBox(height: 16),
               if (_showChart) ...[
-                Chart(recentTransactions: _recentTransactions),
+                Expanded(
+                  child: Chart(
+                    preferredHeight: double.infinity,
+                    recentTransactions: _recentTransactions,
+                  ),
+                ),
               ] else ...[
                 Expanded(
                   child: TransactionList(
@@ -130,7 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ] else ...[
-              Chart(recentTransactions: _recentTransactions),
+              Chart(
+                preferredHeight: mediaQuery.size.height * 0.16,
+                recentTransactions: _recentTransactions,
+              ),
               const SizedBox(height: 16),
               Expanded(
                 child: TransactionList(

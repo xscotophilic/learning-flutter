@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({super.key, required this.recentTransactions});
+  const Chart({
+    super.key,
+    required this.preferredHeight,
+    required this.recentTransactions,
+  });
 
+  final double preferredHeight;
   final List<Transaction> recentTransactions;
 
   List<Map<String, Object>> get _groupedTransactionValues {
@@ -42,8 +47,9 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Container(
-        padding: const EdgeInsets.all(12),
         width: double.infinity,
+        height: preferredHeight,
+        padding: const EdgeInsets.all(12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: _groupedTransactionValues.map((data) {

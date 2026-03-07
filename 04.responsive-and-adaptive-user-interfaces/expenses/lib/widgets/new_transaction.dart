@@ -1,3 +1,4 @@
+import 'package:expenses/widgets/adaptive_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -94,17 +95,11 @@ class _NewTransactionState extends State<NewTransaction> {
 
             Row(
               children: <Widget>[
-                TextButton(
+                AdaptiveFlatButton(
+                  text: _selectedDateController == null
+                      ? 'Choose date'
+                      : 'Change date',
                   onPressed: _presentDatePicker,
-                  child: Text(
-                    _selectedDateController == null
-                        ? 'Choose date'
-                        : 'Change date',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ),
                 const Expanded(child: SizedBox(width: 12)),
                 Text(
