@@ -111,131 +111,207 @@ Flutter's speed comes from one simple idea - **only do expensive work when absol
 
 ### How Trees are Created
 
-For every Widget in your code, Flutter performs the following steps:
+When Flutter sees a widget in your code for the first time, it does two things:
 
-1.  **`createElement()`**: Called on the widget to create its corresponding Element.
-2.  **`createRenderObject()`**: Called by the Element (if it's a renderable widget) to create the Render Object.
+**Step 1 - Create an Element**
+Flutter calls `createElement()` on the widget. This creates the long-lived manager object that will survive future rebuilds.
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121461838-40f1d000-c9cd-11eb-8dd6-36a83ec4c209.png" alt="trees" width="600px"/>
-</p>
+**Step 2 - Create a Render Object**
+The Element calls `createRenderObject()` to create the actual object that does layout and painting.
 
-## How Rebuilding Works
+This only happens **once** per widget position in the tree. After that, Flutter reuses the Element and Render Object - it never repeats this process unless the widget type changes entirely.
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121463717-2a994380-c9d0-11eb-8493-92f5b876be08.png" alt="how trees are managed"/>
-</p>
+### How Rebuilding Works
 
-When you call `setState()`, Flutter marks an Element as **dirty**. During the next frame:
+When you call `setState()`, Flutter doesn't rebuild everything from scratch. It's much smarter than that.
 
-1.  **Rebuild Widget**: The `build()` method is called, creating a new Widget instance.
-2.  **Comparison**: The Element compares the _runtime type_ and _key_ of the new widget with the old one.
-3.  **Shortcutting (`updateRenderObject`)**: If they match, the Element updates its reference to the new widget. It calls `updateRenderObject()` to only update the specific properties that changed (e.g., text color), saving significant time.
-4.  **Full Rebuild**: If the type or key changes, a new Render Object is created.
+**Step 1 - Mark as dirty**
+The Element is flagged as dirty. Flutter doesn't do anything yet - it waits until the next frame.
 
-### The Element-State Relationship
+**Step 2 - Rebuild the widget**
+Flutter calls `build()`, which creates a fresh widget instance with the new configuration.
 
-One of the most critical concepts in Flutter is that **the `State` is connected to the `Element`, not directly to the `Widget`.**
+**Step 3 - Compare old vs new**
+The Element looks at the new widget and asks: is this the same type as before?
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121463715-2a00ad00-c9d0-11eb-9ea4-e530c9e7bcc8.png" alt="How Flutter Rebuilds & Repaints the Screen"/>
-</p>
+```
+// Same type - cheap path
+Before:  Text('Hello')
+After:   Text('Hi')
+-> Element keeps everything, just patches the render object with new text
 
-When you call `setState()`, you are editing the **State object** held by the Element. Since the Element persists while the Widgets are replaced, the State survives rebuilds.
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121457453-52cf7500-c9c5-11eb-83bc-f07d738e9774.png" alt="diag"/>
-  <br/>
-  <a href="https://user-images.githubusercontent.com/47301282/121457471-595dec80-c9c5-11eb-9fda-9afcf2088f1e.png">View High Resolution Drawing</a>
-</p>
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121457489-5ebb3700-c9c5-11eb-8e5c-857898cdba62.png" alt="steps"/>
-</p>
-
-## Performance & `const`
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121525107-9b168380-ca15-11eb-877d-f51b5c11f15d.png" alt="Using const"/>
-</p>
-
-Using the `const` keyword on widgets indicates that the object will never change.
-
-```dart
-child: const Text('Learning flutter.'); // Skip rebuild comparison
+// Different type - expensive path
+Before:  Text('Hello')
+After:   Icon(Icons.star)
+-> Element tears down the render object and builds a new one from scratch
 ```
 
-> [!TIP]
-> `const` decreased the work required of the Garbage Collector. It's a minor performance boost that builds up in large apps or apps with complex animations.
+**Step 4 - Update only what changed**
+If the type matches, Flutter calls `updateRenderObject()` - which only updates the specific properties that actually changed. Not a full repaint, just a surgical patch.
 
-## Lifecycles
+The key thing to understand is that **State lives on the Element, not on the Widget.** When you call `setState()`, you're updating the State object that the Element holds onto. Since the Element survives rebuilds, your data survives too - even though the widget itself gets thrown away and recreated.
 
-Understanding when code executes is vital for managing resources.
+```
+Widget    ->  thrown away and recreated every rebuild
+Element   ->  survives, holds your State object
+State     ->  survives, holds your actual data (count, isLoading, etc.)
+```
 
-### 1. Widget Lifecycle (Stateful)
+This is why `count` doesn't reset to zero every time your screen updates.
 
-The journey of a `StatefulWidget` from insertion to removal:
+### Performance
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121525108-9baf1a00-ca15-11eb-9d48-a93d9bc7fdfd.png" alt="Widget life cycle"/>
-</p>
+When you mark a widget as `const`, you're telling Flutter two things:
 
-1.  **`createState()`**: Immediately called to create the state object.
-2.  **`initState()`**: First method called after creation. Perfect for one-time setup.
-3.  **`didChangeDependencies()`**: Called when dependencies (like Theme or Locale) change.
-4.  **`build()`**: Called every time the UI needs to be rendered.
-5.  **`didUpdateWidget()`**: Called if the parent widget is rebuilt and sends new data.
-6.  **`dispose()`**: Called when the widget is removed permanently. Used to clear controllers/listeners.
+1. This widget will **never change**
+2. It can be **shared** - there's no need to create a new instance every rebuild
 
-> [!NOTE]
-> Read more: [Life cycle in flutter - StackOverflow](https://stackoverflow.com/questions/41479255/life-cycle-in-flutter)
+```dart
+// Without const - new instance created on every rebuild
+child: Text('Hello')
 
-### 2. App Lifecycle
+// With const - same instance reused forever, rebuild skipped entirely
+child: const Text('Hello')
+```
 
-How the app responds to system-level events (backgrounded, resumed, etc.):
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121525097-98b42980-ca15-11eb-8844-7dc77ad26c14.png" alt="App life cycle"/>
-</p>
-
-- **`Resumed`**: App is visible and responding to user input.
-- **`Inactive`**: App is in a transition state (e.g., incoming call).
-- **`Paused`**: App is in the background.
-- **`Detached`**: The engine is detached from any views.
-
-> [!NOTE]
-> Read more: [Flutter App Life cycle - Medium](https://medium.com/pharos-production/flutter-app-lifecycle-4b0ab4a4211a)
-
-## Core Concepts
-
-### BuildContext
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121525101-99e55680-ca15-11eb-9c39-c7161f5eda13.png" alt="BuildContext"/>
-</p>
-
-**`BuildContext` is technically the `Element`** presiding over a widget. It represents a widget's location in the tree and is used to:
-
-- **Interact with parents**: Look up data like `Theme.of(context)` or `Navigator.of(context)`.
-- **Get positioning**: Once rendered, get the screen size and position of the widget.
-
-### Keys
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/121525104-9a7ded00-ca15-11eb-9d3d-b15361f58b1b.png" alt="Keys"/>
-</p>
-
-Keys help Flutter identify which widgets have changed. They are essential when reordering collections of stateful widgets.
-
-- **`LocalKey`**: Differentiate widgets among siblings (e.g., `ValueKey`).
-- **`GlobalKey`**: Access a child's state from a parent or move a widget across the entire app tree without losing state.
+Flutter sees a `const` widget and skips the comparison step entirely. It already knows nothing changed - there's nothing to diff.
 
 > [!TIP]
-> Watch: [When to use Keys - Flutter (Google)](https://youtu.be/kn0EOS-ZiIc)
+> `const` is one of the easiest performance wins in Flutter. Use it on any widget whose content never changes - static labels, icons, padding, decorations. In large apps or complex animations, this adds up significantly.
+
+### Lifecycles
+
+#### 1. StatefulWidget Lifecycle
+
+A `StatefulWidget` goes through a predictable series of stages from the moment it appears on screen to the moment it's removed.
+
+**`createState()`**
+Called immediately when the widget is inserted into the tree. Creates the State object that will live alongside the Element.
+
+**`initState()`**
+Called once, right after the State is created. This is where you do one-time setup - initializing controllers, subscribing to streams, making your first API call.
+
+```dart
+@override
+void initState() {
+  super.initState();
+  _controller = AnimationController(vsync: this);
+}
+```
+
+**`didChangeDependencies()`**
+Called after `initState()` and whenever something your widget depends on changes - like the app's Theme or Locale.
+
+**`build()`**
+Called every time the UI needs to render. This is the method that returns your widget tree. Keep it fast and free of side effects - it can be called many times.
+
+**`didUpdateWidget()`**
+Called when the parent widget rebuilds and passes new data down. Useful for reacting to prop changes.
+
+**`dispose()`**
+Called when the widget is permanently removed from the tree. This is where you clean up - cancel subscriptions, dispose controllers, clear listeners. Forgetting this is one of the most common causes of memory leaks in Flutter.
+
+```dart
+@override
+void dispose() {
+  _controller.dispose(); // always clean up
+  super.dispose();
+}
+```
+
+The full journey looks like this:
+
+```
+Insert into tree
+      │
+  createState()
+      │
+  initState()          <- one-time setup
+      │
+  didChangeDependencies()
+      │
+  build()              <- renders UI
+      │
+      ├── setState() called -> build() again
+      │
+      ├── parent rebuilds -> didUpdateWidget() -> build() again
+      │
+  dispose()            <- removed from tree, clean up here
+```
+
+#### 2. App Lifecycle
+
+Flutter also exposes the app's own lifecycle - how it responds when the user backgrounds it, gets a phone call, or closes it entirely.
+
+**`resumed`** - App is visible and in the foreground. The user is actively using it.
+
+**`inactive`** - App is partially obscured - incoming call, switching apps, etc. The app is still running but not receiving user input.
+
+**`paused`** - App is in the background. It's still alive in memory but not visible. Good place to pause expensive operations.
+
+**`detached`** - The Flutter engine is running but not attached to any view. This happens just before the app is fully terminated.
+
+```
+User opens app      ->  resumed
+Incoming call       ->  inactive
+User backgrounds    ->  paused
+User closes app     ->  paused -> detached
+User returns        ->  resumed
+```
+
+To listen to these changes, mix in `WidgetsBindingObserver` and override `didChangeAppLifecycleState()`.
 
 ---
+
+### Core Concepts
+
+#### BuildContext
+
+`BuildContext` sounds abstract but it's actually simple - **it's just the Element for that widget.**
+
+Every `build()` method receives a `context` parameter. That context is the widget's Element, and it represents the widget's **position in the tree**. This is why you can use it to look up things above you:
+
+```dart
+// These all climb UP the tree to find what they need
+Theme.of(context)        // finds the nearest Theme
+Navigator.of(context)    // finds the nearest Navigator
+MediaQuery.of(context)   // finds the nearest MediaQuery
+```
+
+A common mistake beginners make is using a `context` that belongs to a widget that's too high in the tree - before the thing you're looking for has been inserted. If you ever see a "could not find ancestor" error, this is usually why.
+
+#### Keys
+
+By default, when Flutter compares old and new widgets, it only checks the **type**. Two `Text` widgets are considered the same position in the tree - even if they represent completely different items.
+
+This becomes a problem when you have a **list of stateful widgets** and you reorder them:
+
+```dart
+// Flutter sees: Text, Text, Text
+// It has no idea which Text moved where
+// State gets attached to the wrong widget
+Column(children: [TextBox(), TextBox(), TextBox()])
+```
+
+Keys solve this by giving each widget a **stable identity** that survives reordering.
+
+```dart
+Column(children: [
+  TextBox(key: ValueKey('a')),
+  TextBox(key: ValueKey('b')),
+  TextBox(key: ValueKey('c')),
+])
+```
+
+Now Flutter knows exactly which widget is which - even after reordering.
+
+**`LocalKey`** - identifies a widget among its siblings. Use `ValueKey` (based on a value like an ID) or `ObjectKey` (based on an object reference).
+
+**`GlobalKey`** - identifies a widget across the entire tree. Lets you access a widget's State from anywhere, or move a widget to a completely different part of the tree without losing its State. Use sparingly - overusing GlobalKeys is a common source of bugs.
+
+> [!TIP]
+> A good rule of thumb - if you have a list of stateful widgets that can be reordered, filtered, or removed, always give them keys.
 
 ## Further Reading
 
 - [Inside Flutter](https://flutter.dev/docs/resources/inside-flutter)
-- [Keys! What are they good for?](https://medium.com/flutter/keys-what-are-they-good-for-13cb51742e7d)

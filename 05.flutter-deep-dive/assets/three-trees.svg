@@ -13,8 +13,8 @@
   <rect width="1200" height="280" fill="#0f1117" rx="16"/>
 
   <!-- ══════════════════════════════════════
-       BOX 1 — Widget Tree
-       translate(24, 24) — move box here
+       BOX 1 - Widget Tree
+       translate(24, 24) - move box here
        everything inside uses local coords
   ═══════════════════════════════════════ -->
   <g transform="translate(24, 24)">
@@ -46,7 +46,7 @@
   </g>
 
   <!-- ══════════════════════════════════════
-       BOX 2 — Element Tree
+       BOX 2 - Element Tree
        translate(454, 24)
   ═══════════════════════════════════════ -->
   <g transform="translate(454, 24)">
@@ -76,7 +76,7 @@
   </g>
 
   <!-- ══════════════════════════════════════
-       BOX 3 — Render Object Tree
+       BOX 3 - Render Object Tree
        translate(884, 24)
   ═══════════════════════════════════════ -->
   <g transform="translate(884, 24)">
