@@ -1,6 +1,6 @@
 # Dart and Flutter Basics
 
-In this module, we explore the dart fundamentals and the core building blocks of Flutter development, from the syntax of Dart to the complex directory structures that make up a cross-platform application.
+In this section, we'll go through the basics of Dart and understand the folder structure you'll need for Flutter development.
 
 ## Dart
 

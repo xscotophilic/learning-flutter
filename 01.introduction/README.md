@@ -1,6 +1,6 @@
 # Introduction
 
-In this module, we will create our very first Flutter application, understand the basic project structure, and dissect the famous "Hello World" example.
+We're going to start by building a simple "Hello World" app and then see how the Flutter project is actually structured.
 
 Before we start, if you want to understand the basic concepts of Flutter, please read the [About Flutter](./about-flutter.md) document.
 

@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         if (kIsWeb ? false : Platform.isIOS)
           CupertinoSwitch(value: _showChart, onChanged: _toggleShowChart)
         else
-          Switch.adaptive(value: _showChart, onChanged: _toggleShowChart),
+          Switch(value: _showChart, onChanged: _toggleShowChart),
       ],
     );
   }

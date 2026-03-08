@@ -1,6 +1,6 @@
 # Widgets
 
-In Flutter, "everything is a widget." From a simple piece of text to a complex layout, widgets are the fundamental building blocks used to construct your application's user interface.
+Everything in Flutter is a widget. We'll look at the most common widgets and see how they're used to build layouts.
 
 ## Core Widgets
 
@@ -93,7 +93,7 @@ Capture user input and touch events using these specialized widgets:
 
 ## Styling & Decoration
 
-By applying styles and decoration to widgets, we can make our widgets look and feel like it belongs in the app.
+We can use styles and decoration to make our widgets look consistent with the rest of the app.
 
 ### The Box Model
 
