@@ -130,7 +130,7 @@ void main() {
   apply("David", greet); // Hello, David!
 
   // NOTE: We pass a function reference (without parentheses)
-  // because we want it to run later—like when the user clicks a button.
+  // because we want it to run later-like when the user clicks a button.
   // If we added (), it would run immediately during compilation, which we don't want.
 
   // Use anonymous arrow function

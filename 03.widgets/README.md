@@ -177,12 +177,12 @@ Understand the difference between **`StatelessWidget`** (static UI) and **`State
 
 ## The "Expenses App"
 
-The `expenses` folder contains a complete project that puts all the concepts from this module into practice — from widget composition and styling to stateful UI and custom data models.
+The `expenses` folder contains a complete project that puts all the concepts from this module into practice - from widget composition and styling to stateful UI and custom data models.
 
 ### What you'll learn from it:
 
 - **`StatefulWidget` & `setState`**: The home page (`MyHomePage`) manages a live list of transactions. Adding or deleting an item calls `setState`, triggering a UI rebuild.
-- **Custom Data Models**: The `Transaction` class (in `lib/models/`) is an `@immutable` data model with `id`, `title`, `amount`, and `date` fields — a clean way to structure app data.
+- **Custom Data Models**: The `Transaction` class (in `lib/models/`) is an `@immutable` data model with `id`, `title`, `amount`, and `date` fields - a clean way to structure app data.
 - **Custom Widgets & Decomposition**: The UI is broken into focused, reusable widgets:
   - **`Chart`**: Displays a 7-day spending bar chart by grouping transactions per day.
   - **`ChartBar`**: A single bar in the chart, driven by a percentage of total weekly spending.
