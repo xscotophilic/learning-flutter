@@ -4,15 +4,14 @@ import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:appetite_assorted/widgets/meal/meal_item_card.dart';
 
-// Base widget for category screen.
 class CategoryMeals extends StatefulWidget {
-  static const routeName = '/category-meals';
+  const CategoryMeals({super.key, required this.availableMeals});
 
+  static const routeName = '/category-meals';
   final List<Meal> availableMeals;
-  CategoryMeals(this.availableMeals);
 
   @override
-  _CategoryMealsState createState() => _CategoryMealsState();
+  State<CategoryMeals> createState() => _CategoryMealsState();
 }
 
 class _CategoryMealsState extends State<CategoryMeals> {

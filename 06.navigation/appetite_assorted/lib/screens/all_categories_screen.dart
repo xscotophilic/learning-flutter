@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:appetite_assorted/data.dart';
 import 'package:appetite_assorted/widgets/categories/category_card.dart';
 
-// Mapping all categories on screen
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({Key? key}) : super(key: key);
+  const CategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +17,13 @@ class CategoriesScreen extends StatelessWidget {
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
         ),
-        children: FOOD_CATEGORIES
+        children: foodCategories
             .map(
               (category) => CategoryCardMain(
-                category.id,
-                category.title,
-                category.color,
-                AssetImage(category.image),
+                id: category.id,
+                title: category.title,
+                color: category.color,
+                image: AssetImage(category.image),
               ),
               // CategoryCardMain
             )

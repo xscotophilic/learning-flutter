@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class mealMainMdetail extends StatelessWidget {
-  final int duration;
-  final String name;
+class MainMealDetails extends StatelessWidget {
+  const MainMealDetails({
+    super.key,
+    required this.name,
+    required this.duration,
+  });
 
-  const mealMainMdetail({required this.duration, required this.name});
+  final String name;
+  final int duration;
 
   @override
   Widget build(BuildContext context) {
@@ -15,24 +19,17 @@ class mealMainMdetail extends StatelessWidget {
     );
   }
 
-  Container durationTag(BuildContext context, {required int duration}) {
-    return Container(
-      // padding: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            "assets/icons/meals/time.svg",
-            width: 20,
-            height: 20,
-          ),
-          SizedBox(width: 10),
-          Text(
-            "$duration Mins recipe",
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        ],
-      ),
+  Widget durationTag(BuildContext context, {required int duration}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset("assets/icons/meals/time.svg", width: 20, height: 20),
+        SizedBox(width: 10),
+        Text(
+          "$duration Mins recipe",
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ],
     );
   }
 }

@@ -4,18 +4,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:appetite_assorted/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
+  const FiltersScreen({
+    super.key,
+    required this.setFiltersHandler,
+    required this.currentFilters,
+  });
+
   static const routeName = '/filters';
 
   final Map<String, bool> currentFilters;
   final Function setFiltersHandler;
-  const FiltersScreen({
-    Key? key,
-    required this.setFiltersHandler,
-    required this.currentFilters,
-  }) : super(key: key);
 
   @override
-  _FiltersScreenState createState() => _FiltersScreenState();
+  State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {

@@ -1,26 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/data.dart';
 import 'package:appetite_assorted/widgets/meal/meal_details.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  static const routeName = '/meal-details';
-  final Function toggleFavouritesHandler;
-  final Function isMealFav;
   const MealDetailScreen({
-    Key? key,
-    required this.toggleFavouritesHandler,
+    super.key,
     required this.isMealFav,
-  }) : super(key: key);
+    required this.toggleFavouritesHandler,
+  });
+
+  static const routeName = '/meal-details';
+  final Function isMealFav;
+  final Function toggleFavouritesHandler;
 
   @override
   Widget build(BuildContext context) {
     final mealID = ModalRoute.of(context)!.settings.arguments as String;
-    final selectedMeal = FOOD_MEALS.firstWhere((meal) => meal.id == mealID);
+    final selectedMeal = foodMeals.firstWhere((meal) => meal.id == mealID);
     return Scaffold(
       appBar: buildAppBar(context, selectedMeal.title),
-      body: MealDetails(selectedMeal),
+      body: MealDetails(meal: selectedMeal),
       // bottomNavigationBar: BottomNavBar(),
       floatingActionButton: FloatingActionButton(
         child: Icon(isMealFav(mealID) ? Icons.favorite : Icons.favorite_border),

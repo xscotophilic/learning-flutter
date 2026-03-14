@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -7,33 +6,29 @@ import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/screens/meal_detail_screen.dart';
 
 class MealCard extends StatelessWidget {
+  const MealCard({super.key, required this.meal});
+
   final Meal meal;
 
-  MealCard({required this.meal});
-
-  String get complexityText {
+  String get _complexityText {
     switch (meal.complexity) {
-      case Complexity.Simple:
+      case Complexity.simple:
         return 'Simple';
-      case Complexity.Challenging:
+      case Complexity.challenging:
         return 'Challenging';
-      case Complexity.Hard:
+      case Complexity.hard:
         return 'Hard';
-      default:
-        return 'Unknown';
     }
   }
 
-  String get affordabilityText {
+  String get _affordabilityText {
     switch (meal.affordability) {
-      case Affordability.Affordable:
+      case Affordability.affordable:
         return 'Affordable';
-      case Affordability.Luxurious:
+      case Affordability.luxurious:
         return 'Luxurious';
-      case Affordability.Pricey:
+      case Affordability.pricey:
         return 'Pricey';
-      default:
-        return 'Unknown';
     }
   }
 
@@ -77,13 +72,13 @@ class MealCard extends StatelessWidget {
                     buildInfoRow(
                       defaultSize,
                       iconSrc: "assets/icons/meals/complexity.svg",
-                      text: "${complexityText}",
+                      text: _complexityText,
                     ),
                     SizedBox(height: defaultSize * 0.7), //5
                     buildInfoRow(
                       defaultSize,
                       iconSrc: "assets/icons/meals/money.svg",
-                      text: "${affordabilityText}",
+                      text: _affordabilityText,
                     ),
                     Spacer(),
                   ],

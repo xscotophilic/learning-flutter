@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ItemImage extends StatelessWidget {
-  final String imgSrc;
+  const ItemImage({super.key, required this.imgSrc});
 
-  const ItemImage({required this.imgSrc});
+  final String imgSrc;
 
   @override
   Widget build(BuildContext context) {

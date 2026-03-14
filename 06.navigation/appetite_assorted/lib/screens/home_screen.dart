@@ -7,11 +7,12 @@ import 'package:appetite_assorted/screens/all_categories_screen.dart';
 import 'package:appetite_assorted/screens/favorites_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.favouriteMeals});
+
   final List<Meal> favouriteMeals;
-  const HomeScreen({Key? key, required this.favouriteMeals}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     _pages = [
       {
         'title': 'Categories',
@@ -32,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'Favorites',
       },
     ];
-    super.initState();
   }
 
   void _selectPage(int index) {

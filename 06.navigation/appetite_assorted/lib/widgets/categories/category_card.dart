@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appetite_assorted/app_consts.dart';
@@ -6,12 +5,18 @@ import 'package:appetite_assorted/widgets/categories/custom_clipper.dart';
 import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
 
 class CategoryCardMain extends StatelessWidget {
+  const CategoryCardMain({
+    super.key,
+    required this.id,
+    required this.title,
+    required this.color,
+    required this.image,
+  });
+
   final String id;
   final String title;
   final Color color;
   final ImageProvider image;
-
-  CategoryCardMain(this.id, this.title, this.color, this.image);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +29,15 @@ class CategoryCardMain extends StatelessWidget {
                 (AppConstants.defaultPadding * 2 +
                     AppConstants.defaultPadding / 2)) /
             2),
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           shape: BoxShape.rectangle,
           color: color,
         ),
         child: Material(
+          color: Colors.transparent,
           child: InkWell(
-            onTap: () => SelectCategory(context),
+            onTap: () => selectCategory(context),
             splashColor: Theme.of(context).primaryColor,
             child: Stack(
               clipBehavior: Clip.hardEdge,
@@ -40,9 +46,9 @@ class CategoryCardMain extends StatelessWidget {
                   child: ClipPath(
                     clipper: MyCustomClipper(ClipType.semiCircle),
                     child: Container(
-                      decoration: new BoxDecoration(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        color: Colors.black.withOpacity(0.04),
+                        color: Colors.black.withAlpha(10),
                       ),
                       height: 120,
                       width: 120,
@@ -79,13 +85,12 @@ class CategoryCardMain extends StatelessWidget {
               ],
             ),
           ),
-          color: Colors.transparent,
         ),
       ),
     );
   }
 
-  void SelectCategory(BuildContext context) {
+  void selectCategory(BuildContext context) {
     Navigator.of(
       context,
     ).pushNamed(CategoryMeals.routeName, arguments: {'id': id, 'title': title});

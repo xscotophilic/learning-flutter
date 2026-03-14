@@ -6,7 +6,7 @@ import 'package:appetite_assorted/models/meal.dart';
 const Color _pink = Color(0xFFffcad4);
 const Color _blue = Color(0xFF8acdea);
 
-const FOOD_CATEGORIES = const [
+const foodCategories = [
   Category(
     id: 'c1',
     title: 'Italian',
@@ -69,18 +69,18 @@ const FOOD_CATEGORIES = const [
   ),
 ];
 
-const FOOD_MEALS = const [
+const foodMeals = [
   Meal(
     id: 'm1',
-    categories: ['c1', 'c2'],
     title: 'Spaghetti with Tomato Sauce',
-    affordability: Affordability.Affordable,
-    complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798854-4dcd2880-cc46-11eb-8e60-afc484e667d2.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121798854-4dcd2880-cc46-11eb-8e60-afc484e667d2.png',
+    categories: ['c1', 'c2'],
     duration: 20,
+    complexity: Complexity.simple,
+    affordability: Affordability.affordable,
     ingredients: [
       '4 Tomatoes',
       '1 Tablespoon of Olive Oil',
@@ -105,15 +105,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm2',
-    categories: ['c2'],
     title: 'Toast Hawaii',
-    affordability: Affordability.Affordable,
-    complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121797824-502c8400-cc40-11eb-8d7b-6b1a3df4aed2.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797824-502c8400-cc40-11eb-8d7b-6b1a3df4aed2.png',
+    categories: ['c2'],
     duration: 10,
+    complexity: Complexity.simple,
+    affordability: Affordability.affordable,
     ingredients: [
       '1 Slice White Bread',
       '1 Slice Ham',
@@ -133,15 +133,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm3',
-    categories: ['c2', 'c10'],
     title: 'Classic Hamburger',
-    affordability: Affordability.Pricey,
-    complexity: Complexity.Simple,
+    categories: ['c2', 'c10'],
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798842-47d74780-cc46-11eb-9593-de41bdc7268c.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797814-4acf3980-cc40-11eb-9fba-cb205268883d.png',
     duration: 45,
+    complexity: Complexity.simple,
+    affordability: Affordability.pricey,
     ingredients: [
       '300g Cattle Hack',
       '1 Tomato',
@@ -164,15 +164,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm4',
-    categories: ['c4'],
     title: 'Wiener Schnitzel',
-    affordability: Affordability.Luxurious,
-    complexity: Complexity.Challenging,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/122035834-827ce380-cdf0-11eb-8e1d-e01af8fde950.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/122035834-827ce380-cdf0-11eb-8e1d-e01af8fde950.png',
+    categories: ['c4'],
     duration: 60,
+    complexity: Complexity.challenging,
+    affordability: Affordability.luxurious,
     ingredients: [
       '8 Veal Cutlets',
       '4 Eggs',
@@ -184,7 +184,7 @@ const FOOD_MEALS = const [
       'Lemon Slices',
     ],
     steps: [
-      'Tenderize the veal to about 2–4mm, and salt on both sides.',
+      'Tenderize the veal to about 2-4mm, and salt on both sides.',
       'On a flat plate, stir the eggs briefly with a fork.',
       'Lightly coat the cutlets in flour then dip into the egg, and finally, coat in breadcrumbs.',
       'Heat the butter and oil in a large pan (allow the fat to get very hot) and fry the schnitzels until golden brown on both sides.',
@@ -199,15 +199,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm5',
-    categories: ['c2', 'c5', 'c3'],
     title: 'Salad with Smoked Salmon',
-    affordability: Affordability.Luxurious,
-    complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798853-4d349200-cc46-11eb-8d64-2201be7c3979.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797822-4efb5700-cc40-11eb-8aca-331ca98176bc.png',
+    categories: ['c2', 'c5', 'c3'],
     duration: 15,
+    complexity: Complexity.simple,
+    affordability: Affordability.luxurious,
     ingredients: [
       'Arugula',
       'Lamb\'s Lettuce',
@@ -233,15 +233,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm6',
-    categories: ['c6', 'c3'],
     title: 'Delicious Orange Mousse',
-    affordability: Affordability.Affordable,
-    complexity: Complexity.Hard,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798851-4c036500-cc46-11eb-908d-07887fc3b203.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797820-4dca2a00-cc40-11eb-977a-6565603d83cc.png',
+    categories: ['c6', 'c3'],
     duration: 240,
+    complexity: Complexity.hard,
+    affordability: Affordability.affordable,
     ingredients: [
       '4 Sheets of Gelatine',
       '150ml Orange Juice',
@@ -268,15 +268,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm7',
-    categories: ['c7'],
     title: 'Pancakes',
-    affordability: Affordability.Affordable,
-    complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798852-4c9bfb80-cc46-11eb-927c-16d7e8241f69.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797821-4e62c080-cc40-11eb-93c2-42c6b7dba41c.png',
+    categories: ['c7'],
     duration: 20,
+    complexity: Complexity.simple,
+    affordability: Affordability.affordable,
     ingredients: [
       '1 1/2 Cups all-purpose Flour',
       '3 1/2 Teaspoons Baking Powder',
@@ -299,15 +299,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm8',
-    categories: ['c8'],
     title: 'Creamy Indian Chicken Curry',
-    affordability: Affordability.Pricey,
-    complexity: Complexity.Challenging,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798847-4a39a180-cc46-11eb-9792-032b1793f407.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797815-4c98fd00-cc40-11eb-994f-45caa8ec5913.png',
+    categories: ['c8'],
     duration: 35,
+    complexity: Complexity.challenging,
+    affordability: Affordability.pricey,
     ingredients: [
       '4 Chicken Breasts',
       '1 Onion',
@@ -332,15 +332,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm9',
-    categories: ['c9'],
     title: 'Chocolate Souffle',
-    affordability: Affordability.Affordable,
-    complexity: Complexity.Hard,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121797817-4d319380-cc40-11eb-9b66-8727f710f2ea.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/121797817-4d319380-cc40-11eb-9b66-8727f710f2ea.png',
+    categories: ['c9'],
     duration: 45,
+    complexity: Complexity.hard,
+    affordability: Affordability.affordable,
     ingredients: [
       '1 Teaspoon melted Butter',
       '2 Tablespoons white Sugar',
@@ -381,15 +381,15 @@ const FOOD_MEALS = const [
   ),
   Meal(
     id: 'm10',
-    categories: ['c2', 'c5', 'c3'],
     title: 'Asparagus Salad with Cherry Tomatoes',
-    affordability: Affordability.Luxurious,
-    complexity: Complexity.Simple,
     imageURL:
         'https://user-images.githubusercontent.com/47301282/121798432-f1690980-cc43-11eb-9703-c4c64a38dfcb.png',
     mainPageImageURL:
         'https://user-images.githubusercontent.com/47301282/122035825-7e50c600-cdf0-11eb-87fe-a25f759c6df8.png',
+    categories: ['c2', 'c5', 'c3'],
     duration: 30,
+    complexity: Complexity.simple,
+    affordability: Affordability.luxurious,
     ingredients: [
       'White and Green Asparagus',
       '30g Pine Nuts',

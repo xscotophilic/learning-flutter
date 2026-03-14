@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -27,14 +27,14 @@ class _MyAppState extends State<MyApp> {
     'isLactoseFree': false,
   };
 
-  List<Meal> _availableMeals = FOOD_MEALS;
-  List<Meal> _favouriteMeals = [];
+  List<Meal> _availableMeals = foodMeals;
+  final List<Meal> _favouriteMeals = [];
 
   void _setFilters(Map<String, bool> filteredData) {
     setState(() {
       _filters = filteredData;
 
-      _availableMeals = FOOD_MEALS.where((meal) {
+      _availableMeals = foodMeals.where((meal) {
         if (_filters['isGlutenFree']! && !meal.isGlutenFree) {
           return false;
         }
@@ -61,7 +61,8 @@ class _MyAppState extends State<MyApp> {
 
       home: HomeScreen(favouriteMeals: _favouriteMeals), // Home page
       routes: {
-        CategoryMeals.routeName: (ctx) => CategoryMeals(_availableMeals),
+        CategoryMeals.routeName: (ctx) =>
+            CategoryMeals(availableMeals: _availableMeals),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(
           toggleFavouritesHandler: _toggleFavourites,
           isMealFav: _isMealFav,
@@ -89,7 +90,7 @@ class _MyAppState extends State<MyApp> {
       });
     } else {
       setState(() {
-        _favouriteMeals.add(FOOD_MEALS.firstWhere((meal) => meal.id == mealID));
+        _favouriteMeals.add(foodMeals.firstWhere((meal) => meal.id == mealID));
       });
     }
   }
