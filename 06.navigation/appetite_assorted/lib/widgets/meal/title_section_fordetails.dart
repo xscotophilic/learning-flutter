@@ -29,7 +29,7 @@ class mealMainMdetail extends StatelessWidget {
           SizedBox(width: 10),
           Text(
             "$duration Mins recipe",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ],
       ),

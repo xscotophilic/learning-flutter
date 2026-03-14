@@ -45,7 +45,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               padding: EdgeInsets.all(20),
               child: Text(
                 'Adjust your meal selection!',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Expanded(
@@ -100,7 +100,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
           icon: SvgPicture.asset(
             "assets/icons/menu.svg",
             colorFilter: ColorFilter.mode(
-              Theme.of(context).colorScheme.secondary,
+              Theme.of(context).colorScheme.onSurface,
               BlendMode.srcIn,
             ),
           ),

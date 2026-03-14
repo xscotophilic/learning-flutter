@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Appetite Assorted',
 
-      theme: AppConstants.lighTheme(context),
+      theme: AppConstants.lightTheme(context),
 
       home: HomeScreen(favouriteMeals: _favouriteMeals), // Home page
       routes: {

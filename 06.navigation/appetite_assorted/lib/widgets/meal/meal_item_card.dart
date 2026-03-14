@@ -46,7 +46,7 @@ class MealCard extends StatelessWidget {
       onTap: () => selectMeal(context, meal.id),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.onSurface,
           borderRadius: BorderRadius.circular(defaultSize * 1.8), //18
         ),
         child: Row(

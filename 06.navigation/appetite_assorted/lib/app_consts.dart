@@ -5,32 +5,30 @@ class AppConstants {
   static String appName = "Appetite Assorted";
 
   static final Color _primary = Color(0xff57cc99);
-  static final Color _darkgrey = Color(0xFF242423);
+  static final Color _onPrimary = Color(0xfffcfcff);
 
-  static final Color _lightAccent = Color(0xfffcfcff);
   static final Color _lightBackground = Color(0xfffcfcff);
-
-  static final Color _darkAccent = Color(0xFF3B72FF);
-  static final Color _darkBackground = Colors.black;
+  static final Color _darkBackground = Color(0xFF495057);
 
   static final double defaultPadding = 32.0;
 
-  static ThemeData lighTheme(BuildContext context) {
+  static ThemeData lightTheme(BuildContext context) {
     return ThemeData(
       colorScheme: ColorScheme.light(
         surface: _lightBackground,
+        onSurface: _darkBackground,
         primary: _primary,
-        secondary: _lightAccent,
+        onPrimary: _onPrimary,
       ),
       textTheme: ThemeData.light().textTheme.copyWith(
         titleLarge: TextStyle(fontSize: 18),
         titleMedium: TextStyle(fontSize: 16),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: _darkBackground,
-        foregroundColor: _lightAccent,
-        iconTheme: IconThemeData(color: _lightAccent),
-        titleTextStyle: TextStyle(fontSize: 24, color: _lightAccent),
+        backgroundColor: _primary,
+        foregroundColor: _onPrimary,
+        iconTheme: IconThemeData(color: _onPrimary),
+        titleTextStyle: TextStyle(fontSize: 24, color: _onPrimary),
       ),
       scaffoldBackgroundColor: _lightBackground,
     );
@@ -40,21 +38,22 @@ class AppConstants {
     return ThemeData(
       colorScheme: ColorScheme.light(
         surface: _darkBackground,
+        onSurface: _lightBackground,
         primary: _primary,
-        secondary: _darkAccent,
+        onPrimary: _onPrimary,
       ),
       textTheme: ThemeData.light().textTheme.copyWith(
-        titleLarge: TextStyle(fontSize: 18),
-        titleMedium: TextStyle(fontSize: 16),
+        titleLarge: TextStyle(fontSize: 24),
+        titleMedium: TextStyle(fontSize: 20),
+        titleSmall: TextStyle(fontSize: 16),
       ),
-
       appBarTheme: AppBarTheme(
-        backgroundColor: _lightBackground,
-        foregroundColor: _darkAccent,
-        iconTheme: IconThemeData(color: _darkAccent),
-        titleTextStyle: TextStyle(fontSize: 24, color: _darkAccent),
+        backgroundColor: _primary,
+        foregroundColor: _onPrimary,
+        iconTheme: IconThemeData(color: _onPrimary),
+        titleTextStyle: TextStyle(fontSize: 24, color: _onPrimary),
       ),
-      canvasColor: _darkgrey,
+      canvasColor: _darkBackground,
       scaffoldBackgroundColor: _darkBackground,
     );
   }

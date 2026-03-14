@@ -21,29 +21,27 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _pages = [
-      {'page': CategoriesScreen(), 'title': 'Categories'},
+      {
+        'title': 'Categories',
+        'icon': Icons.category,
+        'page': CategoriesScreen(),
+      },
       {
         'page': FavoritesScreen(favouriteMeals: widget.favouriteMeals),
+        'icon': Icons.favorite,
         'title': 'Favorites',
       },
     ];
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: buildAppBar(context),
-        drawer: MainDrawer(),
-        bottomNavigationBar: buildbottomNavigationBar(context),
-        body: _pages[_selectedPageIndex]['page'] as Widget,
-      ),
-    );
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
   }
 
-  AppBar buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       leading: Builder(
@@ -51,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: SvgPicture.asset(
             "assets/icons/menu.svg",
             colorFilter: ColorFilter.mode(
-              Theme.of(context).colorScheme.secondary,
+              Theme.of(context).colorScheme.onPrimary,
               BlendMode.srcIn,
             ),
           ),
@@ -62,27 +60,55 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
-    _pages[index];
+  Widget _buildbottomNavigationBar(BuildContext context) {
+    return ColoredBox(
+      color: Theme.of(context).colorScheme.primary,
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 8),
+          child: Row(
+            children: List.generate(_pages.length, (index) {
+              return _buildNavBarItem(context, index);
+            }),
+          ),
+        ),
+      ),
+    );
   }
 
-  BottomNavigationBar buildbottomNavigationBar(BuildContext context) {
-    return BottomNavigationBar(
-      backgroundColor: Theme.of(context).primaryColor,
-      unselectedItemColor: Colors.white70,
-      selectedItemColor: Theme.of(context).colorScheme.secondary,
-      currentIndex: _selectedPageIndex,
-      onTap: _selectPage,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.category),
-          label: 'Categories',
+  Widget _buildNavBarItem(BuildContext context, int index) {
+    final item = _pages[index];
+    final icon = item['icon'] as IconData;
+    final label = item['title'] as String;
+    final isSelected = _selectedPageIndex == index;
+    final color = isSelected
+        ? Theme.of(context).colorScheme.onPrimary
+        : Theme.of(context).colorScheme.onPrimary.withAlpha(170);
+
+    return Expanded(
+      child: InkWell(
+        onTap: () => _selectPage(index),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color),
+            Text(label, style: TextStyle(color: color)),
+          ],
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-      ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        drawer: MainDrawer(),
+        bottomNavigationBar: _buildbottomNavigationBar(context),
+        body: _pages[_selectedPageIndex]['page'] as Widget,
+      ),
     );
   }
 }

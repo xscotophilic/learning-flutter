@@ -62,7 +62,12 @@ class CategoryCardMain extends StatelessWidget {
                           Expanded(
                             child: Text(
                               title,
-                              style: Theme.of(context).textTheme.titleMedium,
+                              style: Theme.of(context).textTheme.titleSmall
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.surface,
+                                  ),
                             ),
                           ),
                         ],

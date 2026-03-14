@@ -6,33 +6,33 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Drawer(
-        elevation: 0,
+    final theme = Theme.of(context);
+
+    return Drawer(
+      elevation: 0,
+      child: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(20),
-              alignment: Alignment.center,
-              child: Column(
-                children: [
-                  Text(
-                    'Appetite Assorted',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                ],
+            SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Appetite Assorted',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: theme.colorScheme.onSurface,
+                ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 12),
             buildListTile(
-              context: context,
+              theme: theme,
               title: 'Meals',
               icon: Icons.restaurant,
               tapHandler: () => Navigator.of(context).pushReplacementNamed('/'),
             ),
             buildListTile(
-              context: context,
+              theme: theme,
               title: 'Filters',
               icon: Icons.filter,
               tapHandler: () => Navigator.of(
@@ -52,21 +52,17 @@ class MainDrawer extends StatelessWidget {
   }
 
   ListTile buildListTile({
-    required BuildContext context,
+    required ThemeData theme,
     required String title,
     required IconData icon,
     required Function tapHandler,
   }) {
     return ListTile(
-      leading: Icon(
-        icon,
-        size: 24,
-        color: Theme.of(context).colorScheme.secondary,
-      ),
+      leading: Icon(icon, size: 24, color: theme.colorScheme.onSurface),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          color: Theme.of(context).colorScheme.secondary,
+        style: theme.textTheme.titleMedium?.copyWith(
+          color: theme.colorScheme.onSurface,
         ),
       ),
       onTap: () => tapHandler(),
