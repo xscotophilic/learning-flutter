@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 enum ClipType { bottom, semiCircle, halfCircle, multiple }
 
 class MyCustomClipper extends CustomClipper<Path> {
-  ClipType clipType;
+  const MyCustomClipper(this.clipType);
 
-  MyCustomClipper(this.clipType);
+  final ClipType clipType;
 
   @override
   getClip(Size size) {
@@ -98,7 +98,7 @@ class MyCustomClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(CustomClipper oldClipper) {
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
     return true;
   }
 }

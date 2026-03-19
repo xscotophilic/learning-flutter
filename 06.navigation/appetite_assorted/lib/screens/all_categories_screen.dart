@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'package:appetite_assorted/data.dart';
 import 'package:appetite_assorted/widgets/categories/category_card.dart';
+import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -11,7 +10,7 @@ class CategoriesScreen extends StatelessWidget {
     return Center(
       child: GridView(
         padding: const EdgeInsets.all(30),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
           childAspectRatio: 3 / 2,
           crossAxisSpacing: 20,

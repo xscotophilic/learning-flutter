@@ -1,15 +1,14 @@
-import 'package:flutter/material.dart';
-
-import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/app_consts.dart';
 import 'package:appetite_assorted/data.dart';
-import 'package:appetite_assorted/screens/home_screen.dart';
-import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
-import 'package:appetite_assorted/screens/meal_detail_screen.dart';
+import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/screens/filters_screen.dart';
+import 'package:appetite_assorted/screens/home_screen.dart';
+import 'package:appetite_assorted/screens/meal_detail_screen.dart';
+import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
+import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -20,35 +19,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Map<String, bool> _filters = {
-    'isGlutenFree': false,
-    'isVegan': false,
-    'isVegetarian': false,
-    'isLactoseFree': false,
+  Map<DietaryType, bool> _filters = {
+    DietaryType.glutenFree: false,
+    DietaryType.vegan: false,
+    DietaryType.vegetarian: false,
+    DietaryType.lactoseFree: false,
   };
 
-  List<Meal> _availableMeals = foodMeals;
+  List<Meal> _availableMeals = allMeals;
   final List<Meal> _favouriteMeals = [];
 
-  void _setFilters(Map<String, bool> filteredData) {
+  void _setFilters(Map<DietaryType, bool> filteredData) {
+    final activeFilters = filteredData.entries.where((f) => f.value).toList();
+
+    final filtered = allMeals.where((meal) {
+      for (final filter in activeFilters) {
+        if (!meal.dietaryTypes.contains(filter.key)) {
+          return false;
+        }
+      }
+      return true;
+    }).toList();
+
     setState(() {
       _filters = filteredData;
-
-      _availableMeals = foodMeals.where((meal) {
-        if (_filters['isGlutenFree']! && !meal.isGlutenFree) {
-          return false;
-        }
-        if (_filters['isVegan']! && !meal.isVegan) {
-          return false;
-        }
-        if (_filters['isLactoseFree']! && !meal.isLactoseFree) {
-          return false;
-        }
-        if (_filters['isVegetarian']! && !meal.isVegetarian) {
-          return false;
-        }
-        return true;
-      }).toList();
+      _availableMeals = filtered;
     });
   }
 
@@ -90,7 +85,7 @@ class _MyAppState extends State<MyApp> {
       });
     } else {
       setState(() {
-        _favouriteMeals.add(foodMeals.firstWhere((meal) => meal.id == mealID));
+        _favouriteMeals.add(allMeals.firstWhere((meal) => meal.id == mealID));
       });
     }
   }

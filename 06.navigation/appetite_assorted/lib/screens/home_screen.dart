@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/widgets/main_drawer.dart';
 import 'package:appetite_assorted/screens/all_categories_screen.dart';
 import 'package:appetite_assorted/screens/favorites_screen.dart';
+import 'package:appetite_assorted/widgets/main_drawer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.favouriteMeals});
@@ -26,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       {
         'title': 'Categories',
         'icon': Icons.category,
-        'page': CategoriesScreen(),
+        'page': const CategoriesScreen(),
       },
       {
         'page': FavoritesScreen(favouriteMeals: widget.favouriteMeals),
@@ -48,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       leading: Builder(
         builder: (context) => IconButton(
           icon: SvgPicture.asset(
-            "assets/icons/menu.svg",
+            'assets/icons/menu.svg',
             colorFilter: ColorFilter.mode(
               Theme.of(context).colorScheme.onPrimary,
               BlendMode.srcIn,
@@ -57,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
       ),
-      title: Text('Appetite Assorted'),
+      title: const Text('Appetite Assorted'),
     );
   }
 
@@ -66,7 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Theme.of(context).colorScheme.primary,
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 8),
+          padding: const EdgeInsets.only(
+            top: 16,
+            left: 16,
+            right: 16,
+            bottom: 8,
+          ),
           child: Row(
             children: List.generate(_pages.length, (index) {
               return _buildNavBarItem(context, index);
@@ -106,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
       length: 2,
       child: Scaffold(
         appBar: _buildAppBar(context),
-        drawer: MainDrawer(),
+        drawer: const MainDrawer(),
         bottomNavigationBar: _buildbottomNavigationBar(context),
         body: _pages[_selectedPageIndex]['page'] as Widget,
       ),

@@ -13,7 +13,7 @@ class ItemImage extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(color: Theme.of(context).colorScheme.onSurface),
       child: Container(
-        padding: EdgeInsets.only(top: 5, bottom: 15),
+        padding: const EdgeInsets.only(top: 5, bottom: 15),
         child: Image.network(
           imgSrc,
           height: size.height * 0.25,

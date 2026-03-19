@@ -23,10 +23,10 @@ class MainMealDetails extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset("assets/icons/meals/time.svg", width: 20, height: 20),
-        SizedBox(width: 10),
+        SvgPicture.asset('assets/icons/meals/time.svg', width: 20, height: 20),
+        const SizedBox(width: 10),
         Text(
-          "$duration Mins recipe",
+          '$duration Mins recipe',
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ],

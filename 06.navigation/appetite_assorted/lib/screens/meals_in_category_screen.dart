@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:appetite_assorted/widgets/meal/meal_item_card.dart';
+import 'package:appetite_assorted/widgets/meal/size_config.dart';
+import 'package:flutter/material.dart';
 
 class CategoryMeals extends StatefulWidget {
   const CategoryMeals({super.key, required this.availableMeals});

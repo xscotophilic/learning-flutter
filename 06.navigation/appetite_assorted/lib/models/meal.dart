@@ -2,6 +2,8 @@ enum Complexity { simple, challenging, hard }
 
 enum Affordability { affordable, pricey, luxurious }
 
+enum DietaryType { glutenFree, lactoseFree, vegetarian, vegan }
+
 class Meal {
   const Meal({
     required this.id,
@@ -14,10 +16,7 @@ class Meal {
     required this.affordability,
     required this.ingredients,
     required this.steps,
-    required this.isGlutenFree,
-    required this.isLactoseFree,
-    required this.isVegan,
-    required this.isVegetarian,
+    this.dietaryTypes = const [],
   });
 
   final String id;
@@ -34,8 +33,5 @@ class Meal {
   final List<String> ingredients;
   final List<String> steps;
 
-  final bool isGlutenFree;
-  final bool isLactoseFree;
-  final bool isVegan;
-  final bool isVegetarian;
+  final List<DietaryType> dietaryTypes;
 }

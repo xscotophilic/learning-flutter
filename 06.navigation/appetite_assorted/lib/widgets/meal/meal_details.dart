@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/widgets/meal/item_image.dart';
+import 'package:flutter/material.dart';
 
 class MealDetails extends StatelessWidget {
   const MealDetails({super.key, required this.meal});
@@ -27,7 +26,7 @@ class ItemInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       children: <Widget>[
         buildSectionTitle(context, 'Ingredients'),
         Column(
@@ -48,7 +47,7 @@ class ItemInfo extends StatelessWidget {
   Widget buildSectionTitle(BuildContext context, String title) {
     return Column(
       children: [
-        SizedBox(height: 9),
+        const SizedBox(height: 9),
         Center(
           child: Text(
             title,
@@ -58,7 +57,7 @@ class ItemInfo extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 9),
+        const SizedBox(height: 9),
       ],
     );
   }
@@ -72,7 +71,7 @@ class ItemInfo extends StatelessWidget {
           (item) => Column(
             children: [
               Text('\u2022 $item', style: TextStyle(fontSize: passfontSize)),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
             ],
           ),
         )

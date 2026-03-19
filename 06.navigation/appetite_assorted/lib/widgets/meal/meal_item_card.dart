@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/screens/meal_detail_screen.dart';
+import 'package:appetite_assorted/widgets/meal/size_config.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MealCard extends StatelessWidget {
   const MealCard({super.key, required this.meal});
@@ -52,7 +51,7 @@ class MealCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       meal.title,
                       style: TextStyle(
@@ -62,25 +61,25 @@ class MealCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     buildInfoRow(
-                      defaultSize,
-                      iconSrc: "assets/icons/meals/time.svg",
-                      text: "${meal.duration} mins",
+                      defaultSize: defaultSize,
+                      iconSrc: 'assets/icons/meals/time.svg',
+                      text: '${meal.duration} mins',
                     ),
                     SizedBox(height: defaultSize * 0.7), //5
                     buildInfoRow(
-                      defaultSize,
-                      iconSrc: "assets/icons/meals/complexity.svg",
+                      defaultSize: defaultSize,
+                      iconSrc: 'assets/icons/meals/complexity.svg',
                       text: _complexityText,
                     ),
                     SizedBox(height: defaultSize * 0.7), //5
                     buildInfoRow(
-                      defaultSize,
-                      iconSrc: "assets/icons/meals/money.svg",
+                      defaultSize: defaultSize,
+                      iconSrc: 'assets/icons/meals/money.svg',
                       text: _affordabilityText,
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
               ),
@@ -104,14 +103,21 @@ class MealCard extends StatelessWidget {
     Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: id);
   }
 
-  Row buildInfoRow(double defaultSize, {required String iconSrc, text}) {
+  Row buildInfoRow({
+    required String iconSrc,
+    required double defaultSize,
+    required String text,
+  }) {
     return Row(
       children: <Widget>[
         SvgPicture.asset(iconSrc, width: 20, height: 20),
-        SizedBox(width: defaultSize), // 10
+        SizedBox(width: defaultSize),
         Text(
           text,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

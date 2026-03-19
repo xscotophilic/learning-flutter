@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:appetite_assorted/app_consts.dart';
-import 'package:appetite_assorted/widgets/categories/custom_clipper.dart';
 import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
+import 'package:appetite_assorted/widgets/categories/custom_clipper.dart';
+import 'package:flutter/material.dart';
 
 class CategoryCardMain extends StatelessWidget {
   const CategoryCardMain({
@@ -30,8 +29,7 @@ class CategoryCardMain extends StatelessWidget {
                     AppConstants.defaultPadding / 2)) /
             2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          shape: BoxShape.rectangle,
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           color: color,
         ),
         child: Material(
@@ -40,14 +38,15 @@ class CategoryCardMain extends StatelessWidget {
             onTap: () => selectCategory(context),
             splashColor: Theme.of(context).primaryColor,
             child: Stack(
-              clipBehavior: Clip.hardEdge,
               children: <Widget>[
                 Positioned(
                   child: ClipPath(
-                    clipper: MyCustomClipper(ClipType.semiCircle),
+                    clipper: const MyCustomClipper(ClipType.semiCircle),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
                         color: Colors.black.withAlpha(10),
                       ),
                       height: 120,
@@ -56,15 +55,14 @@ class CategoryCardMain extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Image(width: 32, height: 32, image: image),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               title,
@@ -78,7 +76,7 @@ class CategoryCardMain extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'package:appetite_assorted/data.dart';
 import 'package:appetite_assorted/widgets/meal/meal_details.dart';
+import 'package:flutter/material.dart';
 
 class MealDetailScreen extends StatelessWidget {
   const MealDetailScreen({
@@ -11,13 +10,13 @@ class MealDetailScreen extends StatelessWidget {
   });
 
   static const routeName = '/meal-details';
-  final Function isMealFav;
+  final bool Function(String) isMealFav;
   final Function toggleFavouritesHandler;
 
   @override
   Widget build(BuildContext context) {
     final mealID = ModalRoute.of(context)!.settings.arguments as String;
-    final selectedMeal = foodMeals.firstWhere((meal) => meal.id == mealID);
+    final selectedMeal = allMeals.firstWhere((meal) => meal.id == mealID);
     return Scaffold(
       appBar: buildAppBar(context, selectedMeal.title),
       body: MealDetails(meal: selectedMeal),
