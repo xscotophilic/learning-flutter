@@ -2,68 +2,68 @@ import 'package:appetite_assorted/models/category.dart';
 import 'package:appetite_assorted/models/meal.dart';
 import 'package:flutter/material.dart';
 
-const Color _pink = Color(0xFFffcad4);
-const Color _blue = Color(0xFF8acdea);
+const Color _tealA = Color(0xFF246666);
+const Color _tealB = Color(0xFF307C7C);
 
 const foodCategories = [
   Category(
     id: 'c1',
     title: 'Italian',
-    color: _blue,
+    color: _tealB,
     image: 'assets/images/categories/Italian.png',
   ),
   Category(
     id: 'c2',
     title: 'Quick & Easy',
-    color: _pink,
+    color: _tealA,
     image: 'assets/images/categories/Quick.png',
   ),
   Category(
     id: 'c3',
     title: 'Summer',
-    color: _pink,
+    color: _tealA,
     image: 'assets/images/categories/Summer.png',
   ),
   Category(
     id: 'c4',
     title: 'German',
-    color: _blue,
+    color: _tealB,
     image: 'assets/images/categories/German.png',
   ),
   Category(
     id: 'c5',
     title: 'Light & Lovely',
-    color: _blue,
+    color: _tealB,
     image: 'assets/images/categories/Light.png',
   ),
   Category(
     id: 'c6',
     title: 'Exotic',
-    color: _pink,
+    color: _tealA,
     image: 'assets/images/categories/Exotic.png',
   ),
   Category(
     id: 'c7',
     title: 'Breakfast',
-    color: _pink,
+    color: _tealA,
     image: 'assets/images/categories/Breakfast.png',
   ),
   Category(
     id: 'c8',
     title: 'Asian',
-    color: _blue,
+    color: _tealB,
     image: 'assets/images/categories/Asian.png',
   ),
   Category(
     id: 'c9',
     title: 'French',
-    color: _blue,
+    color: _tealB,
     image: 'assets/images/categories/French.png',
   ),
   Category(
     id: 'c10',
     title: 'Hamburgers',
-    color: _pink,
+    color: _tealA,
     image: 'assets/images/categories/Hamburgers.png',
   ),
 ];

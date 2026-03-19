@@ -47,32 +47,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Appetite Assorted',
-
-      theme: AppConstants.lightTheme(context),
-
-      home: HomeScreen(favouriteMeals: _favouriteMeals), // Home page
-      routes: {
-        CategoryMeals.routeName: (ctx) =>
-            CategoryMeals(availableMeals: _availableMeals),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(
-          toggleFavouritesHandler: _toggleFavourites,
-          isMealFav: _isMealFav,
-        ),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(
-          currentFilters: _filters,
-          setFiltersHandler: _setFilters,
-        ),
-      },
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (ctx) => HomeScreen(favouriteMeals: _favouriteMeals),
-        );
-      },
-    );
+  bool _isMealFav(String id) {
+    return _favouriteMeals.any((meal) => meal.id == id);
   }
 
   void _toggleFavourites(String mealID) {
@@ -90,7 +66,36 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  bool _isMealFav(String id) {
-    return _favouriteMeals.any((meal) => meal.id == id);
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Appetite Assorted',
+
+      theme: AppConstants.primaryTheme(context),
+
+      home: HomeScreen(favouriteMeals: _favouriteMeals),
+      routes: {
+        CategoryMeals.routeName: (ctx) {
+          return CategoryMeals(availableMeals: _availableMeals);
+        },
+        MealDetailScreen.routeName: (ctx) {
+          return MealDetailScreen(
+            toggleFavouritesHandler: _toggleFavourites,
+            isMealFav: _isMealFav,
+          );
+        },
+        FiltersScreen.routeName: (ctx) {
+          return FiltersScreen(
+            currentFilters: _filters,
+            setFiltersHandler: _setFilters,
+          );
+        },
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => HomeScreen(favouriteMeals: _favouriteMeals),
+        );
+      },
+    );
   }
 }

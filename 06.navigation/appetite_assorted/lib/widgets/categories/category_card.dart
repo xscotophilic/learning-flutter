@@ -47,7 +47,7 @@ class CategoryCardMain extends StatelessWidget {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(10.0),
                         ),
-                        color: Colors.black.withAlpha(10),
+                        color: Colors.white.withAlpha(20),
                       ),
                       height: 120,
                       width: 120,
@@ -66,12 +66,7 @@ class CategoryCardMain extends StatelessWidget {
                           Expanded(
                             child: Text(
                               title,
-                              style: Theme.of(context).textTheme.titleSmall
-                                  ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.surface,
-                                  ),
+                              style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
                         ],

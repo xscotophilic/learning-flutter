@@ -87,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final label = item['title'] as String;
     final isSelected = _selectedPageIndex == index;
     final color = isSelected
-        ? Theme.of(context).colorScheme.onPrimary
-        : Theme.of(context).colorScheme.onPrimary.withAlpha(170);
+        ? Theme.of(context).colorScheme.secondary
+        : Theme.of(context).colorScheme.onSecondary;
 
     return Expanded(
       child: InkWell(
