@@ -19,22 +19,36 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Map<DietaryType, bool> _filters = {
-    DietaryType.glutenFree: false,
-    DietaryType.vegan: false,
-    DietaryType.vegetarian: false,
-    DietaryType.lactoseFree: false,
-  };
-
   List<Meal> _availableMeals = allMeals;
   final List<Meal> _favouriteMeals = [];
 
-  void _setFilters(Map<DietaryType, bool> filteredData) {
-    final activeFilters = filteredData.entries.where((f) => f.value).toList();
+  final Map<DietaryType, bool> _filters = DietaryType.values.asMap().map(
+    (index, type) => MapEntry(type, false),
+  );
 
-    final filtered = allMeals.where((meal) {
-      for (final filter in activeFilters) {
-        if (!meal.dietaryTypes.contains(filter.key)) {
+  bool _isMealFav(String id) {
+    return _favouriteMeals.any((meal) => meal.id == id);
+  }
+
+  void _toggleFavourites(String id) {
+    final existingIndex = _favouriteMeals.indexWhere((meal) => meal.id == id);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favouriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favouriteMeals.add(allMeals.firstWhere((meal) => meal.id == id));
+      });
+    }
+  }
+
+  void _setFilters(Map<DietaryType, bool> updatedFilters) {
+    final activeFilters = updatedFilters.entries.where((f) => f.value).toList();
+
+    final filteredMeals = allMeals.where((meal) {
+      for (final activeFilter in activeFilters) {
+        if (!meal.dietaryTypes.contains(activeFilter.key)) {
           return false;
         }
       }
@@ -42,28 +56,10 @@ class _MyAppState extends State<MyApp> {
     }).toList();
 
     setState(() {
-      _filters = filteredData;
-      _availableMeals = filtered;
+      _filters.clear();
+      _filters.addAll(updatedFilters);
+      _availableMeals = filteredMeals;
     });
-  }
-
-  bool _isMealFav(String id) {
-    return _favouriteMeals.any((meal) => meal.id == id);
-  }
-
-  void _toggleFavourites(String mealID) {
-    final existingIndex = _favouriteMeals.indexWhere(
-      (meal) => meal.id == mealID,
-    );
-    if (existingIndex >= 0) {
-      setState(() {
-        _favouriteMeals.removeAt(existingIndex);
-      });
-    } else {
-      setState(() {
-        _favouriteMeals.add(allMeals.firstWhere((meal) => meal.id == mealID));
-      });
-    }
   }
 
   @override

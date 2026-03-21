@@ -5,6 +5,18 @@ import 'package:appetite_assorted/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+class _PageData {
+  const _PageData({
+    required this.title,
+    required this.icon,
+    required this.page,
+  });
+
+  final String title;
+  final IconData icon;
+  final Widget page;
+}
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.favouriteMeals});
 
@@ -15,23 +27,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+  late final List<_PageData> _pages;
 
   @override
   void initState() {
     super.initState();
     _pages = [
-      {
-        'title': 'Categories',
-        'icon': Icons.category,
-        'page': const CategoriesScreen(),
-      },
-      {
-        'page': FavoritesScreen(favouriteMeals: widget.favouriteMeals),
-        'icon': Icons.favorite,
-        'title': 'Favorites',
-      },
+      const _PageData(
+        title: 'Categories',
+        icon: Icons.category,
+        page: CategoriesScreen(),
+      ),
+      _PageData(
+        title: 'Favorites',
+        icon: Icons.favorite,
+        page: FavoritesScreen(favouriteMeals: widget.favouriteMeals),
+      ),
     ];
   }
 
@@ -42,19 +54,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AppBar _buildAppBar(BuildContext context) {
+    final iconColor = Theme.of(context).appBarTheme.iconTheme?.color;
+
+    final ColorFilter? colorFilter;
+    if (iconColor != null) {
+      colorFilter = ColorFilter.mode(iconColor, BlendMode.srcIn);
+    } else {
+      colorFilter = null;
+    }
+
     return AppBar(
       elevation: 0,
       leading: Builder(
-        builder: (context) => IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/menu.svg',
-            colorFilter: ColorFilter.mode(
-              Theme.of(context).colorScheme.onPrimary,
-              BlendMode.srcIn,
+        builder: (context) {
+          return IconButton(
+            icon: SvgPicture.asset(
+              'assets/icons/menu.svg',
+              colorFilter: colorFilter,
             ),
-          ),
-          onPressed: () => Scaffold.of(context).openDrawer(),
-        ),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          );
+        },
       ),
       title: const Text('Appetite Assorted'),
     );
@@ -82,13 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildNavBarItem(BuildContext context, int index) {
-    final item = _pages[index];
-    final icon = item['icon'] as IconData;
-    final label = item['title'] as String;
-    final isSelected = _selectedPageIndex == index;
-    final color = isSelected
-        ? Theme.of(context).colorScheme.secondary
-        : Theme.of(context).colorScheme.onSecondary;
+    final page = _pages[index];
+    final icon = page.icon;
+    final label = page.title;
+
+    final Color color;
+    if (_selectedPageIndex == index) {
+      color = Theme.of(context).colorScheme.secondary;
+    } else {
+      color = Theme.of(context).colorScheme.onPrimary;
+    }
 
     return Expanded(
       child: InkWell(
@@ -106,14 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: _buildAppBar(context),
-        drawer: const MainDrawer(),
-        bottomNavigationBar: _buildbottomNavigationBar(context),
-        body: _pages[_selectedPageIndex]['page'] as Widget,
-      ),
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      drawer: const MainDrawer(),
+      bottomNavigationBar: _buildbottomNavigationBar(context),
+      body: _pages[_selectedPageIndex].page,
     );
   }
 }
