@@ -44,10 +44,10 @@ class _CategoryMealsState extends State<CategoryMeals> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: buildAppBar(categoryTitle),
-        body: Column(
+    return Scaffold(
+      appBar: buildAppBar(categoryTitle),
+      body: SafeArea(
+        child: Column(
           children: <Widget>[
             Expanded(
               child: Padding(

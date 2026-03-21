@@ -3,8 +3,8 @@ import 'package:appetite_assorted/widgets/meal/meal_item_card.dart';
 import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:flutter/material.dart';
 
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key, required this.favouriteMeals});
+class FavoritesListView extends StatelessWidget {
+  const FavoritesListView({super.key, required this.favouriteMeals});
 
   final List<Meal> favouriteMeals;
 

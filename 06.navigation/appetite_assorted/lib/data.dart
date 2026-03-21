@@ -10,61 +10,61 @@ const foodCategories = [
     id: 'c1',
     title: 'Italian',
     color: _tealB,
-    image: 'assets/images/categories/Italian.png',
+    assetPath: 'assets/images/categories/Italian.png',
   ),
   Category(
     id: 'c2',
     title: 'Quick & Easy',
     color: _tealA,
-    image: 'assets/images/categories/Quick.png',
+    assetPath: 'assets/images/categories/Quick.png',
   ),
   Category(
     id: 'c3',
     title: 'Summer',
     color: _tealA,
-    image: 'assets/images/categories/Summer.png',
+    assetPath: 'assets/images/categories/Summer.png',
   ),
   Category(
     id: 'c4',
     title: 'German',
     color: _tealB,
-    image: 'assets/images/categories/German.png',
+    assetPath: 'assets/images/categories/German.png',
   ),
   Category(
     id: 'c5',
     title: 'Light & Lovely',
     color: _tealB,
-    image: 'assets/images/categories/Light.png',
+    assetPath: 'assets/images/categories/Light.png',
   ),
   Category(
     id: 'c6',
     title: 'Exotic',
     color: _tealA,
-    image: 'assets/images/categories/Exotic.png',
+    assetPath: 'assets/images/categories/Exotic.png',
   ),
   Category(
     id: 'c7',
     title: 'Breakfast',
     color: _tealA,
-    image: 'assets/images/categories/Breakfast.png',
+    assetPath: 'assets/images/categories/Breakfast.png',
   ),
   Category(
     id: 'c8',
     title: 'Asian',
     color: _tealB,
-    image: 'assets/images/categories/Asian.png',
+    assetPath: 'assets/images/categories/Asian.png',
   ),
   Category(
     id: 'c9',
     title: 'French',
     color: _tealB,
-    image: 'assets/images/categories/French.png',
+    assetPath: 'assets/images/categories/French.png',
   ),
   Category(
     id: 'c10',
     title: 'Hamburgers',
     color: _tealA,
-    image: 'assets/images/categories/Hamburgers.png',
+    assetPath: 'assets/images/categories/Hamburgers.png',
   ),
 ];
 
@@ -72,11 +72,13 @@ const allMeals = [
   Meal(
     id: 'm1',
     title: 'Spaghetti with Tomato Sauce',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798854-4dcd2880-cc46-11eb-8e60-afc484e667d2.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121798854-4dcd2880-cc46-11eb-8e60-afc484e667d2.png',
+    assetPath: 'assets/images/meals/spaghetti.png',
     categories: ['c1', 'c2'],
+    dietaryTypes: [
+      DietaryType.lactoseFree,
+      DietaryType.vegetarian,
+      DietaryType.vegan,
+    ],
     duration: 20,
     complexity: Complexity.simple,
     affordability: Affordability.affordable,
@@ -97,19 +99,11 @@ const allMeals = [
       'The sauce will be done once the spaghetti are.',
       'Feel free to add some cheese on top of the finished dish.',
     ],
-    dietaryTypes: [
-      DietaryType.lactoseFree,
-      DietaryType.vegetarian,
-      DietaryType.vegan,
-    ],
   ),
   Meal(
     id: 'm2',
     title: 'Toast Hawaii',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121797824-502c8400-cc40-11eb-8d7b-6b1a3df4aed2.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121797824-502c8400-cc40-11eb-8d7b-6b1a3df4aed2.png',
+    assetPath: 'assets/images/meals/toast-hawaii.png',
     categories: ['c2'],
     duration: 10,
     complexity: Complexity.simple,
@@ -130,11 +124,9 @@ const allMeals = [
   Meal(
     id: 'm3',
     title: 'Classic Hamburger',
+    assetPath: 'assets/images/meals/burger.png',
     categories: ['c2', 'c10'],
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798842-47d74780-cc46-11eb-9593-de41bdc7268c.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121797814-4acf3980-cc40-11eb-9fba-cb205268883d.png',
+    dietaryTypes: [DietaryType.lactoseFree],
     duration: 45,
     complexity: Complexity.simple,
     affordability: Affordability.pricey,
@@ -150,19 +142,14 @@ const allMeals = [
       'Form 2 patties',
       'Fry the patties for c. 4 minutes on each side',
       'Quickly fry the buns for c. 1 minute on each side',
-      'Bruch buns with ketchup',
+      'Brush buns with ketchup',
       'Serve burger with tomato, cucumber and onion',
     ],
-
-    dietaryTypes: [DietaryType.lactoseFree],
   ),
   Meal(
     id: 'm4',
     title: 'Wiener Schnitzel',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/122035834-827ce380-cdf0-11eb-8e1d-e01af8fde950.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/122035834-827ce380-cdf0-11eb-8e1d-e01af8fde950.png',
+    assetPath: 'assets/images/meals/wiener-schnitzel.png',
     categories: ['c4'],
     duration: 60,
     complexity: Complexity.challenging,
@@ -184,17 +171,15 @@ const allMeals = [
       'Heat the butter and oil in a large pan (allow the fat to get very hot) and fry the schnitzels until golden brown on both sides.',
       'Make sure to toss the pan regularly so that the schnitzels are surrounded by oil and the crumbing becomes ‘fluffy’.',
       'Remove, and drain on kitchen paper. Fry the parsley in the remaining oil and drain.',
-      'Place the schnitzels on awarmed plate and serve garnishedwith parsley and slices of lemon.',
+      'Place the schnitzels on a warmed plate and serve garnished with parsley and slices of lemon.',
     ],
   ),
   Meal(
     id: 'm5',
     title: 'Salad with Smoked Salmon',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798853-4d349200-cc46-11eb-8d64-2201be7c3979.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121797822-4efb5700-cc40-11eb-8aca-331ca98176bc.png',
+    assetPath: 'assets/images/meals/salmon-salad.png',
     categories: ['c2', 'c5', 'c3'],
+    dietaryTypes: [DietaryType.glutenFree, DietaryType.lactoseFree],
     duration: 15,
     complexity: Complexity.simple,
     affordability: Affordability.luxurious,
@@ -212,24 +197,17 @@ const allMeals = [
     steps: [
       'Wash and cut salad and herbs',
       'Dice the salmon',
-      'Process mustard, vinegar and olive oil into a dessing',
+      'Process mustard, vinegar and olive oil into a dressing',
       'Prepare the salad',
       'Add salmon cubes and dressing',
-    ],
-    dietaryTypes: [
-      DietaryType.glutenFree,
-      DietaryType.lactoseFree,
-      DietaryType.vegetarian,
     ],
   ),
   Meal(
     id: 'm6',
-    title: 'Delicious Orange Mousse',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798851-4c036500-cc46-11eb-908d-07887fc3b203.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121797820-4dca2a00-cc40-11eb-977a-6565603d83cc.png',
+    title: 'Orange Mousse',
+    assetPath: 'assets/images/meals/orange-mousse.png',
     categories: ['c6', 'c3'],
+    dietaryTypes: [DietaryType.glutenFree, DietaryType.vegetarian],
     duration: 240,
     complexity: Complexity.hard,
     affordability: Affordability.affordable,
@@ -248,20 +226,17 @@ const allMeals = [
       'Add 2 tablespoons of yoghurt',
       'Stir gelatin under remaining yoghurt',
       'Cool everything down in the refrigerator',
-      'Whip the cream and lift it under die orange mass',
+      'Whip the cream and fold it into the orange mixture until',
       'Cool down again for at least 4 hours',
       'Serve with orange peel',
     ],
-    dietaryTypes: [DietaryType.glutenFree, DietaryType.vegetarian],
   ),
   Meal(
     id: 'm7',
     title: 'Pancakes',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798852-4c9bfb80-cc46-11eb-927c-16d7e8241f69.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121797821-4e62c080-cc40-11eb-93c2-42c6b7dba41c.png',
+    assetPath: 'assets/images/meals/pancakes.png',
     categories: ['c7'],
+    dietaryTypes: [DietaryType.vegetarian],
     duration: 20,
     complexity: Complexity.simple,
     affordability: Affordability.affordable,
@@ -280,16 +255,13 @@ const allMeals = [
       'Heat a lightly oiled griddle or frying pan over medium high heat.',
       'Pour or scoop the batter onto the griddle, using approximately 1/4 cup for each pancake. Brown on both sides and serve hot.',
     ],
-    dietaryTypes: [DietaryType.glutenFree, DietaryType.vegetarian],
   ),
   Meal(
     id: 'm8',
     title: 'Creamy Indian Chicken Curry',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798847-4a39a180-cc46-11eb-9792-032b1793f407.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121797815-4c98fd00-cc40-11eb-994f-45caa8ec5913.png',
+    assetPath: 'assets/images/meals/curry.png',
     categories: ['c8'],
+    dietaryTypes: [DietaryType.lactoseFree],
     duration: 35,
     complexity: Complexity.challenging,
     affordability: Affordability.pricey,
@@ -310,16 +282,13 @@ const allMeals = [
       'Add coconut milk',
       'Serve with rice',
     ],
-    dietaryTypes: [DietaryType.glutenFree, DietaryType.lactoseFree],
   ),
   Meal(
     id: 'm9',
     title: 'Chocolate Souffle',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121797817-4d319380-cc40-11eb-9b66-8727f710f2ea.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/121797817-4d319380-cc40-11eb-9b66-8727f710f2ea.png',
+    assetPath: 'assets/images/meals/chocolate-souffle.png',
     categories: ['c9'],
+    dietaryTypes: [DietaryType.glutenFree, DietaryType.vegetarian],
     duration: 45,
     complexity: Complexity.hard,
     affordability: Affordability.affordable,
@@ -354,18 +323,19 @@ const allMeals = [
       'Mix until egg whites are thoroughly incorporated into the chocolate.',
       'Add the rest of the egg whites; gently fold into the chocolate with a spatula, lifting from the bottom and folding over.',
       'Stop mixing after the egg white disappears. Divide mixture between 2 prepared ramekins. Place ramekins on prepared baking sheet.',
-      'Bake in preheated oven until scuffles are puffed and have risen above the top of the rims, 12 to 15 minutes.',
+      'Bake in preheated oven until souffles are puffed and have risen above the top of the rims, 12 to 15 minutes.',
     ],
-    dietaryTypes: [DietaryType.glutenFree, DietaryType.vegetarian],
   ),
   Meal(
     id: 'm10',
     title: 'Asparagus Salad with Cherry Tomatoes',
-    imageURL:
-        'https://user-images.githubusercontent.com/47301282/121798432-f1690980-cc43-11eb-9703-c4c64a38dfcb.png',
-    mainPageImageURL:
-        'https://user-images.githubusercontent.com/47301282/122035825-7e50c600-cdf0-11eb-87fe-a25f759c6df8.png',
+    assetPath: 'assets/images/meals/asparagus-salad.png',
     categories: ['c2', 'c5', 'c3'],
+    dietaryTypes: [
+      DietaryType.glutenFree,
+      DietaryType.vegetarian,
+      DietaryType.vegan,
+    ],
     duration: 30,
     complexity: Complexity.simple,
     affordability: Affordability.luxurious,
@@ -384,11 +354,6 @@ const allMeals = [
       'Halve the tomatoes',
       'Mix with asparagus, salad and dressing',
       'Serve with Baguette',
-    ],
-    dietaryTypes: [
-      DietaryType.glutenFree,
-      DietaryType.vegetarian,
-      DietaryType.vegan,
     ],
   ),
 ];

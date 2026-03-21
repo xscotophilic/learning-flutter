@@ -5,11 +5,11 @@ class Category {
     required this.id,
     required this.title,
     required this.color,
-    required this.image,
+    required this.assetPath,
   });
 
   final String id;
   final String title;
   final Color color;
-  final String image;
+  final String assetPath;
 }

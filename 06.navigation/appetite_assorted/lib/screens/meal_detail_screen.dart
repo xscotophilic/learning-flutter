@@ -22,6 +22,7 @@ class MealDetailScreen extends StatelessWidget {
       body: MealDetails(meal: selectedMeal),
       // bottomNavigationBar: BottomNavBar(),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         child: Icon(isMealFav(mealID) ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
           toggleFavouritesHandler(mealID);

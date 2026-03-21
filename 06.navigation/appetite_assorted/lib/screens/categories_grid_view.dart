@@ -2,14 +2,14 @@ import 'package:appetite_assorted/data.dart';
 import 'package:appetite_assorted/widgets/categories/category_card.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
+class CategoriesGridView extends StatelessWidget {
+  const CategoriesGridView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GridView(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(24),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
           childAspectRatio: 3 / 2,
@@ -22,7 +22,7 @@ class CategoriesScreen extends StatelessWidget {
                 id: category.id,
                 title: category.title,
                 color: category.color,
-                image: AssetImage(category.image),
+                image: AssetImage(category.assetPath),
               ),
               // CategoryCardMain
             )

@@ -34,11 +34,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        drawer: const MainDrawer(),
-        appBar: buildAppBar(context, 'Filters'),
-        body: Column(
+    return Scaffold(
+      drawer: const MainDrawer(),
+      appBar: buildAppBar(context, 'Filters'),
+      body: SafeArea(
+        child: Column(
           children: [
             Container(
               padding: const EdgeInsets.all(20),

@@ -11,7 +11,7 @@ class MealDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        ItemImage(imgSrc: meal.mainPageImageURL),
+        ItemImage(imgSrc: meal.assetPath),
         Expanded(child: ItemInfo(meal: meal)),
       ],
     );

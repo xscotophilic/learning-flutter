@@ -40,7 +40,7 @@ class MealCard extends StatelessWidget {
       onTap: () => selectMeal(context, meal.id),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(defaultSize * 1.8), //18
         ),
         child: Row(
@@ -85,12 +85,15 @@ class MealCard extends StatelessWidget {
               ),
             ),
             SizedBox(width: defaultSize), //5
-            AspectRatio(
-              aspectRatio: 0.6,
-              child: Image.network(
-                meal.imageURL,
-                fit: BoxFit.cover,
-                alignment: Alignment.centerLeft,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: AspectRatio(
+                aspectRatio: 0.7,
+                child: Image.asset(
+                  meal.assetPath,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.centerLeft,
+                ),
               ),
             ),
           ],

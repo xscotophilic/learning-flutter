@@ -1,6 +1,6 @@
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/screens/all_categories_screen.dart';
-import 'package:appetite_assorted/screens/favorites_screen.dart';
+import 'package:appetite_assorted/screens/categories_grid_view.dart';
+import 'package:appetite_assorted/screens/favorites_list_view.dart';
 import 'package:appetite_assorted/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -37,12 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
       const _PageData(
         title: 'Categories',
         icon: Icons.category,
-        page: CategoriesScreen(),
+        page: CategoriesGridView(),
       ),
       _PageData(
         title: 'Favorites',
         icon: Icons.favorite,
-        page: FavoritesScreen(favouriteMeals: widget.favouriteMeals),
+        page: FavoritesListView(favouriteMeals: widget.favouriteMeals),
       ),
     ];
   }
