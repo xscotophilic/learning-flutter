@@ -4,63 +4,60 @@ import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Drawer(
-      elevation: 0,
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Appetite Assorted',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: theme.colorScheme.onSurface,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            buildListTile(
-              theme: theme,
-              title: 'Filters',
-              icon: Icons.rule,
-              tapHandler: () => Navigator.of(
-                context,
-              ).pushReplacementNamed(FiltersScreen.routeName),
-            ),
-            buildListTile(
-              theme: theme,
-              title: 'Settings',
-              icon: Icons.settings,
-              tapHandler: () =>
-                  Navigator.of(context).pushReplacementNamed('/settings'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  ListTile buildListTile({
+  Widget _buildListTile({
     required ThemeData theme,
-    required String title,
     required IconData icon,
+    required String title,
+    required double fontSize,
     required Function tapHandler,
   }) {
     return ListTile(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       leading: Icon(icon, size: 24, color: theme.colorScheme.onSurface),
-      title: Text(
-        title,
-        style: theme.textTheme.titleMedium?.copyWith(
-          color: theme.colorScheme.onSurface,
+      title: Text(title, style: TextStyle(fontSize: fontSize)),
+      onTap: () => tapHandler(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final double longestSide = mediaQuery.size.longestSide;
+
+    return Drawer(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Appetite Assorted',
+                style: TextStyle(fontSize: longestSide * 0.024),
+              ),
+              const SizedBox(height: 16),
+              _buildListTile(
+                theme: theme,
+                icon: Icons.rule,
+                title: 'Filters',
+                fontSize: longestSide * 0.02,
+                tapHandler: () => Navigator.of(
+                  context,
+                ).pushReplacementNamed(FiltersScreen.routeName),
+              ),
+              _buildListTile(
+                theme: theme,
+                icon: Icons.settings,
+                title: 'Settings',
+                fontSize: longestSide * 0.02,
+                tapHandler: () =>
+                    Navigator.of(context).pushReplacementNamed('/settings'),
+              ),
+            ],
+          ),
         ),
       ),
-      onTap: () => tapHandler(),
     );
   }
 }

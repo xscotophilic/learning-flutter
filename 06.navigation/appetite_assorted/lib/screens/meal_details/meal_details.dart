@@ -1,5 +1,4 @@
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/screens/meal_details/item_image.dart';
 import 'package:flutter/material.dart';
 
 class MealDetails extends StatelessWidget {
@@ -9,72 +8,96 @@ class MealDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
+    if (isLandscape) {
+      return Row(
+        children: [
+          SizedBox(
+            height: double.infinity,
+            width: mediaQuery.size.width * 0.35,
+            child: _Image(assetPath: meal.assetPath),
+          ),
+          Expanded(child: _MealInfo(meal: meal)),
+        ],
+      );
+    }
     return Column(
-      children: <Widget>[
-        ItemImage(imgSrc: meal.assetPath),
-        Expanded(child: ItemInfo(meal: meal)),
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: mediaQuery.size.height * 0.30,
+          child: _Image(assetPath: meal.assetPath),
+        ),
+        Expanded(child: _MealInfo(meal: meal)),
       ],
     );
   }
 }
 
-class ItemInfo extends StatelessWidget {
-  const ItemInfo({super.key, required this.meal});
+class _Image extends StatelessWidget {
+  const _Image({required this.assetPath});
 
-  final Meal meal;
+  final String assetPath;
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(20),
-      children: <Widget>[
-        buildSectionTitle(context, 'Ingredients'),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ...itmslistMapper(items: meal.ingredients, passfontSize: 12),
-          ],
-        ),
-        buildSectionTitle(context, 'Steps'),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [...itmslistMapper(items: meal.steps, passfontSize: 14)],
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Image.asset(assetPath, fit: BoxFit.scaleDown),
+    );
+  }
+}
+
+class _MealInfo extends StatelessWidget {
+  const _MealInfo({required this.meal});
+
+  final Meal meal;
+
+  Widget _buildSectionTitle(String title, double fontSize) {
+    return Center(
+      child: Text(
+        title,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: fontSize),
+      ),
     );
   }
 
-  Widget buildSectionTitle(BuildContext context, String title) {
-    return Column(
-      children: [
-        const SizedBox(height: 9),
-        Center(
-          child: Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-        ),
-        const SizedBox(height: 9),
-      ],
-    );
-  }
-
-  List<Column> itmslistMapper({
+  List<Column> _itemsListMapper({
     required List<String> items,
-    required double passfontSize,
+    required double fontSize,
   }) {
-    return items
-        .map(
-          (item) => Column(
-            children: [
-              Text('\u2022 $item', style: TextStyle(fontSize: passfontSize)),
-              const SizedBox(height: 6),
-            ],
-          ),
-        )
-        .toList();
+    return items.map((item) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('\u2022 $item', style: TextStyle(fontSize: fontSize)),
+          const SizedBox(height: 4),
+        ],
+      );
+    }).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final double longestSide = mediaQuery.size.longestSide;
+    return ListView(
+      padding: const EdgeInsets.all(0),
+      children: <Widget>[
+        _buildSectionTitle('Ingredients', longestSide * 0.02),
+        const SizedBox(height: 16),
+        ..._itemsListMapper(
+          items: meal.ingredients,
+          fontSize: longestSide * 0.016,
+        ),
+        const SizedBox(height: 16),
+        _buildSectionTitle('Steps', longestSide * 0.02),
+        const SizedBox(height: 16),
+        ..._itemsListMapper(items: meal.steps, fontSize: longestSide * 0.016),
+      ],
+    );
   }
 }

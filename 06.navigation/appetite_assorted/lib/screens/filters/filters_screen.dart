@@ -30,6 +30,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
     return _filters[type] ?? false;
   }
 
+  String _getDietaryTypeLabel(DietaryType type) {
+    switch (type) {
+      case DietaryType.glutenFree:
+        return 'Gluten Free';
+      case DietaryType.lactoseFree:
+        return 'Lactose Free';
+      case DietaryType.vegan:
+        return 'Vegan';
+      case DietaryType.vegetarian:
+        return 'Vegetarian';
+    }
+  }
+
   AppBar _buildAppBar(BuildContext context, String title) {
     return AppBar(title: Text(title));
   }
@@ -115,7 +128,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = MediaQuery.of(context).size.longestSide * 0.018;
+    final double fontSize = MediaQuery.of(context).size.longestSide * 0.020;
     return Scaffold(
       appBar: _buildAppBar(context, 'Filters'),
       bottomNavigationBar: _buildBottomNavigationBar(),
@@ -133,7 +146,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 child: ListView(
                   children: DietaryType.values.map((type) {
                     return _buildSwitchListTile(
-                      title: type.name,
+                      title: _getDietaryTypeLabel(type),
                       currentValue: _isActive(type),
                       updateValue: (bool value) {
                         setState(() {
