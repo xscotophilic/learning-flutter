@@ -1,10 +1,10 @@
-import 'package:appetite_assorted/app_consts.dart';
 import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
-import 'package:appetite_assorted/widgets/categories/custom_clipper.dart';
+import 'package:appetite_assorted/widgets/auto_fit_text.dart';
+import 'package:appetite_assorted/widgets/categories/custom_shape_clipper.dart';
 import 'package:flutter/material.dart';
 
-class CategoryCardMain extends StatelessWidget {
-  const CategoryCardMain({
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({
     super.key,
     required this.id,
     required this.title,
@@ -17,75 +17,72 @@ class CategoryCardMain extends StatelessWidget {
   final Color color;
   final ImageProvider image;
 
+  final _borderRadius = const BorderRadius.all(Radius.circular(12.0));
+
+  void _selectCategory(BuildContext context) {
+    Navigator.of(
+      context,
+    ).pushNamed(CategoryMeals.routeName, arguments: {'id': id, 'title': title});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        // margin: const EdgeInsets.only(right: 15.0),
-        width:
-            ((MediaQuery.of(context).size.width -
-                (AppConstants.defaultPadding * 2 +
-                    AppConstants.defaultPadding / 2)) /
-            2),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          color: color,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => selectCategory(context),
-            splashColor: Theme.of(context).primaryColor,
-            child: Stack(
+    return Material(
+      color: color,
+      borderRadius: _borderRadius,
+      child: InkWell(
+        borderRadius: _borderRadius,
+        splashColor: Theme.of(context).colorScheme.onSurface.withAlpha(30),
+        onTap: () => _selectCategory(context),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            const singleSidePadding = 16.0;
+            final size = constraints.maxHeight;
+
+            return Stack(
               children: <Widget>[
                 Positioned(
                   child: ClipPath(
-                    clipper: const MyCustomClipper(ClipType.semiCircle),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10.0),
+                    clipper: const CustomShapeClipper(ClipType.semiCircle),
+                    child: SizedBox(
+                      width: size,
+                      height: size,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withAlpha(30),
                         ),
-                        color: Colors.white.withAlpha(20),
                       ),
-                      height: 120,
-                      width: 120,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(singleSidePadding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         children: <Widget>[
                           Image(width: 32, height: 32, image: image),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 8),
                           Expanded(
-                            child: Text(
-                              title,
+                            child: AutoFitText(
+                              text: title,
                               style: Theme.of(context).textTheme.bodyLarge,
+                              availableHeight: size - (singleSidePadding * 2),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
               ],
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
-  }
-
-  void selectCategory(BuildContext context) {
-    Navigator.of(
-      context,
-    ).pushNamed(CategoryMeals.routeName, arguments: {'id': id, 'title': title});
   }
 }

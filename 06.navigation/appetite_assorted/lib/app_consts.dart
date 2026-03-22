@@ -4,7 +4,7 @@ class AppConstants {
   // Name
   static String appName = 'Appetite Assorted';
 
-  static final Color _primary = const Color(0xff0A2929);
+  static final Color _primary = const Color(0xff0f3d3d);
   static final Color _onPrimary = const Color(0xfffcfcff);
 
   static final Color _secondary = const Color(0xFFE8A830);
@@ -39,6 +39,7 @@ class AppConstants {
         iconTheme: IconThemeData(color: _onPrimary),
         titleTextStyle: TextStyle(fontSize: 24, color: _onPrimary),
       ),
+      drawerTheme: DrawerThemeData(backgroundColor: _primary),
       canvasColor: _background,
       scaffoldBackgroundColor: _background,
     );

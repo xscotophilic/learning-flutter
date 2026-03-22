@@ -12,21 +12,19 @@ class CategoriesGridView extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
+          childAspectRatio: 1.5,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
         ),
-        children: foodCategories
-            .map(
-              (category) => CategoryCardMain(
-                id: category.id,
-                title: category.title,
-                color: category.color,
-                image: AssetImage(category.assetPath),
-              ),
-              // CategoryCardMain
-            )
-            .toList(),
+        children: foodCategories.map((category) {
+          return CategoryCard(
+            key: ValueKey(category.id),
+            id: category.id,
+            title: category.title,
+            color: category.color,
+            image: AssetImage(category.assetPath),
+          );
+        }).toList(),
       ),
     );
   }
