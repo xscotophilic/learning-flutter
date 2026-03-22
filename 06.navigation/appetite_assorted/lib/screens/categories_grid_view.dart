@@ -11,7 +11,7 @@ class CategoriesGridView extends StatelessWidget {
       child: GridView(
         padding: const EdgeInsets.all(24),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
+          maxCrossAxisExtent: 256,
           childAspectRatio: 1.5,
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,

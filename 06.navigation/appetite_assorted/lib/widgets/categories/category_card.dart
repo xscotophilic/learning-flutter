@@ -43,7 +43,12 @@ class CategoryCard extends StatelessWidget {
               children: <Widget>[
                 Positioned(
                   child: ClipPath(
-                    clipper: const CustomShapeClipper(ClipType.semiCircle),
+                    clipper: CustomShapeClipper(
+                      ClipType.semiCircle,
+                      borderRadius: BorderRadius.only(
+                        topLeft: _borderRadius.topLeft,
+                      ),
+                    ),
                     child: SizedBox(
                       width: size,
                       height: size,

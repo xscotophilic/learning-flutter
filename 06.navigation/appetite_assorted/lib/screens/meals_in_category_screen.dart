@@ -1,6 +1,5 @@
 import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/widgets/meal/meal_item_card.dart';
-import 'package:appetite_assorted/widgets/meal/size_config.dart';
 import 'package:flutter/material.dart';
 
 class CategoryMeals extends StatefulWidget {
@@ -42,8 +41,6 @@ class _CategoryMealsState extends State<CategoryMeals> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-
     return Scaffold(
       appBar: buildAppBar(categoryTitle),
       body: SafeArea(
@@ -51,24 +48,19 @@ class _CategoryMealsState extends State<CategoryMeals> {
           children: <Widget>[
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.defaultSize * 2,
-                  vertical: 15,
-                ),
+                padding: const EdgeInsets.all(24),
                 child: GridView.builder(
                   itemCount: displayedMeals.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        SizeConfig.orientation == Orientation.landscape ? 2 : 1,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing:
-                        SizeConfig.orientation == Orientation.landscape
-                        ? SizeConfig.defaultSize * 2
-                        : 0,
-                    childAspectRatio: 1.65,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 512,
+                    childAspectRatio: 2.25,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
                   ),
-                  itemBuilder: (context, index) =>
-                      MealCard(meal: displayedMeals[index]),
+                  itemBuilder: (context, index) {
+                    final meal = displayedMeals[index];
+                    return MealCard(key: ValueKey(meal.id), meal: meal);
+                  },
                 ),
               ),
             ),
