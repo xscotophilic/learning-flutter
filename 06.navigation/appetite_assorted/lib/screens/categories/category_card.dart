@@ -9,13 +9,13 @@ class CategoryCard extends StatelessWidget {
     required this.id,
     required this.title,
     required this.color,
-    required this.image,
+    required this.imageProvider,
   });
 
   final String id;
   final String title;
   final Color color;
-  final ImageProvider image;
+  final ImageProvider imageProvider;
 
   final _borderRadius = const BorderRadius.all(Radius.circular(12.0));
 
@@ -31,8 +31,8 @@ class CategoryCard extends StatelessWidget {
       color: color,
       borderRadius: _borderRadius,
       child: InkWell(
-        borderRadius: _borderRadius,
         splashColor: Theme.of(context).colorScheme.onSurface.withAlpha(30),
+        borderRadius: _borderRadius,
         onTap: () => _selectCategory(context),
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -72,7 +72,7 @@ class CategoryCard extends StatelessWidget {
                           Image(
                             width: widgetHeight * 0.24,
                             height: widgetHeight * 0.24,
-                            image: image,
+                            image: imageProvider,
                           ),
                           const SizedBox(width: 8),
                           Expanded(

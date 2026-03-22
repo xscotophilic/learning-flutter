@@ -27,24 +27,19 @@ class MainDrawer extends StatelessWidget {
             const SizedBox(height: 12),
             buildListTile(
               theme: theme,
-              title: 'Meals',
-              icon: Icons.restaurant,
-              tapHandler: () => Navigator.of(context).pushReplacementNamed('/'),
-            ),
-            buildListTile(
-              theme: theme,
               title: 'Filters',
-              icon: Icons.filter,
+              icon: Icons.rule,
               tapHandler: () => Navigator.of(
                 context,
               ).pushReplacementNamed(FiltersScreen.routeName),
             ),
-            // buildListTile(
-            //   context: context,
-            //   title: 'Settings',
-            //   icon: Icons.settings,
-            //   tapHandler: () => Navigator.of(context).pushNamed('/settings'),
-            // ),
+            buildListTile(
+              theme: theme,
+              title: 'Settings',
+              icon: Icons.settings,
+              tapHandler: () =>
+                  Navigator.of(context).pushReplacementNamed('/settings'),
+            ),
           ],
         ),
       ),

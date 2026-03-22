@@ -2,8 +2,8 @@ import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/screens/widgets/common/meals_grid_view.dart';
 import 'package:flutter/material.dart';
 
-class FavoritesListView extends StatelessWidget {
-  const FavoritesListView({super.key, required this.favouriteMeals});
+class FavouriteListView extends StatelessWidget {
+  const FavouriteListView({super.key, required this.favouriteMeals});
 
   final List<Meal> favouriteMeals;
 
@@ -12,7 +12,7 @@ class FavoritesListView extends StatelessWidget {
     if (favouriteMeals.isEmpty) {
       return Center(
         child: Text(
-          'You have no favorites yet!',
+          'You have no favourite yet!',
           style: Theme.of(context).textTheme.titleSmall,
         ),
       );

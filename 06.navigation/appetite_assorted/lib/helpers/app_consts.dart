@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  // Name
   static String appName = 'Appetite Assorted';
 
   static final Color _primary = const Color(0xff0f3d3d);

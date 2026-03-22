@@ -22,7 +22,7 @@ class CategoriesGridView extends StatelessWidget {
             id: category.id,
             title: category.title,
             color: category.color,
-            image: AssetImage(category.assetPath),
+            imageProvider: AssetImage(category.assetPath),
           );
         }).toList(),
       ),

@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   List<Meal> _availableMeals = allMeals;
   final List<Meal> _favouriteMeals = [];
 
-  final Map<DietaryType, bool> _filters = DietaryType.values.asMap().map(
+  Map<DietaryType, bool> _filters = DietaryType.values.asMap().map(
     (index, type) => MapEntry(type, false),
   );
 
@@ -56,8 +56,7 @@ class _MyAppState extends State<MyApp> {
     }).toList();
 
     setState(() {
-      _filters.clear();
-      _filters.addAll(updatedFilters);
+      _filters = updatedFilters;
       _availableMeals = filteredMeals;
     });
   }
