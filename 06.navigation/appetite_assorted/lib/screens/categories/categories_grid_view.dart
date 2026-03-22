@@ -1,5 +1,5 @@
-import 'package:appetite_assorted/data.dart';
-import 'package:appetite_assorted/widgets/categories/category_card.dart';
+import 'package:appetite_assorted/helpers/data.dart';
+import 'package:appetite_assorted/screens/categories/category_card.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesGridView extends StatelessWidget {

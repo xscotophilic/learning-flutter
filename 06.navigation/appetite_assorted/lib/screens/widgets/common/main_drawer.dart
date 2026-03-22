@@ -1,4 +1,4 @@
-import 'package:appetite_assorted/screens/filters_screen.dart';
+import 'package:appetite_assorted/screens/filters/filters_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {

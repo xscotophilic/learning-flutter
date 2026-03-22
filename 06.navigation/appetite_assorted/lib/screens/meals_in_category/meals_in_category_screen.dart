@@ -1,5 +1,5 @@
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/widgets/meal/meal_item_card.dart';
+import 'package:appetite_assorted/screens/widgets/common/meals_grid_view.dart';
 import 'package:flutter/material.dart';
 
 class CategoryMeals extends StatefulWidget {
@@ -39,38 +39,21 @@ class _CategoryMealsState extends State<CategoryMeals> {
     super.didChangeDependencies();
   }
 
+  AppBar _buildAppBar(String title) {
+    return AppBar(title: Text(title));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(categoryTitle),
+      appBar: _buildAppBar(categoryTitle),
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: GridView.builder(
-                  itemCount: displayedMeals.length,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 512,
-                    childAspectRatio: 2.25,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                  ),
-                  itemBuilder: (context, index) {
-                    final meal = displayedMeals[index];
-                    return MealCard(key: ValueKey(meal.id), meal: meal);
-                  },
-                ),
-              ),
-            ),
+            Expanded(child: MealsGridView(meals: displayedMeals)),
           ],
         ),
       ),
     );
-  }
-
-  AppBar buildAppBar(String title) {
-    return AppBar(elevation: 0, title: Text(title));
   }
 }

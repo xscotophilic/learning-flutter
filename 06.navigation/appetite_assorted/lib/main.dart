@@ -1,10 +1,10 @@
-import 'package:appetite_assorted/app_consts.dart';
-import 'package:appetite_assorted/data.dart';
+import 'package:appetite_assorted/helpers/app_consts.dart';
+import 'package:appetite_assorted/helpers/data.dart';
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/screens/filters_screen.dart';
-import 'package:appetite_assorted/screens/home_screen.dart';
-import 'package:appetite_assorted/screens/meal_detail_screen.dart';
-import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
+import 'package:appetite_assorted/screens/filters/filters_screen.dart';
+import 'package:appetite_assorted/screens/home/home_screen.dart';
+import 'package:appetite_assorted/screens/meal_details/meal_details_screen.dart';
+import 'package:appetite_assorted/screens/meals_in_category/meals_in_category_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -1,7 +1,7 @@
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/screens/categories_grid_view.dart';
-import 'package:appetite_assorted/screens/favorites_list_view.dart';
-import 'package:appetite_assorted/widgets/main_drawer.dart';
+import 'package:appetite_assorted/screens/categories/categories_grid_view.dart';
+import 'package:appetite_assorted/screens/favorites/favorites_list_view.dart';
+import 'package:appetite_assorted/screens/widgets/common/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

@@ -1,6 +1,6 @@
-import 'package:appetite_assorted/screens/meals_in_category_screen.dart';
-import 'package:appetite_assorted/widgets/auto_fit_text.dart';
-import 'package:appetite_assorted/widgets/categories/custom_shape_clipper.dart';
+import 'package:appetite_assorted/screens/categories/custom_shape_clipper.dart';
+import 'package:appetite_assorted/screens/meals_in_category/meals_in_category_screen.dart';
+import 'package:appetite_assorted/screens/widgets/common/auto_fit_text.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -37,7 +37,7 @@ class CategoryCard extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             const singleSidePadding = 16.0;
-            final size = constraints.maxHeight;
+            final widgetHeight = constraints.maxHeight;
 
             return Stack(
               children: <Widget>[
@@ -50,8 +50,8 @@ class CategoryCard extends StatelessWidget {
                       ),
                     ),
                     child: SizedBox(
-                      width: size,
-                      height: size,
+                      width: widgetHeight,
+                      height: widgetHeight,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           color: Theme.of(
@@ -69,13 +69,18 @@ class CategoryCard extends StatelessWidget {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Image(width: 32, height: 32, image: image),
+                          Image(
+                            width: widgetHeight * 0.24,
+                            height: widgetHeight * 0.24,
+                            image: image,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: AutoFitText(
                               text: title,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              availableHeight: size - (singleSidePadding * 2),
+                              style: TextStyle(fontSize: widgetHeight * 0.15),
+                              availableHeight:
+                                  widgetHeight - (singleSidePadding * 2),
                             ),
                           ),
                         ],

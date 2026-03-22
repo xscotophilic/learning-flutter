@@ -1,5 +1,5 @@
-import 'package:appetite_assorted/data.dart';
-import 'package:appetite_assorted/widgets/meal/meal_details.dart';
+import 'package:appetite_assorted/helpers/data.dart';
+import 'package:appetite_assorted/screens/meal_details/meal_details.dart';
 import 'package:flutter/material.dart';
 
 class MealDetailScreen extends StatelessWidget {

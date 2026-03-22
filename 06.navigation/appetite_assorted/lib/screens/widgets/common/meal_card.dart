@@ -1,5 +1,5 @@
 import 'package:appetite_assorted/models/meal.dart';
-import 'package:appetite_assorted/screens/meal_detail_screen.dart';
+import 'package:appetite_assorted/screens/meal_details/meal_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
