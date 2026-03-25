@@ -2,8 +2,8 @@ import 'package:appetite_assorted/models/meal.dart';
 import 'package:appetite_assorted/screens/widgets/common/meals_grid_view.dart';
 import 'package:flutter/material.dart';
 
-class CategoryMeals extends StatelessWidget {
-  const CategoryMeals({super.key, required this.availableMeals});
+class MealsInCategoryScreen extends StatelessWidget {
+  const MealsInCategoryScreen({super.key, required this.availableMeals});
 
   static const routeName = '/category-meals';
 

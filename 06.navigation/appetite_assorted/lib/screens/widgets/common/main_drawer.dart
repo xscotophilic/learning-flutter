@@ -9,13 +9,13 @@ class MainDrawer extends StatelessWidget {
     required IconData icon,
     required String title,
     required double fontSize,
-    required Function tapHandler,
+    required VoidCallback onTap,
   }) {
     return ListTile(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       leading: Icon(icon, size: 24, color: theme.colorScheme.onSurface),
       title: Text(title, style: TextStyle(fontSize: fontSize)),
-      onTap: () => tapHandler(),
+      onTap: onTap,
     );
   }
 
@@ -42,7 +42,7 @@ class MainDrawer extends StatelessWidget {
                 icon: Icons.rule,
                 title: 'Filters',
                 fontSize: longestSide * 0.02,
-                tapHandler: () => Navigator.of(
+                onTap: () => Navigator.of(
                   context,
                 ).pushReplacementNamed(FiltersScreen.routeName),
               ),
@@ -51,7 +51,7 @@ class MainDrawer extends StatelessWidget {
                 icon: Icons.settings,
                 title: 'Settings',
                 fontSize: longestSide * 0.02,
-                tapHandler: () =>
+                onTap: () =>
                     Navigator.of(context).pushReplacementNamed('/settings'),
               ),
             ],

@@ -10,6 +10,12 @@ class MealCard extends StatelessWidget {
 
   BorderRadius get _borderRadius => BorderRadius.circular(12);
 
+  void _selectMeal(BuildContext context) {
+    Navigator.of(
+      context,
+    ).pushNamed(MealDetailScreen.routeName, arguments: meal.id);
+  }
+
   String get _complexityText {
     switch (meal.complexity) {
       case Complexity.simple:
@@ -51,10 +57,6 @@ class MealCard extends StatelessWidget {
     );
   }
 
-  void _selectMeal(BuildContext context, String id) {
-    Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: id);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -63,7 +65,7 @@ class MealCard extends StatelessWidget {
       child: InkWell(
         splashColor: Theme.of(context).colorScheme.onPrimary.withAlpha(30),
         borderRadius: _borderRadius,
-        onTap: () => _selectMeal(context, meal.id),
+        onTap: () => _selectMeal(context),
         child: Padding(
           padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
           child: Row(

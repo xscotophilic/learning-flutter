@@ -20,9 +20,10 @@ class CategoryCard extends StatelessWidget {
   final _borderRadius = const BorderRadius.all(Radius.circular(12.0));
 
   void _selectCategory(BuildContext context) {
-    Navigator.of(
-      context,
-    ).pushNamed(CategoryMeals.routeName, arguments: {'id': id, 'title': title});
+    Navigator.of(context).pushNamed(
+      MealsInCategoryScreen.routeName,
+      arguments: {'id': id, 'title': title},
+    );
   }
 
   @override

@@ -106,7 +106,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget _buildSwitchListTile({
     required String title,
     required bool currentValue,
-    required ValueChanged<bool> updateValue,
+    required ValueChanged<bool> onToggle,
     required double fontSize,
   }) {
     return Theme(
@@ -121,7 +121,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         title: Text(title, style: TextStyle(fontSize: fontSize)),
         contentPadding: const EdgeInsets.all(0),
         value: currentValue,
-        onChanged: updateValue,
+        onChanged: onToggle,
       ),
     );
   }
@@ -148,7 +148,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     return _buildSwitchListTile(
                       title: _getDietaryTypeLabel(type),
                       currentValue: _isActive(type),
-                      updateValue: (bool value) {
+                      onToggle: (bool value) {
                         setState(() {
                           _filters[type] = value;
                         });

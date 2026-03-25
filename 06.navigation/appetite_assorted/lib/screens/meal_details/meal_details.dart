@@ -65,19 +65,19 @@ class _MealInfo extends StatelessWidget {
     );
   }
 
-  List<Column> _itemsListMapper({
+  List<Column> _buildBulletedList({
     required List<String> items,
     required double fontSize,
   }) {
-    return items.map((item) {
+    return List.generate(items.length, (index) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('\u2022 $item', style: TextStyle(fontSize: fontSize)),
+          Text('\u2022 ${items[index]}', style: TextStyle(fontSize: fontSize)),
           const SizedBox(height: 4),
         ],
       );
-    }).toList();
+    });
   }
 
   @override
@@ -89,14 +89,14 @@ class _MealInfo extends StatelessWidget {
       children: <Widget>[
         _buildSectionTitle('Ingredients', longestSide * 0.02),
         const SizedBox(height: 16),
-        ..._itemsListMapper(
+        ..._buildBulletedList(
           items: meal.ingredients,
           fontSize: longestSide * 0.016,
         ),
         const SizedBox(height: 16),
         _buildSectionTitle('Steps', longestSide * 0.02),
         const SizedBox(height: 16),
-        ..._itemsListMapper(items: meal.steps, fontSize: longestSide * 0.016),
+        ..._buildBulletedList(items: meal.steps, fontSize: longestSide * 0.016),
       ],
     );
   }

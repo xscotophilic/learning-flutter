@@ -16,7 +16,8 @@ class CategoriesGridView extends StatelessWidget {
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
         ),
-        children: foodCategories.map((category) {
+        children: List.generate(foodCategories.length, (index) {
+          final category = foodCategories[index];
           return CategoryCard(
             key: ValueKey(category.id),
             id: category.id,
@@ -24,7 +25,7 @@ class CategoriesGridView extends StatelessWidget {
             color: category.color,
             imageProvider: AssetImage(category.assetPath),
           );
-        }).toList(),
+        }),
       ),
     );
   }

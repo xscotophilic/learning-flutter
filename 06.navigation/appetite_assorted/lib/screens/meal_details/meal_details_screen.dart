@@ -6,13 +6,13 @@ class MealDetailScreen extends StatelessWidget {
   const MealDetailScreen({
     super.key,
     required this.isMealFav,
-    required this.toggleFavouritesHandler,
+    required this.onToggleFavourite,
   });
 
   static const routeName = '/meal-details';
 
   final bool Function(String) isMealFav;
-  final void Function(String) toggleFavouritesHandler;
+  final void Function(String) onToggleFavourite;
 
   AppBar _buildAppBar(BuildContext context, String title) {
     return AppBar(title: Text(title));
@@ -29,7 +29,7 @@ class MealDetailScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.secondary,
         child: Icon(isMealFav(mealID) ? Icons.favorite : Icons.favorite_border),
-        onPressed: () => toggleFavouritesHandler(mealID),
+        onPressed: () => onToggleFavourite(mealID),
       ),
     );
   }

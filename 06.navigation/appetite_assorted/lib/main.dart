@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
     return _favouriteMeals.any((meal) => meal.id == id);
   }
 
-  void _toggleFavourites(String id) {
+  void _toggleFavourite(String id) {
     final existingIndex = _favouriteMeals.indexWhere((meal) => meal.id == id);
     if (existingIndex >= 0) {
       setState(() {
@@ -70,12 +70,12 @@ class _MyAppState extends State<MyApp> {
 
       home: HomeScreen(favouriteMeals: _favouriteMeals),
       routes: {
-        CategoryMeals.routeName: (ctx) {
-          return CategoryMeals(availableMeals: _availableMeals);
+        MealsInCategoryScreen.routeName: (ctx) {
+          return MealsInCategoryScreen(availableMeals: _availableMeals);
         },
         MealDetailScreen.routeName: (ctx) {
           return MealDetailScreen(
-            toggleFavouritesHandler: _toggleFavourites,
+            onToggleFavourite: _toggleFavourite,
             isMealFav: _isMealFav,
           );
         },
