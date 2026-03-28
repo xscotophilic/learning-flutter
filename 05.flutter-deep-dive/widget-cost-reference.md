@@ -2,6 +2,15 @@
 
 > Sorted from cheapest to most expensive in terms of layout and rendering cost.
 
+## Table of Contents
+
+- [Essentially Free](#essentially-free)
+- [Very Cheap](#very-cheap)
+- [Cheap](#cheap)
+- [Moderate](#moderate)
+- [Expensive](#expensive)
+- [Most Expensive](#most-expensive)
+
 ## Essentially Free
 
 - `SizedBox`: fixed size or gap, simplest render object possible

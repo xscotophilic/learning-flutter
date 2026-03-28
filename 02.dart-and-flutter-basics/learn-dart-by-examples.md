@@ -2,6 +2,19 @@
 
 Use this guide alongside [DartPad](https://dartpad.dev/) to see the code in action.
 
+## Table of Contents
+
+- [Hello World](#1-hello-world)
+- [Variables and Sound Null Safety](#2-variables-and-sound-null-safety)
+- [Functions](#3-functions)
+  - [Simple Functions](#simple-functions)
+  - [Advanced Functions](#advanced-functions)
+- [Object-Oriented Dart (Classes)](#4-object-oriented-dart-classes)
+  - [The Blueprint Analogy](#the-blueprint-analogy)
+- [Sharing Behavior: Inheritance, Mixins, and Extensions](#5-sharing-behavior-inheritance-mixins-and-extensions)
+  - [Inheritance](#inheritance)
+  - [Mixins](#mixins)
+
 ## 1. Hello World
 
 Every Dart program starts at the `main()` function. This is where the execution begins.
