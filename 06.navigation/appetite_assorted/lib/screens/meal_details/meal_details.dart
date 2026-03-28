@@ -19,7 +19,12 @@ class MealDetails extends StatelessWidget {
             width: mediaQuery.size.width * 0.35,
             child: _Image(assetPath: meal.assetPath),
           ),
-          Expanded(child: _MealInfo(meal: meal)),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
+              child: _MealInfo(meal: meal),
+            ),
+          ),
         ],
       );
     }
@@ -30,7 +35,12 @@ class MealDetails extends StatelessWidget {
           height: mediaQuery.size.height * 0.30,
           child: _Image(assetPath: meal.assetPath),
         ),
-        Expanded(child: _MealInfo(meal: meal)),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
+            child: _MealInfo(meal: meal),
+          ),
+        ),
       ],
     );
   }
@@ -43,9 +53,12 @@ class _Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Image.asset(assetPath, fit: BoxFit.scaleDown),
+    return ColoredBox(
+      color: Theme.of(context).colorScheme.primary.withAlpha(100),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Image.asset(assetPath, fit: BoxFit.scaleDown),
+      ),
     );
   }
 }
@@ -85,7 +98,7 @@ class _MealInfo extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     final double longestSide = mediaQuery.size.longestSide;
     return ListView(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(24),
       children: <Widget>[
         _buildSectionTitle('Ingredients', longestSide * 0.02),
         const SizedBox(height: 16),
