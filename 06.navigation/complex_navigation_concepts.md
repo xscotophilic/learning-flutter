@@ -8,7 +8,7 @@
   - [What are the options?](#what-are-the-options)
     - [1. `didChangeDependencies` (most common fix)](#1-didchangedependencies-most-common-fix)
     - [2. Read args in `build`](#2-read-args-in-build)
-    - [3. Pass args as constructor parameters (cleanest architecture)](#3-pass-args-as-constructor-parameters-cleanest-architecture)
+    - [3. Typed constructor args via RouteSettings with onGenerateRoute](#3-typed-constructor-args-via-routesettings-with-ongenerateroute)
 - [Persistent bottom navigation with nested stacks](#persistent-bottom-navigation-with-nested-stacks)
 
 ## Reading Route Arguments Early
@@ -19,7 +19,7 @@ Reading route arguments in `initState` doesn't work because `context` isn't full
 
 ### What are the options?
 
-#### 1. `didChangeDependencies` (most common fix)
+#### 1. didChangeDependencies (most common fix)
 
 ```dart
 @override
@@ -31,13 +31,11 @@ void didChangeDependencies() {
 
 This is called after `initState` once the context has full route access. Be careful, it can fire multiple times, so guard with a flag if needed.
 
-Why `didChangeDependencies` works?
+Why `didChangeDependencies` works:
 
-- Flutter's lifecycle order is:
-  - `constructor` -> `initState` -> `didChangeDependencies` -> `build`
-- By the time of `didChangeDependencies`, the `InheritedWidget` tree (which `ModalRoute.of` depends on) is fully wired up.
+Flutter's lifecycle order is `constructor` -> `initState` -> `didChangeDependencies` -> `build`. By the time `didChangeDependencies` runs, the `InheritedWidget` tree (which `ModalRoute.of` depends on) is fully wired up.
 
-#### 2. Read args in `build`
+#### 2. Read args in build
 
 ```dart
 @override
@@ -47,18 +45,71 @@ Widget build(BuildContext context) {
 }
 ```
 
-Simple, but re-evaluates on every rebuild. Works fine for StatelessWidget, but for StatefulWidget, it's better to use `didChangeDependencies`.
+Simple, but re-evaluates on every rebuild. Works fine for `StatelessWidget`, but for `StatefulWidget` it's better to use `didChangeDependencies`.
 
-#### 3. Pass args as constructor parameters (cleanest architecture)
+#### 3. Typed constructor args via RouteSettings with onGenerateRoute
+
+This is more verbose and complex than the previous options, but it is the cleanest architecture.
+
+Define each screen to accept typed constructor parameters:
 
 ```dart
 class MyScreen extends StatefulWidget {
-  final Map<String, String> args;
-  const MyScreen({required this.args});
+  const MyScreen({required this.id});
+
+  final String id;
 }
 ```
 
-Then read in `initState` freely via `widget.args`. Avoids coupling your widget to routing internals entirely.
+Then read via `widget.id` in `initState` or wherever needed.
+
+To use typed constructor args with named routes, replace the inline `routes` map with `onGenerateRoute`; cast and wire arguments centrally before any widget is constructed:
+
+```dart
+MaterialApp(
+  home: HomeScreen(favouriteMeals: _favouriteMeals),
+  onGenerateRoute: (settings) {
+    switch (settings.name) {
+      case MealsInCategoryScreen.routeName:
+        final args = settings.arguments as Map<String, String>;
+        return MaterialPageRoute(
+          builder: (_) => MealsInCategoryScreen(
+            categoryID: args['id'],
+            categoryTitle: args['title'],
+            availableMeals: _availableMeals,
+          ),
+          settings: settings,
+        );
+      case MealDetailScreen.routeName:
+        final mealID = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => MealDetailScreen(
+            mealID: mealID,
+            isMealFav: _isMealFav,
+            onToggleFavourite: _toggleFavourite,
+          ),
+          settings: settings,
+        );
+      case FiltersScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => FiltersScreen(
+            currentFilters: _filters,
+            setFiltersHandler: _setFilters,
+          ),
+          settings: settings,
+        );
+      default:
+        return MaterialPageRoute(builder: (_) => const NotFoundScreen());
+    }
+  },
+)
+```
+
+Why this works:
+
+- `RouteSettings` is available before the widget tree is built, so there's no lifecycle timing issue.
+- Argument casting errors surface at navigation time, not buried in widget lifecycle methods.
+- Each screen stays unaware of routing; it just receives typed constructor parameters.
 
 ## Persistent bottom navigation with nested stacks
 
@@ -131,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        // IndexedStack keeps all tabs alive — only the selected one is visible
+        // IndexedStack keeps all tabs alive: only the selected one is visible
         body: IndexedStack(
           index: _selectedPageIndex,
           children: List.generate(_pages.length, _buildTabNavigator),

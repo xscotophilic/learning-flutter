@@ -19,7 +19,7 @@ pop()     ->  [ A | B ]        returns C
 pop()     ->  [ A ]            returns B
 ```
 
-Stacks are used wherever you need to track history or reverse a sequence — undo/redo, browser back navigation, function call chains, and expression parsing are all classic examples.
+Stacks are used wherever you need to track history or reverse a sequence; undo/redo, browser back navigation, function call chains, and expression parsing are all classic examples.
 
 ## Navigation basics
 
@@ -56,9 +56,9 @@ Flutter's navigation system is built on a stack; push a new screen to navigate f
 
 ### Inspecting the stack
 
-| Method               | What it does                                                                                         |
-| :------------------- | :--------------------------------------------------------------------------------------------------- |
-| `Navigator.canPop()` | Returns `true` if there is more than one route on the stack — i.e. there is something to go back to. |
+| Method               | What it does                                                                                        |
+| :------------------- | :-------------------------------------------------------------------------------------------------- |
+| `Navigator.canPop()` | Returns `true` if there is more than one route on the stack, i.e. there is something to go back to. |
 
 ## How the navigation stack works
 
@@ -69,18 +69,20 @@ flowchart TD
     C -- yes --> D[Route map in MaterialApp]
     C -- no --> E[Inline MaterialPageRoute]
     D --> F[pushNamed / pushReplacementNamed]
-    E --> G[Navigator.push]
-    F --> H[New screen on stack]
-    G --> H
-    H --> I{User action}
-    I -- Bottom nav tap --> L[Page index change\nno new route pushed]
-    I -- Back button --> J[Navigator.pop]
-    I -- Replace current screen --> K[pushReplacementNamed]
-    J --> M([Previous screen restored])
-    K --> H
-    L --> N([Same Scaffold, different body widget])
-    H --> O{Route exists?}
+    E --> G[Navigator.push / Navigator.pushReplacement]
+    F --> O{Route exists?}
+    G --> O
     O -- no --> P[onUnknownRoute fallback]
+    O -- yes --> H[New screen on stack]
+    H --> I{User action}
+    I -- Bottom nav tap --> L[Page index change, no new route pushed]
+    I -- Back button --> J[Navigator.pop]
+    I -- Push new screen --> K[pushNamed / Navigator.push]
+    I -- Replace current screen --> R[pushReplacementNamed / Navigator.pushReplacement]
+    J --> M([Previous screen restored])
+    K --> O
+    R --> O
+    L --> N([Same Scaffold, different body widget])
 ```
 
 ## MaterialPageRoute
@@ -108,12 +110,12 @@ Instead of building routes inline with `MaterialPageRoute`, define all routes in
 MaterialApp(
   home: HomeScreen(favouriteMeals: _favouriteMeals),
   routes: {
-    '/category-meals': (ctx) => MealsInCategoryScreen(availableMeals: _availableMeals),
-    '/meal-details': (ctx) => MealDetailScreen(
+    MealsInCategoryScreen.routeName: (ctx) => MealsInCategoryScreen(availableMeals: _availableMeals),
+    MealDetailScreen.routeName: (ctx) => MealDetailScreen(
       onToggleFavourite: _toggleFavourite,
       isMealFav: _isMealFav,
     ),
-    '/filters': (ctx) => FiltersScreen(
+    FiltersScreen.routeName: (ctx) => FiltersScreen(
       currentFilters: _filters,
       setFiltersHandler: _setFilters,
     ),
