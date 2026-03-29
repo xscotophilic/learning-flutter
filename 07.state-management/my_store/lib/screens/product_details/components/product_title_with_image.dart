@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../../../providers/product.dart';
-import '../../../const.dart';
+import 'package:my_store/const.dart';
+import 'package:my_store/providers/product.dart';
 
 class ProductTitleWithImage extends StatelessWidget {
-  final Product product;
+  const ProductTitleWithImage({super.key, required this.product});
 
-  const ProductTitleWithImage({Key? key, required this.product})
-    : super(key: key);
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +16,15 @@ class ProductTitleWithImage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: Constants.kDefaultPadding),
+          const SizedBox(height: Constants.kDefaultPadding),
           Row(
             children: <Widget>[
               RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(text: "Price\n"),
+                    const TextSpan(text: 'Price\n'),
                     TextSpan(
-                      text: "\$${product.price}",
+                      text: '\$${product.price}',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -35,10 +33,10 @@ class ProductTitleWithImage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: Constants.kDefaultPadding),
+              const SizedBox(width: Constants.kDefaultPadding),
               Expanded(
                 child: Hero(
-                  tag: "${product.id}",
+                  tag: product.id,
                   child: Image.network(product.imageURL, fit: BoxFit.fill),
                 ),
               ),

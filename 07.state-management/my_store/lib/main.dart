@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -38,9 +38,9 @@ class _MyAppState extends State<MyApp> {
         // ------- Theme data ends -------
         home: const HomeScreen(), // Home page
         routes: {
-          ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
-          CartScreen.routeName: (ctx) => CartScreen(),
-          OrdersScreen.routeName: (ctx) => OrdersScreen(),
+          ProductDetailsScreen.routeName: (ctx) => const ProductDetailsScreen(),
+          CartScreen.routeName: (ctx) => const CartScreen(),
+          OrdersScreen.routeName: (ctx) => const OrdersScreen(),
         },
       ),
     );

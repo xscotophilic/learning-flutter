@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/const.dart';
+import 'package:my_store/providers/products.dart';
+import 'package:my_store/screens/home/components/item_card.dart';
+import 'package:my_store/screens/product_details/product_details.dart';
 import 'package:provider/provider.dart';
 
-import '../../../const.dart';
-import './item_card.dart';
-import '../../../providers/products.dart';
-import '../../product_details/product_details.dart';
+class ProductsGrid extends StatelessWidget {
+  const ProductsGrid({super.key, required this.showOnlyFavs});
 
-class productsGrid extends StatelessWidget {
   final bool showOnlyFavs;
-
-  productsGrid(this.showOnlyFavs);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class productsGrid extends StatelessWidget {
 
     return GridView.builder(
       itemCount: products.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: Constants.kDefaultPadding,
         crossAxisSpacing: Constants.kDefaultPadding,

@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../app_drawer.dart';
-
-import './components/body.dart';
+import 'package:my_store/app_drawer.dart';
+import 'package:my_store/screens/orders/components/body.dart';
 
 class OrdersScreen extends StatelessWidget {
-  static const routeName = '/orders';
+  const OrdersScreen({super.key});
 
-  const OrdersScreen({Key? key}) : super(key: key);
+  static const routeName = '/orders';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      drawer: AppDrawer(),
-      body: Body(),
+      drawer: const AppDrawer(),
+      body: const OrdersBody(),
     );
   }
 
@@ -25,8 +23,11 @@ class OrdersScreen extends StatelessWidget {
       leading: Builder(
         builder: (context) => IconButton(
           icon: SvgPicture.asset(
-            "assets/icons/menu.svg",
-            color: Theme.of(context).colorScheme.secondary,
+            'assets/icons/menu.svg',
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).colorScheme.secondary,
+              BlendMode.srcIn,
+            ),
             width: 20,
           ),
           onPressed: () => Scaffold.of(context).openDrawer(),

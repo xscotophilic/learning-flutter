@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_store/const.dart';
+import 'package:my_store/providers/cart.dart';
+import 'package:my_store/providers/product.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/cart.dart';
-import '../../../providers/product.dart';
-import '../../../const.dart';
-
 class ItemCard extends StatelessWidget {
-  final Function onClickHandler;
+  const ItemCard({super.key, required this.onClickHandler});
 
-  const ItemCard({Key? key, required this.onClickHandler}) : super(key: key);
+  final Function onClickHandler;
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +17,18 @@ class ItemCard extends StatelessWidget {
     final cart = Provider.of<Cart>(context, listen: false);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Expanded(
           child: GestureDetector(
             onTap: () => onClickHandler(),
             child: Container(
-              padding: EdgeInsets.all(Constants.kDefaultPadding),
+              padding: const EdgeInsets.all(Constants.kDefaultPadding),
               decoration: BoxDecoration(
                 color: product.color,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
-                tag: "${product.id}",
+                tag: product.id,
                 child: Image.network(product.imageURL),
               ),
             ),
@@ -51,16 +49,16 @@ class ItemCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width < 400 ? 80 : 200,
                       child: Text(
                         product.title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                         overflow: TextOverflow.fade,
                       ),
                     ),
-                    SizedBox(height: 4),
-                    Text("\$${product.price}"),
+                    const SizedBox(height: 4),
+                    Text('\$${product.price}'),
                   ],
                 ),
                 Row(
@@ -73,21 +71,24 @@ class ItemCard extends StatelessWidget {
                           product.isFavorite
                               ? Icons.favorite
                               : Icons.favorite_border,
-                          color: Color(0xFFff7096),
+                          color: const Color(0xFFff7096),
                           size: 22,
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () => cart.addItem(
-                        ProductId: product.id,
+                        productId: product.id,
                         title: product.title,
                         price: product.price,
                       ),
                       child: SvgPicture.asset(
-                        "assets/icons/cart.svg",
-                        color: Theme.of(context).colorScheme.secondary,
+                        'assets/icons/cart.svg',
+                        colorFilter: ColorFilter.mode(
+                          Theme.of(context).colorScheme.secondary,
+                          BlendMode.srcIn,
+                        ),
                         width: 22,
                       ),
                     ),
@@ -97,7 +98,7 @@ class ItemCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }

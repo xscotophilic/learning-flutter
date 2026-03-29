@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import './product.dart';
-import '../data.dart';
+import 'package:my_store/data.dart';
+import 'package:my_store/providers/product.dart';
 
 class Products with ChangeNotifier {
-  List<Product> _items = PRODUCTS;
+  final List<Product> _items = globalProducts;
 
   // var _ShowFavsOnly = false;
 

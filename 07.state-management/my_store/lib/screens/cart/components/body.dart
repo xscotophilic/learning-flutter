@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/const.dart';
+import 'package:my_store/providers/cart.dart';
 import 'package:my_store/providers/orders.dart';
+import 'package:my_store/screens/cart/components/cart_item.dart';
 import 'package:provider/provider.dart';
 
-import './cart_item.dart';
-import '../../../const.dart';
-import '../../../providers/cart.dart';
-
-class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+class CartBody extends StatelessWidget {
+  const CartBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
 
     return Padding(
-      padding: EdgeInsets.all(Constants.kDefaultPadding),
+      padding: const EdgeInsets.all(Constants.kDefaultPadding),
       child: Column(
         children: [
           Card(
             child: Padding(
-              padding: EdgeInsets.all(Constants.kDefaultPadding),
+              padding: const EdgeInsets.all(Constants.kDefaultPadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Total', style: Theme.of(context).textTheme.bodyMedium),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     '\$${cart.totalAmmount.toStringAsFixed(2)}',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
                       Provider.of<Orders>(
@@ -40,6 +39,9 @@ class Body extends StatelessWidget {
                       ).addOrder(cart.items.values.toList(), cart.totalAmmount);
                       cart.clear();
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
                     child: Text(
                       'Order Now',
                       style: TextStyle(
@@ -47,22 +49,19 @@ class Body extends StatelessWidget {
                         fontWeight: FontWeight.normal,
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                    ),
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: Constants.kDefaultPadding),
+          const SizedBox(height: Constants.kDefaultPadding),
           cart.itemCount > 0
               ? Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
                   alignment: Alignment.center,
-                  child: Text('Swipe item to remove it from cart.'),
+                  child: const Text('Swipe item to remove it from cart.'),
                 )
-              : SizedBox(height: 0),
+              : const SizedBox(height: 0),
           cart.itemCount > 0
               ? Expanded(
                   child: ListView.builder(
@@ -76,7 +75,7 @@ class Body extends StatelessWidget {
                     ),
                   ),
                 )
-              : Center(child: Text('Add some items.')),
+              : const Center(child: Text('Add some items.')),
         ],
       ),
     );

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/const.dart';
+import 'package:my_store/providers/product.dart';
 
-import '../../../providers/product.dart';
-import '../../../const.dart';
-
-class Description extends StatelessWidget {
-  const Description({Key? key, required this.product}) : super(key: key);
+class ProductDescription extends StatelessWidget {
+  const ProductDescription({super.key, required this.product});
 
   final Product product;
 
@@ -12,7 +11,7 @@ class Description extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Constants.kDefaultPadding),
-      child: Text(product.description, style: TextStyle(height: 1.5)),
+      child: Text(product.description, style: const TextStyle(height: 1.5)),
     );
   }
 }

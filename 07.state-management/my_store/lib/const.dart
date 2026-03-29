@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   // Name
-  static String appName = "The Blue Store";
+  static String appName = 'The Blue Store';
 
   static String mainFontName = '';
   static String secondaryFontName = '';
@@ -11,8 +11,8 @@ class Constants {
 
   static Color lightBackground = Colors.white;
   static Color lightPrimary = Colors.white;
-  static Color lightAccent = Color(0xFF242423);
-  static Color lightCanvasColor = Color(0xFFDEE4E7);
+  static Color lightAccent = const Color(0xFF242423);
+  static Color lightCanvasColor = const Color(0xFFDEE4E7);
 
   static ThemeData lightTheme(BuildContext context) {
     return ThemeData(

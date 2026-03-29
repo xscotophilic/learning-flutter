@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/providers/cart.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/cart.dart';
-
 class CartItemCard extends StatelessWidget {
-  final String id;
-  final String productId;
-  final double price;
-  final int quantity;
-  final String title;
-
   const CartItemCard({
-    Key? key,
+    super.key,
     required this.id,
     required this.productId,
     required this.price,
     required this.quantity,
     required this.title,
-  }) : super(key: key);
+  });
+
+  final String id;
+  final String productId;
+  final double price;
+  final int quantity;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +24,9 @@ class CartItemCard extends StatelessWidget {
       key: ValueKey(id),
       background: Container(
         color: Theme.of(context).colorScheme.error,
-        child: Icon(Icons.delete, color: Colors.white),
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.only(right: 15),
+        child: const Icon(Icons.delete, color: Colors.white),
       ),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
@@ -35,11 +34,11 @@ class CartItemCard extends StatelessWidget {
       },
       child: Card(
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: ListTile(
             leading: CircleAvatar(
               child: Padding(
-                padding: EdgeInsets.all(3),
+                padding: const EdgeInsets.all(3),
                 child: FittedBox(child: Text('\$$price')),
               ),
             ),

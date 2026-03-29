@@ -1,26 +1,25 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../../../const.dart';
-import '../../../providers/orders.dart';
+import 'package:my_store/const.dart';
+import 'package:my_store/providers/orders.dart';
 
 class OrderItemCard extends StatefulWidget {
+  const OrderItemCard({super.key, required this.order});
+
   final OrderItem order;
 
-  const OrderItemCard({Key? key, required this.order}) : super(key: key);
-
   @override
-  _OrderItemCardState createState() => _OrderItemCardState();
+  State<OrderItemCard> createState() => _OrderItemCardState();
 }
 
 class _OrderItemCardState extends State<OrderItemCard> {
-  var _expanded = false;
+  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: Constants.kDefaultPadding,
         vertical: Constants.kDefaultPadding / 3,
       ),
@@ -53,7 +52,7 @@ class _OrderItemCardState extends State<OrderItemCard> {
           ),
           if (_expanded)
             Container(
-              padding: EdgeInsets.all(Constants.kDefaultPadding),
+              padding: const EdgeInsets.all(Constants.kDefaultPadding),
               height: min(widget.order.products.length * 20.0 + 40.0, 180.0),
               child: ListView(
                 children: widget.order.products
@@ -74,7 +73,7 @@ class _OrderItemCardState extends State<OrderItemCard> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                         ],
                       ),
                     )

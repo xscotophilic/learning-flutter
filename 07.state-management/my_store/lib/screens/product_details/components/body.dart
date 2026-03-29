@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/const.dart';
+import 'package:my_store/providers/product.dart';
+import 'package:my_store/screens/product_details/components/description.dart';
+import 'package:my_store/screens/product_details/components/product_title_with_image.dart';
 
-import '../../../const.dart';
-import '../../../providers/product.dart';
-import './description.dart';
-import './product_title_with_image.dart';
+class ProductDetailsBody extends StatelessWidget {
+  const ProductDetailsBody({super.key, required this.selectedProduct});
 
-class Body extends StatelessWidget {
   final Product selectedProduct;
 
-  const Body({Key? key, required this.selectedProduct}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // It provide us total height and width
@@ -28,17 +28,19 @@ class Body extends StatelessWidget {
                     right: Constants.kDefaultPadding,
                   ),
                   // height: 500,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24),
                     ),
                   ),
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     child: Column(
-                      children: <Widget>[Description(product: selectedProduct)],
+                      children: <Widget>[
+                        ProductDescription(product: selectedProduct),
+                      ],
                     ),
                   ),
                 ),

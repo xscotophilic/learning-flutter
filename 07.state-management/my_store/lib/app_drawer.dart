@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_store/screens/orders/orders_screen.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({Key? key}) : super(key: key);
+  const AppDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('The Blue Store'),
+            title: const Text('The Blue Store'),
             automaticallyImplyLeading: false,
           ),
           buildListTile(
