@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_store/const.dart';
+import 'package:my_store/helpers/app_consts.dart';
 import 'package:my_store/providers/cart.dart';
 import 'package:my_store/providers/product.dart';
 import 'package:provider/provider.dart';
@@ -46,20 +46,19 @@ class ItemCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width < 400 ? 80 : 200,
-                      child: Text(
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
                         product.title,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                         overflow: TextOverflow.fade,
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text('\$${product.price}'),
-                  ],
+                      const SizedBox(height: 4),
+                      Text('\$${product.price}'),
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

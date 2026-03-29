@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/const.dart';
+import 'package:my_store/helpers/app_consts.dart';
 import 'package:my_store/providers/product.dart';
 import 'package:my_store/screens/product_details/components/description.dart';
 import 'package:my_store/screens/product_details/components/product_title_with_image.dart';

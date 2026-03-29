@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  // Name
   static String appName = 'The Blue Store';
-
-  static String mainFontName = '';
-  static String secondaryFontName = '';
 
   static const kDefaultPadding = 16.0;
 
