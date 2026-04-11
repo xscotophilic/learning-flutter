@@ -23,13 +23,18 @@ class ItemCard extends StatelessWidget {
             onTap: () => onClickHandler(),
             child: Container(
               padding: const EdgeInsets.all(Constants.kDefaultPadding),
+              // width: double.infinity,
               decoration: BoxDecoration(
                 color: product.color,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
                 tag: product.id,
-                child: Image.network(product.imageURL),
+                child: Image.network(
+                  product.imageURL,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
               ),
             ),
           ),
