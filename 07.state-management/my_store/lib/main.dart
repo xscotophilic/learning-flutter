@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_store/core/consts/app_variables.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/features/home/presentation/pages/home_page.dart';
+import 'package:my_store/features/home/presentation/home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

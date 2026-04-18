@@ -77,6 +77,7 @@ class AppTheme {
             horizontal: AppConsts.defaultPadding / 2,
             vertical: AppConsts.defaultPadding / 2,
           ),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppConsts.defaultBorderRadius),
           ),
