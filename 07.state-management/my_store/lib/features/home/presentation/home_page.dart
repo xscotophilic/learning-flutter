@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_consts.dart';
 import 'package:my_store/core/consts/app_variables.dart';
+import 'package:my_store/data/store/mock_data.dart';
 import 'package:my_store/features/home/presentation/widgets/hero_banner.dart';
+import 'package:my_store/features/home/presentation/widgets/product_grid.dart';
 import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 
 class HomePage extends StatelessWidget {
@@ -31,22 +33,27 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(Theme.of(context).textTheme),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppConsts.defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeroBanner(
               title: 'Rock your taste buds with our cookies',
-              imageUrl: 'https://i.ibb.co/9mS5StLX/choco-chip-cookie.webp',
+              imageUrl: MockData.heroProduct.imageUrl,
               ctaText: 'SHOP NOW',
               onTap: () {},
             ),
+            const SizedBox(height: AppConsts.defaultMargin / 2),
             Text(
               'Featured Products',
               style: Theme.of(context).textTheme.titleSmall,
             ),
-            const SizedBox(height: AppConsts.defaultMargin / 2),
+            const SizedBox(height: AppConsts.defaultMargin),
+            ProductGrid(
+              products: MockData.products,
+              onProductTap: (product) {},
+            ),
           ],
         ),
       ),

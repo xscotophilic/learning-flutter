@@ -2,20 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_consts.dart';
 
 class AppGradients extends ThemeExtension<AppGradients> {
-  const AppGradients({required this.cardGradient});
+  const AppGradients({
+    required this.bannerGradient,
+    required this.cardGradient,
+  });
 
+  final Gradient bannerGradient;
   final Gradient cardGradient;
 
   @override
-  AppGradients copyWith({Gradient? cardGradient}) {
-    return AppGradients(cardGradient: cardGradient ?? this.cardGradient);
+  AppGradients copyWith({Gradient? bannerGradient, Gradient? cardGradient}) {
+    return AppGradients(
+      bannerGradient: bannerGradient ?? this.bannerGradient,
+      cardGradient: cardGradient ?? this.cardGradient,
+    );
   }
 
   @override
   AppGradients lerp(ThemeExtension<AppGradients>? other, double t) {
     if (other is! AppGradients) return this;
 
-    return AppGradients(cardGradient: cardGradient);
+    return AppGradients(
+      bannerGradient: bannerGradient,
+      cardGradient: cardGradient,
+    );
   }
 }
 
@@ -29,8 +39,11 @@ class AppTheme {
   static final Color _secondary = const Color(0xFFE8324A);
   static final Color _onSecondary = const Color(0xFFF2EEE8);
 
-  static final Color _gradientStart = const Color(0xFF211E18);
-  static final Color _gradientEnd = const Color(0xFF2A2620);
+  static final Color _bannerGradientStart = const Color(0xFF211E18);
+  static final Color _bannerGradientEnd = const Color(0xFF2A2620);
+
+  static final Color _cardGradientStart = const Color(0xFF2C2210);
+  static final Color _cardGradientEnd = const Color(0xFF1A1408);
 
   static ThemeData get primaryTheme {
     return ThemeData(
@@ -47,7 +60,14 @@ class AppTheme {
       ),
       extensions: [
         AppGradients(
-          cardGradient: LinearGradient(colors: [_gradientStart, _gradientEnd]),
+          bannerGradient: LinearGradient(
+            colors: [_bannerGradientStart, _bannerGradientEnd],
+          ),
+          cardGradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [_cardGradientStart, _cardGradientEnd],
+          ),
         ),
       ],
 
@@ -65,6 +85,7 @@ class AppTheme {
         foregroundColor: _onBackground,
         iconTheme: IconThemeData(color: _onBackground),
         titleTextStyle: TextStyle(fontSize: 24, color: _onBackground),
+        scrolledUnderElevation: 0,
       ),
       drawerTheme: DrawerThemeData(backgroundColor: _primary),
 

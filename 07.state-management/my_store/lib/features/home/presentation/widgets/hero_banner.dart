@@ -23,15 +23,16 @@ class HeroBanner extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final contentWidth = constraints.maxWidth * 0.62;
-        final imageWidth =
-            constraints.maxWidth - contentWidth - AppConsts.defaultPadding;
+        final imageWidth = constraints.maxWidth > 420
+            ? 100.0
+            : constraints.maxWidth - contentWidth - AppConsts.defaultPadding;
         return Stack(
           clipBehavior: Clip.none,
           children: [
             Container(
               padding: const EdgeInsets.all(AppConsts.defaultPadding),
               decoration: BoxDecoration(
-                gradient: theme.extension<AppGradients>()?.cardGradient,
+                gradient: theme.extension<AppGradients>()?.bannerGradient,
                 borderRadius: BorderRadius.circular(
                   AppConsts.defaultBorderRadius,
                 ),

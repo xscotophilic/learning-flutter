@@ -1,14 +1,9 @@
 import 'package:my_store/data/models/product.dart';
 
-class MockStore {
-  const MockStore._();
+class MockData {
+  const MockData._();
 
-  static const heroProduct = Product(
-    id: '4',
-    name: 'Choco Chip Cookie',
-    price: Price(amount: 10.0, currency: 'USD'),
-    imageUrl: 'https://i.ibb.co/9mS5StLX/choco-chip-cookie.webp',
-  );
+  static final heroProduct = products[3];
 
   static const products = [
     Product(

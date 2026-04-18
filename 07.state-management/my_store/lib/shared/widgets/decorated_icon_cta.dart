@@ -8,10 +8,8 @@ class DecoratedIconCta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
       child: DecoratedBox(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Icon(icon),
