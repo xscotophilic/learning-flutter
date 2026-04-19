@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_store/core/consts/app_variables.dart';
+import 'package:my_store/core/routes/app_routes.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/features/home/presentation/home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppVariables.appName,
       theme: AppTheme.primaryTheme,
-      home: const HomePage(),
+      onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
 }

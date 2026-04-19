@@ -39,6 +39,8 @@ class AppTheme {
   static final Color _secondary = const Color(0xFFE8324A);
   static final Color _onSecondary = const Color(0xFFF2EEE8);
 
+  static final Color _drawer = const Color(0xFF1E1C16);
+
   static final Color _bannerGradientStart = const Color(0xFF332E24);
   static final Color _bannerGradientEnd = const Color(0xFF28221A);
 
@@ -72,6 +74,7 @@ class AppTheme {
       ],
 
       textTheme: ThemeData.dark().textTheme.copyWith(
+        displayLarge: const TextStyle(fontSize: 36),
         titleLarge: const TextStyle(fontSize: 24),
         titleMedium: const TextStyle(fontSize: 20),
         titleSmall: const TextStyle(fontSize: 16),
@@ -87,7 +90,7 @@ class AppTheme {
         titleTextStyle: TextStyle(fontSize: 24, color: _onBackground),
         scrolledUnderElevation: 0,
       ),
-      drawerTheme: DrawerThemeData(backgroundColor: _primary),
+      drawerTheme: DrawerThemeData(backgroundColor: _drawer),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
