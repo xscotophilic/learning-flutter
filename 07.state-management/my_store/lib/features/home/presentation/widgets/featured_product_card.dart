@@ -26,6 +26,9 @@ class FeaturedProductCard extends StatelessWidget {
               gradient: Theme.of(
                 context,
               ).extension<AppGradients>()?.cardGradient,
+              border: Border.all(
+                color: theme.colorScheme.primary.withAlpha(40),
+              ),
               borderRadius: BorderRadius.circular(
                 AppConsts.defaultBorderRadius,
               ),
@@ -49,13 +52,31 @@ class FeaturedProductCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppConsts.defaultMargin / 4),
-                  Text(
-                    product.price.formatted,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w300,
-                      color: theme.colorScheme.onSurface,
+                  Row(
+                    children: [
+                      GestureDetector(
+                        child: const Icon(Icons.favorite_border, size: 18),
+                      ),
+                      const SizedBox(width: AppConsts.defaultMargin / 2),
+                      Expanded(
+                        child: Text(
+                          product.price.formatted,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w300,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppConsts.defaultMargin / 2),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: onTap,
+                      child: const Text('Add to Cart'),
                     ),
                   ),
                 ],

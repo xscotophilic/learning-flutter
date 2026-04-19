@@ -40,7 +40,7 @@ class _ProductGridState extends State<ProductGrid> {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (int i = 0; i < _columnCount!; i++) ...[
+            for (int i = 0; i < _columnCount; i++) ...[
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(

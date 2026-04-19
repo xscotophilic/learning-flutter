@@ -39,8 +39,8 @@ class AppTheme {
   static final Color _secondary = const Color(0xFFE8324A);
   static final Color _onSecondary = const Color(0xFFF2EEE8);
 
-  static final Color _bannerGradientStart = const Color(0xFF211E18);
-  static final Color _bannerGradientEnd = const Color(0xFF2A2620);
+  static final Color _bannerGradientStart = const Color(0xFF332E24);
+  static final Color _bannerGradientEnd = const Color(0xFF28221A);
 
   static final Color _cardGradientStart = const Color(0xFF2C2210);
   static final Color _cardGradientEnd = const Color(0xFF1A1408);
@@ -99,6 +99,20 @@ class AppTheme {
             vertical: AppConsts.defaultPadding / 2,
           ),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppConsts.defaultBorderRadius),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          foregroundColor: _primary,
+          side: BorderSide(color: _primary),
+          minimumSize: const Size(0, 0),
+          padding: const EdgeInsets.all(AppConsts.defaultPadding / 2),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          textStyle: TextStyle(fontSize: 14, color: _primary),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppConsts.defaultBorderRadius),
           ),
