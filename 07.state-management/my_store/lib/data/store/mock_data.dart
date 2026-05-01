@@ -1,4 +1,8 @@
+import 'package:my_store/data/models/cart.dart';
+import 'package:my_store/data/models/order.dart';
+import 'package:my_store/data/models/price.dart';
 import 'package:my_store/data/models/product.dart';
+import 'package:my_store/data/models/total.dart';
 
 class MockData {
   const MockData._();
@@ -77,6 +81,76 @@ class MockData {
           'A festive favorite that brings warmth and spice to any cookie jar or dessert spread.',
       price: Price(amount: 12.0, currency: 'USD'),
       imageUrl: 'https://i.ibb.co/Z6QhWxHG/molasses-cookie.webp',
+    ),
+  ];
+
+  static final cart = Cart(
+    id: 'CART-123',
+    ownerId: 'USER-123',
+    createdAt: DateTime(2025, 11, 10, 10),
+    items: const [
+      CartItem(productId: '1', quantity: 2),
+      CartItem(productId: '4', quantity: 3),
+    ],
+    total: const Total(
+      subtotal: 66,
+      discount: 5.4,
+      total: 60.6,
+      currency: 'USD',
+    ),
+  );
+
+  static final orders = [
+    Order(
+      id: 'ORD-2024-001',
+      placedAt: DateTime(2024, 11, 12, 14, 35),
+      currency: 'USD',
+      lineItems: const [
+        OrderLineItem(
+          productId: '1',
+          quantity: 2,
+          purchasePrice: Price(amount: 14.40, currency: 'USD'),
+        ),
+        OrderLineItem(
+          productId: '4',
+          quantity: 3,
+          purchasePrice: Price(amount: 9.00, currency: 'USD'),
+        ),
+      ],
+    ),
+    Order(
+      id: 'ORD-2025-002',
+      placedAt: DateTime(2025, 3, 5, 9, 20),
+      currency: 'USD',
+      lineItems: const [
+        OrderLineItem(
+          productId: '2',
+          quantity: 1,
+          purchasePrice: Price(amount: 20.00, currency: 'USD'),
+        ),
+        OrderLineItem(
+          productId: '3',
+          quantity: 2,
+          purchasePrice: Price(amount: 14.00, currency: 'USD'),
+        ),
+        OrderLineItem(
+          productId: '5',
+          quantity: 1,
+          purchasePrice: Price(amount: 16.00, currency: 'USD'),
+        ),
+      ],
+    ),
+    Order(
+      id: 'ORD-2025-003',
+      placedAt: DateTime(2025, 4, 28, 18, 55),
+      currency: 'USD',
+      lineItems: const [
+        OrderLineItem(
+          productId: '6',
+          quantity: 4,
+          purchasePrice: Price(amount: 12.00, currency: 'USD'),
+        ),
+      ],
     ),
   ];
 }

@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_consts.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/data/models/cart_item.dart';
+import 'package:my_store/data/models/cart.dart';
+import 'package:my_store/data/models/price.dart';
 import 'package:my_store/data/models/product.dart';
 import 'package:my_store/data/models/total.dart';
 import 'package:my_store/data/store/mock_data.dart';
@@ -39,42 +38,34 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartItems = MockData.products.map((p) {
-      return CartItem(
-        productId: p.id,
-        quantity: Random().nextInt(5) + 1,
-      );
-    }).toList();
+    final cart = MockData.cart;
+    final cartItems = cart.items;
 
-    final Total total;
-    if (cartItems.isEmpty) {
-      total = const Total(subtotal: 0, discount: 0, total: 0, currency: '');
-    } else {
-      double subtotal = 0;
-      double discount = 0;
-      double totalAmount = 0;
-      for (final item in cartItems) {
-        final product = MockData.products.firstWhere((p) => p.id == item.productId);
-        final itemSubtotal = product.price.amount * item.quantity;
-        subtotal += itemSubtotal;
-        
-        double itemDiscount = 0;
-        if (product.price.discountPercent != null && product.price.discountPercent! > 0) {
-          itemDiscount = (product.price.amount * product.price.discountPercent! / 100) * item.quantity;
-        }
-        discount += itemDiscount;
-        totalAmount += itemSubtotal - itemDiscount;
+    // We use separate lists to ensure:
+    // - Interface Segregation: Decouples the tight coupling between models.
+    // - Explicit Intent: Clarifies the "data contract" for the needed data only.
+    // - Future Proofing: Supports future items with different data structures.
+    List<(CartItem, Price)> cartItemsWithPrices = [];
+    List<(CartItem, Product)> cartItemsWithProductDetails = [];
+
+    for (final cartItem in cartItems) {
+      final productIndex = MockData.products.indexWhere((p) {
+        return p.id == cartItem.productId;
+      });
+
+      if (productIndex >= 0) {
+        cartItemsWithProductDetails.add((
+          cartItem,
+          MockData.products[productIndex],
+        ));
+        cartItemsWithPrices.add((
+          cartItem,
+          MockData.products[productIndex].price,
+        ));
       }
-      
-      final firstProduct = MockData.products.firstWhere((p) => p.id == cartItems.first.productId);
-
-      total = Total(
-        subtotal: subtotal,
-        discount: discount,
-        total: totalAmount,
-        currency: firstProduct.price.currency,
-      );
     }
+
+    final total = Total.calculate(cartItemsWithPrices);
 
     return Scaffold(
       appBar: _buildAppBar(Theme.of(context).textTheme),
@@ -83,7 +74,9 @@ class CartPage extends StatelessWidget {
           padding: const EdgeInsets.all(AppConsts.defaultPadding),
           child: Column(
             children: [
-              _CartContent(cartItems: cartItems),
+              _CartContent(
+                cartItemsWithProductDetails: cartItemsWithProductDetails,
+              ),
               const SizedBox(height: AppConsts.defaultPadding),
               Container(
                 padding: const EdgeInsets.all(AppConsts.defaultPadding / 1.5),
@@ -113,13 +106,13 @@ class CartPage extends StatelessWidget {
 }
 
 class _CartContent extends StatelessWidget {
-  const _CartContent({required this.cartItems});
+  const _CartContent({required this.cartItemsWithProductDetails});
 
-  final List<CartItem> cartItems;
+  final List<(CartItem, Product)> cartItemsWithProductDetails;
 
   @override
   Widget build(BuildContext context) {
-    if (cartItems.isEmpty) {
+    if (cartItemsWithProductDetails.isEmpty) {
       return Expanded(
         child: Center(
           child: Text(
@@ -131,13 +124,15 @@ class _CartContent extends StatelessWidget {
     }
     return Expanded(
       child: ListView.builder(
-        itemCount: cartItems.length,
+        itemCount: cartItemsWithProductDetails.length,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
+          final (cartItem, product) = cartItemsWithProductDetails[index];
+
           return Dismissible(
-            key: ValueKey(cartItems[index].productId),
+            key: ValueKey(cartItem.productId),
             onDismissed: (direction) {},
-            child: _CartItem(item: cartItems[index]),
+            child: _CartItem(item: cartItemsWithProductDetails[index]),
           );
         },
       ),
@@ -148,19 +143,15 @@ class _CartContent extends StatelessWidget {
 class _CartItem extends StatelessWidget {
   const _CartItem({required this.item});
 
-  final CartItem item;
+  final (CartItem, Product) item;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final product = MockData.products.firstWhere((p) => p.id == item.productId);
-    
-    final itemSubtotal = product.price.amount * item.quantity;
-    double itemDiscount = 0;
-    if (product.price.discountPercent != null && product.price.discountPercent! > 0) {
-      itemDiscount = (product.price.amount * product.price.discountPercent! / 100) * item.quantity;
-    }
-    final itemTotal = itemSubtotal - itemDiscount;
+    final (cartItem, product) = item;
+
+    final itemSubtotal = cartItem.calculateSubtotal(product.price);
+    final itemTotal = cartItem.calculateTotal(product.price);
 
     return Container(
       width: double.infinity,
@@ -173,7 +164,11 @@ class _CartItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.network(product.imageUrl, width: _imageSize, height: _imageSize),
+          Image.network(
+            product.imageUrl,
+            width: _imageSize,
+            height: _imageSize,
+          ),
           const SizedBox(width: AppConsts.defaultPadding),
           Expanded(
             child: Column(
@@ -201,7 +196,7 @@ class _CartItem extends StatelessWidget {
                       ),
                       const SizedBox(width: AppConsts.defaultPadding / 2),
                       Text(
-                        '${item.quantity}',
+                        '${cartItem.quantity}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.primary,
                         ),
@@ -224,14 +219,14 @@ class _CartItem extends StatelessWidget {
             children: [
               if (itemSubtotal != itemTotal) ...[
                 Text(
-                  '${product.price.currency.asCurrencySymbol}${itemTotal.toStringAsFixed(2)}',
+                  itemTotal.asPrice(product.price.currency),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(width: AppConsts.defaultPadding / 4),
                 Text(
-                  '${product.price.currency.asCurrencySymbol}${itemSubtotal.toStringAsFixed(2)}',
+                  itemSubtotal.asPrice(product.price.currency),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     decoration: TextDecoration.lineThrough,
                     decorationThickness: 2,
@@ -239,7 +234,7 @@ class _CartItem extends StatelessWidget {
                 ),
               ] else ...[
                 Text(
-                  '${product.price.currency.asCurrencySymbol}$itemTotal',
+                  itemTotal.asPrice(product.price.currency),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -260,68 +255,66 @@ class _CartSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppConsts.defaultPadding / 4,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text('Subtotal', style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(width: AppConsts.defaultPadding),
-              Text(
-                '${total.currency.asCurrencySymbol}${total.subtotal}',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ],
-          ),
+        _SummaryRow(
+          label: 'Subtotal',
+          value: total.subtotal.asPrice(total.currency),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppConsts.defaultPadding / 4,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text('Discount', style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(width: AppConsts.defaultPadding),
-              Text(
-                '${total.currency.asCurrencySymbol}${total.discount}',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
+        _SummaryRow(
+          label: 'Discount',
+          value: total.discount.asPrice(total.currency),
+          valueStyle: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.primary,
+            fontWeight: FontWeight.w700,
           ),
         ),
         const Divider(thickness: 0.5),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppConsts.defaultPadding / 4,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text('Total', style: Theme.of(context).textTheme.titleSmall),
-              const SizedBox(width: AppConsts.defaultPadding),
-              Text(
-                '${total.currency.asCurrencySymbol}${total.total}',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
-              ),
-            ],
+        _SummaryRow(
+          label: 'Total',
+          value: total.total.asPrice(total.currency),
+          labelStyle: theme.textTheme.titleSmall,
+          valueStyle: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SummaryRow extends StatelessWidget {
+  const _SummaryRow({
+    required this.label,
+    required this.value,
+    this.labelStyle,
+    this.valueStyle,
+  });
+
+  final String label;
+  final String value;
+  final TextStyle? labelStyle;
+  final TextStyle? valueStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConsts.defaultPadding / 4,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(label, style: labelStyle ?? theme.textTheme.bodyLarge),
+          const SizedBox(width: AppConsts.defaultPadding),
+          Text(value, style: valueStyle ?? theme.textTheme.bodyLarge),
+        ],
+      ),
     );
   }
 }

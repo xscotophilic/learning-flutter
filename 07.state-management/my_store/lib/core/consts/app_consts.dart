@@ -5,4 +5,6 @@ class AppConsts {
 
   static const double defaultPadding = 16.0;
   static const double defaultMargin = 16.0;
+
+  static const double defaultIconSize = 24.0;
 }

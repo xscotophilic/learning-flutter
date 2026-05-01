@@ -1,31 +1,4 @@
-extension CurrencyExtension on String {
-  String get asCurrencySymbol {
-    switch (this) {
-      case 'USD':
-        return '\$';
-      case 'EUR':
-        return '€';
-      case 'GBP':
-        return '£';
-      default:
-        return this;
-    }
-  }
-}
-
-class Price {
-  const Price({
-    required this.amount,
-    required this.currency,
-    this.discountPercent,
-  });
-
-  final double amount;
-  final String currency;
-  final double? discountPercent;
-
-  String get formatted => '${currency.asCurrencySymbol}$amount';
-}
+import 'package:my_store/data/models/price.dart';
 
 class Product {
   const Product({

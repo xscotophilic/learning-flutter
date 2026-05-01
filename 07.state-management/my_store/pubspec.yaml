@@ -15,6 +15,9 @@ dependencies:
   # UI
   cupertino_icons: ^1.0.8
 
+  # Utilities
+  intl: ^0.20.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
