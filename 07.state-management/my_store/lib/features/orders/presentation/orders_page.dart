@@ -134,8 +134,7 @@ class _OrderCardState extends State<_OrderCard> {
           const Divider(thickness: 0.5, height: 1),
           _OrderFooter(
             itemCount: widget.order.lineItems.length,
-            currency: widget.order.currency.asCurrencySymbol,
-            total: widget.order.total.toStringAsFixed(2),
+            formattedTotal: widget.order.total.asPrice(widget.order.currency),
           ),
         ],
       ),
@@ -216,14 +215,7 @@ class _OrderLineItemRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final currency = item.purchasePrice.currency.asCurrencySymbol;
-    final purchaseTotal = item.purchaseTotal.toStringAsFixed(2);
-    final unitPrice = item.purchasePrice.amount.toStringAsFixed(2);
-
-    final Product? product = MockData.products.cast<Product?>().firstWhere(
-      (p) => p?.id == item.productId,
-      orElse: () => null,
-    );
+    final product = MockData.findProductById(item.productId);
 
     final Widget image;
     final String productName;
@@ -276,7 +268,7 @@ class _OrderLineItemRow extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '$currency$unitPrice x ${item.quantity}',
+                  '${item.purchasePrice.formatted} x ${item.quantity}',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withAlpha(150),
                   ),
@@ -286,7 +278,7 @@ class _OrderLineItemRow extends StatelessWidget {
           ),
           const SizedBox(width: AppConsts.defaultPadding / 2),
           Text(
-            '$currency$purchaseTotal',
+            item.purchaseTotal.asPrice(item.purchasePrice.currency),
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w700,
             ),
@@ -298,15 +290,10 @@ class _OrderLineItemRow extends StatelessWidget {
 }
 
 class _OrderFooter extends StatelessWidget {
-  const _OrderFooter({
-    required this.itemCount,
-    required this.currency,
-    required this.total,
-  });
+  const _OrderFooter({required this.itemCount, required this.formattedTotal});
 
   final int itemCount;
-  final String currency;
-  final String total;
+  final String formattedTotal;
 
   @override
   Widget build(BuildContext context) {
@@ -336,7 +323,7 @@ class _OrderFooter extends StatelessWidget {
                     style: theme.textTheme.bodyLarge,
                   ),
                   TextSpan(
-                    text: '$currency$total',
+                    text: formattedTotal,
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w700,
                       color: theme.colorScheme.primary,

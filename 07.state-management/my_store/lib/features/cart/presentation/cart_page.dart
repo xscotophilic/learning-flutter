@@ -49,19 +49,11 @@ class CartPage extends StatelessWidget {
     List<(CartItem, Product)> cartItemsWithProductDetails = [];
 
     for (final cartItem in cartItems) {
-      final productIndex = MockData.products.indexWhere((p) {
-        return p.id == cartItem.productId;
-      });
+      final product = MockData.findProductById(cartItem.productId);
 
-      if (productIndex >= 0) {
-        cartItemsWithProductDetails.add((
-          cartItem,
-          MockData.products[productIndex],
-        ));
-        cartItemsWithPrices.add((
-          cartItem,
-          MockData.products[productIndex].price,
-        ));
+      if (product != null) {
+        cartItemsWithProductDetails.add((cartItem, product));
+        cartItemsWithPrices.add((cartItem, product.price));
       }
     }
 
