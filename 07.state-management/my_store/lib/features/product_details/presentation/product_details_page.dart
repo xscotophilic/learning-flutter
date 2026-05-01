@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_consts.dart';
 import 'package:my_store/data/models/product.dart';
 import 'package:my_store/data/store/mock_data.dart';
+import 'package:my_store/shared/widgets/cta_panel.dart';
 import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 
 class ProductDetailsPage extends StatelessWidget {
@@ -67,7 +68,7 @@ class ProductDetailsPage extends StatelessWidget {
               const SizedBox(height: AppConsts.defaultPadding * 3),
               Expanded(child: _ProductDetails(product: product)),
               const SizedBox(height: AppConsts.defaultPadding),
-              const _CTAPanel(),
+              CTAPanel(title: 'Add to Cart', onTap: () {}),
               const SizedBox(height: AppConsts.defaultPadding / 2),
             ],
           ),
@@ -100,7 +101,7 @@ class _PriceSection extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          if ((product.price.discount ?? '').isNotEmpty) ...[
+          if (product.price.discountPercent != null) ...[
             const WidgetSpan(
               child: SizedBox(width: AppConsts.defaultPadding / 2),
             ),
@@ -118,7 +119,7 @@ class _PriceSection extends StatelessWidget {
                     vertical: AppConsts.defaultPadding / 8,
                   ),
                   child: Text(
-                    product.price.discount!,
+                    '${product.price.discountPercent}% OFF',
                     style: textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -143,6 +144,7 @@ class _ProductDetails extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ListView(
+      physics: const BouncingScrollPhysics(),
       children: [
         _PriceSection(product: product),
         const SizedBox(height: AppConsts.defaultPadding / 2),
@@ -160,28 +162,6 @@ class _ProductDetails extends StatelessWidget {
           textAlign: TextAlign.justify,
         ),
       ],
-    );
-  }
-}
-
-class _CTAPanel extends StatelessWidget {
-  const _CTAPanel();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {},
-        child: Text(
-          'Add to cart',
-          style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.onPrimary,
-          ),
-        ),
-      ),
     );
   }
 }

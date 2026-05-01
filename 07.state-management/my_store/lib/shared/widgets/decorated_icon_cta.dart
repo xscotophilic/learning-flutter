@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
 class DecoratedIconCta extends StatelessWidget {
-  const DecoratedIconCta({super.key, required this.icon, required this.onTap});
+  const DecoratedIconCta({
+    super.key,
+    required this.icon,
+    this.iconColor,
+    this.iconSize,
+    required this.onTap,
+  });
 
   final IconData icon;
+  final Color? iconColor;
+  final double? iconSize;
   final VoidCallback onTap;
 
   @override
@@ -12,7 +20,7 @@ class DecoratedIconCta extends StatelessWidget {
       onTap: onTap,
       child: DecoratedBox(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-        child: Icon(icon),
+        child: Icon(icon, color: iconColor, size: iconSize),
       ),
     );
   }

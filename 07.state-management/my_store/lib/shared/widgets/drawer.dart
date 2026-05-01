@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_variables.dart';
 import 'package:my_store/features/home/presentation/home_page.dart';
-import 'package:my_store/features/orders/orders_page.dart';
+import 'package:my_store/features/orders/presentation/orders_page.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});

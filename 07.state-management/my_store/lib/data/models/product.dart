@@ -1,12 +1,6 @@
-class Price {
-  const Price({required this.amount, required this.currency, this.discount});
-
-  final double amount;
-  final String currency;
-  final String? discount;
-
-  String get currencySymbol {
-    switch (currency) {
+extension CurrencyExtension on String {
+  String get asCurrencySymbol {
+    switch (this) {
       case 'USD':
         return '\$';
       case 'EUR':
@@ -14,11 +8,23 @@ class Price {
       case 'GBP':
         return '£';
       default:
-        return currency;
+        return this;
     }
   }
+}
 
-  String get formatted => '$currencySymbol$amount';
+class Price {
+  const Price({
+    required this.amount,
+    required this.currency,
+    this.discountPercent,
+  });
+
+  final double amount;
+  final String currency;
+  final double? discountPercent;
+
+  String get formatted => '${currency.asCurrencySymbol}$amount';
 }
 
 class Product {

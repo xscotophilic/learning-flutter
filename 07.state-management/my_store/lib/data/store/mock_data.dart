@@ -15,7 +15,7 @@ class MockData {
           'Made with premium roasted peanut butter and a touch of vanilla for extra depth. '
           'The classic crosshatch pattern isn\'t just for looks — it ensures even baking throughout. '
           'A timeless treat loved by peanut butter fans of all ages.',
-      price: Price(amount: 18.0, currency: 'USD', discount: '10% off'),
+      price: Price(amount: 18.0, currency: 'USD', discountPercent: 10),
       imageUrl: 'https://i.ibb.co/jBNW3CC/peanut-butter-cookie.webp',
     ),
     Product(
@@ -27,7 +27,7 @@ class MockData {
           'Each bite delivers a satisfying chew from thick oats and naturally sweet raisins. '
           'Baked to golden perfection with crisp edges and a tender, soft interior. '
           'A classic comfort cookie that feels like a warm hug with every single bite.',
-      price: Price(amount: 20.0, currency: 'USD', discount: '10% off'),
+      price: Price(amount: 20.0, currency: 'USD', discountPercent: 10),
       imageUrl: 'https://i.ibb.co/Q79ByhmD/oatmeal-raisin-cookie.webp',
     ),
     Product(
@@ -51,7 +51,7 @@ class MockData {
           'Made with brown butter and a blend of sugars for deep caramel-like undertones. '
           'Every bite guarantees melty chocolate in every single mouthful — no dry spots here. '
           'The cookie that started it all, and still the one everyone reaches for first.',
-      price: Price(amount: 10.0, currency: 'USD', discount: '10% off'),
+      price: Price(amount: 10.0, currency: 'USD', discountPercent: 10),
       imageUrl: 'https://i.ibb.co/9mS5StLX/choco-chip-cookie.webp',
     ),
     Product(

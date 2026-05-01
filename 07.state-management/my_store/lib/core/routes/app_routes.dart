@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/features/cart/presentation/cart_page.dart';
 import 'package:my_store/features/home/presentation/home_page.dart';
-import 'package:my_store/features/orders/orders_page.dart';
-import 'package:my_store/features/product_details/product_details_page.dart';
+import 'package:my_store/features/orders/presentation/orders_page.dart';
+import 'package:my_store/features/product_details/presentation/product_details_page.dart';
 
 class AppRoutes {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -21,6 +22,8 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => ProductDetailsPage(productId: productId),
         );
+      case CartPage.routeName:
+        return MaterialPageRoute(builder: (context) => const CartPage());
       case OrdersPage.routeName:
         return MaterialPageRoute(builder: (context) => const OrdersPage());
       default:
