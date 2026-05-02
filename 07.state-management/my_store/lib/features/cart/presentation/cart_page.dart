@@ -8,6 +8,7 @@ import 'package:my_store/data/models/total.dart';
 import 'package:my_store/data/store/mock_data.dart';
 import 'package:my_store/shared/widgets/cta_panel.dart';
 import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
+import 'package:my_store/shared/widgets/main_app_bar.dart';
 
 const double _imageSize = 72;
 
@@ -15,26 +16,6 @@ class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   static const routeName = '/cart';
-
-  AppBar _buildAppBar(TextTheme textTheme) {
-    return AppBar(
-      title: Text(
-        'Cart',
-        style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-      ),
-      centerTitle: true,
-      leading: Builder(
-        builder: (context) {
-          return DecoratedIconCta(
-            icon: Icons.arrow_back_ios_new,
-            onTap: () {
-              Navigator.pop(context);
-            },
-          );
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +41,13 @@ class CartPage extends StatelessWidget {
     final total = Total.calculate(cartItemsWithPrices);
 
     return Scaffold(
-      appBar: _buildAppBar(Theme.of(context).textTheme),
+      appBar: MainAppBar(
+        title: 'Cart',
+        leadingIcon: Icons.arrow_back_ios_new,
+        onLeadingTap: () {
+          Navigator.pop(context);
+        },
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppConsts.defaultPadding),

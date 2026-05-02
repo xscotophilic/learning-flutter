@@ -4,7 +4,7 @@ import 'package:my_store/core/consts/app_consts.dart';
 import 'package:my_store/data/models/product.dart';
 import 'package:my_store/data/store/mock_data.dart';
 import 'package:my_store/shared/widgets/cta_panel.dart';
-import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
+import 'package:my_store/shared/widgets/main_app_bar.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   const ProductDetailsPage({super.key, required this.productId});
@@ -12,32 +12,6 @@ class ProductDetailsPage extends StatelessWidget {
   static const routeName = '/product-details';
 
   final String? productId;
-
-  AppBar _buildAppBar(TextTheme textTheme) {
-    return AppBar(
-      title: Text(
-        'Details',
-        style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-      ),
-      centerTitle: true,
-      leading: Builder(
-        builder: (context) {
-          return DecoratedIconCta(
-            icon: Icons.arrow_back_ios_new,
-            onTap: () {
-              Navigator.pop(context);
-            },
-          );
-        },
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: AppConsts.defaultPadding),
-          child: DecoratedIconCta(icon: Icons.favorite_border, onTap: () {}),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +51,15 @@ class ProductDetailsPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: _buildAppBar(Theme.of(context).textTheme),
+      appBar: MainAppBar(
+        title: 'Details',
+        leadingIcon: Icons.arrow_back_ios_new,
+        onLeadingTap: () {
+          Navigator.pop(context);
+        },
+        trailingIcon: Icons.favorite_border,
+        onTrailingTap: () {},
+      ),
       body: child,
     );
   }

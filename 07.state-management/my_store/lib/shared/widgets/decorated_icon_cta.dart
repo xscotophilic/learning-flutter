@@ -6,13 +6,13 @@ class DecoratedIconCta extends StatelessWidget {
     required this.icon,
     this.iconColor,
     this.iconSize,
-    required this.onTap,
+    this.onTap,
   });
 
   final IconData icon;
   final Color? iconColor;
   final double? iconSize;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ class MockData {
   const MockData._();
 
   static final heroProduct = products[3];
-  
+
   static Product? findProductById(String id) {
     return products.cast<Product?>().firstWhere(
       (p) => p?.id == id,

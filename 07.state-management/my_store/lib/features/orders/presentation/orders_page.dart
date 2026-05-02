@@ -4,43 +4,35 @@ import 'package:my_store/core/consts/app_consts.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/data/models/order.dart';
 import 'package:my_store/data/models/price.dart';
-import 'package:my_store/data/models/product.dart';
 import 'package:my_store/data/store/mock_data.dart';
-import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 import 'package:my_store/shared/widgets/drawer.dart';
+import 'package:my_store/shared/widgets/main_app_bar.dart';
 
-class OrdersPage extends StatelessWidget {
+class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
 
   static const routeName = '/orders';
 
-  AppBar _buildAppBar(TextTheme textTheme) {
-    return AppBar(
-      title: Text(
-        'Orders',
-        style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-      ),
-      centerTitle: true,
-      leading: Builder(
-        builder: (context) {
-          return DecoratedIconCta(
-            icon: Icons.menu_rounded,
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        },
-      ),
-    );
-  }
+  @override
+  State<OrdersPage> createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final orders = MockData.orders;
-    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: _buildAppBar(textTheme),
+      key: _scaffoldKey,
+      appBar: MainAppBar(
+        title: 'Orders',
+        leadingIcon: Icons.menu_rounded,
+        onLeadingTap: () {
+          _scaffoldKey.currentState?.openDrawer();
+        },
+      ),
       drawer: const AppDrawer(),
       body: _OrdersContent(orders: orders),
     );

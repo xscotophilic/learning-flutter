@@ -6,53 +6,36 @@ import 'package:my_store/features/cart/presentation/cart_page.dart';
 import 'package:my_store/features/home/presentation/widgets/hero_banner.dart';
 import 'package:my_store/features/home/presentation/widgets/product_grid.dart';
 import 'package:my_store/features/product_details/presentation/product_details_page.dart';
-import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 import 'package:my_store/shared/widgets/drawer.dart';
+import 'package:my_store/shared/widgets/main_app_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   static const routeName = '/';
 
-  AppBar _buildAppBar(TextTheme textTheme) {
-    return AppBar(
-      title: Text(
-        AppVariables.appName.toUpperCase(),
-        style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-      ),
-      centerTitle: true,
-      leading: Builder(
-        builder: (context) {
-          return DecoratedIconCta(
-            icon: Icons.menu_rounded,
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        },
-      ),
-      actions: [
-        Builder(
-          builder: (context) {
-            return Padding(
-              padding: const EdgeInsets.only(right: AppConsts.defaultPadding),
-              child: DecoratedIconCta(
-                icon: Icons.shopping_bag_outlined,
-                onTap: () {
-                  Navigator.pushNamed(context, CartPage.routeName);
-                },
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(Theme.of(context).textTheme),
+      key: _scaffoldKey,
+      appBar: MainAppBar(
+        title: AppVariables.appName.toUpperCase(),
+        leadingIcon: Icons.menu_rounded,
+        onLeadingTap: () {
+          _scaffoldKey.currentState?.openDrawer();
+        },
+        trailingIcon: Icons.shopping_bag_outlined,
+        onTrailingTap: () {
+          Navigator.pushNamed(context, CartPage.routeName);
+        },
+      ),
       drawer: const AppDrawer(),
       body: ListView(
         physics: const BouncingScrollPhysics(),
