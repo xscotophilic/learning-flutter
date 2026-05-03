@@ -12,6 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # State Management
+  flutter_riverpod: ^3.3.1
+  riverpod_annotation: ^4.0.2
+
   # UI
   cupertino_icons: ^1.0.8
 
@@ -21,6 +25,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # Code Generation
+  build_runner: ^2.15.0
+  riverpod_generator: ^4.0.3
 
   # Lints
   flutter_lints: ^6.0.0
