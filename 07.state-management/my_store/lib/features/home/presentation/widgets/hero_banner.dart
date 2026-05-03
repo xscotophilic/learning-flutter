@@ -5,16 +5,16 @@ import 'package:my_store/core/theme/app_theme.dart';
 class HeroBanner extends StatelessWidget {
   const HeroBanner({
     super.key,
+    required this.foregroundImageUrl,
     required this.title,
-    required this.imageUrl,
-    required this.ctaText,
-    required this.onTap,
+    required this.buttonText,
+    required this.onButtonPressed,
   });
 
+  final String foregroundImageUrl;
   final String title;
-  final String imageUrl;
-  final String ctaText;
-  final VoidCallback onTap;
+  final String buttonText;
+  final VoidCallback? onButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,10 @@ class HeroBanner extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: AppConsts.defaultMargin / 2),
-                      ElevatedButton(onPressed: onTap, child: Text(ctaText)),
+                      ElevatedButton(
+                        onPressed: onButtonPressed,
+                        child: Text(buttonText),
+                      ),
                     ],
                   ),
                 ),
@@ -65,7 +68,7 @@ class HeroBanner extends StatelessWidget {
                   right: AppConsts.defaultPadding,
                 ),
                 child: Image.network(
-                  imageUrl,
+                  foregroundImageUrl,
                   height: imageWidth,
                   width: imageWidth,
                 ),

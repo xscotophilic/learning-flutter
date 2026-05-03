@@ -2,20 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_consts.dart';
 import 'package:my_store/data/models/product.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_product_card.dart';
+import 'package:my_store/features/product_details/presentation/product_details_page.dart';
 
-class ProductGrid extends StatefulWidget {
-  const ProductGrid({super.key, required this.products, this.onProductTap});
+class FeaturedProductsGrid extends StatefulWidget {
+  const FeaturedProductsGrid({super.key, required this.products});
 
   final List<Product> products;
-  final ValueChanged<Product>? onProductTap;
 
   @override
-  State<ProductGrid> createState() => _ProductGridState();
+  State<FeaturedProductsGrid> createState() => _FeaturedProductsGridState();
 }
 
-class _ProductGridState extends State<ProductGrid> {
+class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
   int _columnCount = 0;
   List<List<Product>> _columns = [];
+
+  void _onProductTap(String productId) {
+    Navigator.pushNamed(
+      context,
+      ProductDetailsPage.routeName,
+      arguments: productId,
+    );
+  }
 
   void _recompute(double availableWidth) {
     const double maxCrossAxisExtent = 256.0 + AppConsts.defaultMargin;
@@ -54,7 +62,7 @@ class _ProductGridState extends State<ProductGrid> {
                         ),
                         child: FeaturedProductCard(
                           product: p,
-                          onTap: () => widget.onProductTap?.call(p),
+                          onTap: () => _onProductTap(p.id),
                         ),
                       );
                     }).toList(),

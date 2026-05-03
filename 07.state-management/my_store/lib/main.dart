@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_variables.dart';
 import 'package:my_store/core/routes/app_routes.dart';
 import 'package:my_store/core/theme/app_theme.dart';
@@ -12,7 +13,9 @@ void main() {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(retry: (retryCount, error) => null, child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
