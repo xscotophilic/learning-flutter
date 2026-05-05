@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/core/consts/app_consts.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -29,7 +29,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (trailingIcon != null) {
       actions.add(
         Padding(
-          padding: const EdgeInsets.only(right: AppConsts.defaultPadding),
+          padding: const EdgeInsets.only(right: AppDimensions.defaultPadding),
           child: DecoratedIconCta(icon: trailingIcon!, onTap: onTrailingTap),
         ),
       );

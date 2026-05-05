@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_store/core/consts/app_consts.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/data/models/order.dart';
-import 'package:my_store/data/models/price.dart';
-import 'package:my_store/data/store/mock_data.dart';
-import 'package:my_store/shared/widgets/drawer.dart';
+import 'package:my_store/features/orders/domain/entities/order.dart';
+import 'package:my_store/shared/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/domain/entities/price.dart';
+import 'package:my_store/shared/widgets/app_drawer.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -55,7 +55,7 @@ class _OrdersContent extends StatelessWidget {
       );
     }
     return ListView.builder(
-      padding: const EdgeInsets.all(AppConsts.defaultPadding),
+      padding: const EdgeInsets.all(AppDimensions.defaultPadding),
       physics: const BouncingScrollPhysics(),
       itemCount: orders.length,
       itemBuilder: (context, index) {
@@ -101,11 +101,11 @@ class _OrderCardState extends State<_OrderCard> {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: AppConsts.defaultPadding),
+      margin: const EdgeInsets.only(bottom: AppDimensions.defaultPadding),
       decoration: BoxDecoration(
         gradient: theme.extension<AppGradients>()?.cardGradient,
         border: Border.all(color: theme.colorScheme.primary.withAlpha(40)),
-        borderRadius: BorderRadius.circular(AppConsts.defaultBorderRadius),
+        borderRadius: BorderRadius.circular(AppDimensions.defaultBorderRadius),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,12 +154,12 @@ class _OrderHeader extends StatelessWidget {
     return InkWell(
       onTap: onToggle,
       borderRadius: const BorderRadius.vertical(
-        top: Radius.circular(AppConsts.defaultBorderRadius),
+        top: Radius.circular(AppDimensions.defaultBorderRadius),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: AppConsts.defaultPadding,
-          vertical: AppConsts.defaultPadding * 0.75,
+          horizontal: AppDimensions.defaultPadding,
+          vertical: AppDimensions.defaultPadding * 0.75,
         ),
         child: Row(
           children: [
@@ -174,7 +174,7 @@ class _OrderHeader extends StatelessWidget {
                       color: theme.colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(height: AppConsts.defaultPadding / 8),
+                  const SizedBox(height: AppDimensions.defaultPadding / 8),
                   Text(
                     DateFormat.yMMMd().format(placedAt),
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -236,18 +236,18 @@ class _OrderLineItemRow extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppConsts.defaultPadding,
-        vertical: AppConsts.defaultPadding / 2,
+        horizontal: AppDimensions.defaultPadding,
+        vertical: AppDimensions.defaultPadding / 2,
       ),
       child: Row(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(
-              AppConsts.defaultBorderRadius / 2,
+              AppDimensions.defaultBorderRadius / 2,
             ),
             child: image,
           ),
-          const SizedBox(width: AppConsts.defaultPadding / 1.5),
+          const SizedBox(width: AppDimensions.defaultPadding / 1.5),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +268,7 @@ class _OrderLineItemRow extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: AppConsts.defaultPadding / 2),
+          const SizedBox(width: AppDimensions.defaultPadding / 2),
           Text(
             item.purchaseTotal.asPrice(item.purchasePrice.currency),
             style: theme.textTheme.bodyLarge?.copyWith(
@@ -293,8 +293,8 @@ class _OrderFooter extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppConsts.defaultPadding,
-        vertical: AppConsts.defaultPadding * 0.75,
+        horizontal: AppDimensions.defaultPadding,
+        vertical: AppDimensions.defaultPadding * 0.75,
       ),
       child: Row(
         children: [
@@ -304,7 +304,7 @@ class _OrderFooter extends StatelessWidget {
               color: theme.colorScheme.onSurface.withAlpha(150),
             ),
           ),
-          const SizedBox(width: AppConsts.defaultPadding / 2),
+          const SizedBox(width: AppDimensions.defaultPadding / 2),
           Expanded(
             child: Text.rich(
               textAlign: TextAlign.right,

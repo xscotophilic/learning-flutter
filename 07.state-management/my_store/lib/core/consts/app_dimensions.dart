@@ -1,5 +1,5 @@
-class AppConsts {
-  AppConsts._();
+class AppDimensions {
+  AppDimensions._();
 
   static const double defaultBorderRadius = 8.0;
 

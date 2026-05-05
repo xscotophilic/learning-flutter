@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/core/consts/app_consts.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 
 class AppGradients extends ThemeExtension<AppGradients> {
   const AppGradients({
@@ -98,12 +98,14 @@ class AppTheme {
           foregroundColor: _onPrimary,
           minimumSize: const Size(0, 0),
           padding: const EdgeInsets.symmetric(
-            horizontal: AppConsts.defaultPadding / 2,
-            vertical: AppConsts.defaultPadding / 2,
+            horizontal: AppDimensions.defaultPadding / 2,
+            vertical: AppDimensions.defaultPadding / 2,
           ),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppConsts.defaultBorderRadius),
+            borderRadius: BorderRadius.circular(
+              AppDimensions.defaultBorderRadius,
+            ),
           ),
         ),
       ),
@@ -113,11 +115,13 @@ class AppTheme {
           foregroundColor: _primary,
           side: BorderSide(color: _primary),
           minimumSize: const Size(0, 0),
-          padding: const EdgeInsets.all(AppConsts.defaultPadding / 2),
+          padding: const EdgeInsets.all(AppDimensions.defaultPadding / 2),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           textStyle: TextStyle(fontSize: 14, color: _primary),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppConsts.defaultBorderRadius),
+            borderRadius: BorderRadius.circular(
+              AppDimensions.defaultBorderRadius,
+            ),
           ),
         ),
       ),

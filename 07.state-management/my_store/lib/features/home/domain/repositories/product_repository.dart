@@ -1,4 +1,4 @@
-import 'package:my_store/data/models/product.dart';
+import 'package:my_store/shared/domain/entities/product.dart';
 
 abstract interface class ProductRepository {
   Future<Product> getHeroProduct();

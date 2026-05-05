@@ -1,8 +1,9 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:my_store/core/consts/app_consts.dart';
-import 'package:my_store/data/models/product.dart';
-import 'package:my_store/data/store/mock_data.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
+import 'package:my_store/shared/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/cta_panel.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
@@ -29,7 +30,7 @@ class ProductDetailsPage extends StatelessWidget {
         final size = MediaQuery.of(context).size;
 
         child = Padding(
-          padding: const EdgeInsets.all(AppConsts.defaultPadding),
+          padding: const EdgeInsets.all(AppDimensions.defaultPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,11 +40,11 @@ class ProductDetailsPage extends StatelessWidget {
                   width: math.min(size.width * 0.60, 256),
                 ),
               ),
-              const SizedBox(height: AppConsts.defaultPadding * 3),
+              const SizedBox(height: AppDimensions.defaultPadding * 3),
               Expanded(child: _ProductDetails(product: product)),
-              const SizedBox(height: AppConsts.defaultPadding),
+              const SizedBox(height: AppDimensions.defaultPadding),
               CTAPanel(title: 'Add to Cart', onTap: () {}),
-              const SizedBox(height: AppConsts.defaultPadding / 2),
+              const SizedBox(height: AppDimensions.defaultPadding / 2),
             ],
           ),
         );
@@ -85,20 +86,20 @@ class _PriceSection extends StatelessWidget {
           ),
           if (product.price.discountPercent != null) ...[
             const WidgetSpan(
-              child: SizedBox(width: AppConsts.defaultPadding / 2),
+              child: SizedBox(width: AppDimensions.defaultPadding / 2),
             ),
             WidgetSpan(
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.all(
-                    Radius.circular(AppConsts.defaultBorderRadius / 2),
+                    Radius.circular(AppDimensions.defaultBorderRadius / 2),
                   ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: AppConsts.defaultPadding / 2,
-                    vertical: AppConsts.defaultPadding / 8,
+                    horizontal: AppDimensions.defaultPadding / 2,
+                    vertical: AppDimensions.defaultPadding / 8,
                   ),
                   child: Text(
                     '${product.price.discountPercent}% OFF',
@@ -129,7 +130,7 @@ class _ProductDetails extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       children: [
         _PriceSection(product: product),
-        const SizedBox(height: AppConsts.defaultPadding / 2),
+        const SizedBox(height: AppDimensions.defaultPadding / 2),
         Text(
           product.name.toUpperCase(),
           style: theme.textTheme.titleLarge?.copyWith(
@@ -137,7 +138,7 @@ class _ProductDetails extends StatelessWidget {
             fontWeight: FontWeight.w300,
           ),
         ),
-        const SizedBox(height: AppConsts.defaultPadding / 2),
+        const SizedBox(height: AppDimensions.defaultPadding / 2),
         Text(
           product.description,
           style: theme.textTheme.bodyLarge,

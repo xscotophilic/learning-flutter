@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/core/consts/app_consts.dart';
-import 'package:my_store/data/models/product.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_product_card.dart';
-import 'package:my_store/features/product_details/presentation/product_details_page.dart';
+import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
+import 'package:my_store/shared/domain/entities/product.dart';
 
 class FeaturedProductsGrid extends StatefulWidget {
   const FeaturedProductsGrid({super.key, required this.products});
@@ -26,7 +26,7 @@ class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
   }
 
   void _recompute(double availableWidth) {
-    const double maxCrossAxisExtent = 256.0 + AppConsts.defaultMargin;
+    const double maxCrossAxisExtent = 256.0 + AppDimensions.defaultMargin;
     final int columnCount = (availableWidth / maxCrossAxisExtent).ceil();
 
     _columnCount = columnCount;
@@ -43,7 +43,7 @@ class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
         _recompute(constraints.maxWidth);
 
         final enableMasonryGrid = _columnCount == 2;
-        final paddingOffset = AppConsts.defaultPadding * 3;
+        final paddingOffset = AppDimensions.defaultPadding * 3;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
                     children: _columns[i].map((p) {
                       return Padding(
                         padding: const EdgeInsets.only(
-                          bottom: AppConsts.defaultMargin,
+                          bottom: AppDimensions.defaultMargin,
                         ),
                         child: FeaturedProductCard(
                           product: p,
@@ -70,7 +70,7 @@ class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
                 ),
               ),
               if (i < _columnCount - 1) ...[
-                const SizedBox(width: AppConsts.defaultMargin),
+                const SizedBox(width: AppDimensions.defaultMargin),
               ],
             ],
           ],

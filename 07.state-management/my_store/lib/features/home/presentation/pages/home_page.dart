@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_store/core/consts/app_consts.dart';
-import 'package:my_store/core/consts/app_variables.dart';
-import 'package:my_store/features/cart/presentation/cart_page.dart';
-import 'package:my_store/features/home/domain/models/home_data.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
+import 'package:my_store/core/consts/app_strings.dart';
+import 'package:my_store/features/cart/presentation/pages/cart_page.dart';
+import 'package:my_store/features/home/domain/entities/home_page_data.dart';
 import 'package:my_store/features/home/presentation/providers/home_page_data_notifier.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_products_grid.dart';
 import 'package:my_store/features/home/presentation/widgets/hero_banner.dart';
-import 'package:my_store/features/product_details/presentation/product_details_page.dart';
-import 'package:my_store/shared/widgets/drawer.dart';
+import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
+import 'package:my_store/shared/widgets/app_drawer.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
@@ -31,7 +31,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: MainAppBar(
-        title: AppVariables.appName.toUpperCase(),
+        title: AppStrings.appName.toUpperCase(),
         leadingIcon: Icons.menu_rounded,
         onLeadingTap: () {
           _scaffoldKey.currentState?.openDrawer();
@@ -43,7 +43,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
       drawer: const AppDrawer(),
       body: Padding(
-        padding: const EdgeInsets.all(AppConsts.defaultPadding),
+        padding: const EdgeInsets.all(AppDimensions.defaultPadding),
         child: homePageDataAsync.when(
           skipLoadingOnRefresh: false,
           loading: () {
@@ -88,14 +88,14 @@ class _HomePageBody extends StatelessWidget {
           },
         ),
 
-        const SizedBox(height: AppConsts.defaultMargin),
+        const SizedBox(height: AppDimensions.defaultMargin),
 
         Text(
           'Featured Products',
           style: Theme.of(context).textTheme.titleSmall,
         ),
 
-        const SizedBox(height: AppConsts.defaultMargin),
+        const SizedBox(height: AppDimensions.defaultMargin),
 
         FeaturedProductsGrid(products: homePageData.featuredProducts),
       ],

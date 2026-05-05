@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/core/consts/app_consts.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 
 class GenericErrorView extends StatelessWidget {
   const GenericErrorView({super.key, required this.onRetry});
@@ -18,7 +18,7 @@ class GenericErrorView extends StatelessWidget {
           style: textTheme.titleMedium,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppConsts.defaultMargin / 2),
+        const SizedBox(height: AppDimensions.defaultMargin / 2),
         Text(
           'Check your connection and try again.',
           style: textTheme.bodySmall?.copyWith(
@@ -26,7 +26,7 @@ class GenericErrorView extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppConsts.defaultMargin),
+        const SizedBox(height: AppDimensions.defaultMargin),
         ElevatedButton.icon(
           onPressed: onRetry,
           icon: const Icon(Icons.refresh_rounded),

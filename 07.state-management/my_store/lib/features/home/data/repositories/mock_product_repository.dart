@@ -1,6 +1,6 @@
-import 'package:my_store/data/models/product.dart';
-import 'package:my_store/data/store/mock_data.dart';
 import 'package:my_store/features/home/domain/repositories/product_repository.dart';
+import 'package:my_store/shared/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/domain/entities/product.dart';
 
 final class MockProductRepository implements ProductRepository {
   static const Duration _kNetworkDelay = Duration(milliseconds: 1000);

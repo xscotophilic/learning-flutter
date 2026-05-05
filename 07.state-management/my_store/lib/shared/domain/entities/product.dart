@@ -1,4 +1,4 @@
-import 'package:my_store/data/models/price.dart';
+import 'package:my_store/shared/domain/entities/price.dart';
 
 class Product {
   const Product({

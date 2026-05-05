@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/core/consts/app_consts.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/data/models/cart.dart';
-import 'package:my_store/data/models/price.dart';
-import 'package:my_store/data/models/product.dart';
-import 'package:my_store/data/models/total.dart';
-import 'package:my_store/data/store/mock_data.dart';
+import 'package:my_store/features/cart/domain/entities/cart.dart';
+import 'package:my_store/features/cart/domain/entities/total.dart';
+import 'package:my_store/shared/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/domain/entities/price.dart';
+import 'package:my_store/shared/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/cta_panel.dart';
 import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
@@ -50,25 +50,27 @@ class CartPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(AppConsts.defaultPadding),
+          padding: const EdgeInsets.all(AppDimensions.defaultPadding),
           child: Column(
             children: [
               _CartContent(
                 cartItemsWithProductDetails: cartItemsWithProductDetails,
               ),
-              const SizedBox(height: AppConsts.defaultPadding),
+              const SizedBox(height: AppDimensions.defaultPadding),
               Container(
-                padding: const EdgeInsets.all(AppConsts.defaultPadding / 1.5),
+                padding: const EdgeInsets.all(
+                  AppDimensions.defaultPadding / 1.5,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
-                    AppConsts.defaultBorderRadius / 2,
+                    AppDimensions.defaultBorderRadius / 2,
                   ),
                   color: Theme.of(context).colorScheme.onPrimary.withAlpha(150),
                 ),
                 child: Column(
                   children: [
                     _CartSummary(total: total),
-                    const SizedBox(height: AppConsts.defaultPadding / 2),
+                    const SizedBox(height: AppDimensions.defaultPadding / 2),
                     CTAPanel(
                       title: 'Place Order',
                       onTap: cartItems.isEmpty ? null : () {},
@@ -134,12 +136,12 @@ class _CartItem extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppConsts.defaultPadding / 2),
-      margin: const EdgeInsets.only(bottom: AppConsts.defaultPadding),
+      padding: const EdgeInsets.all(AppDimensions.defaultPadding / 2),
+      margin: const EdgeInsets.only(bottom: AppDimensions.defaultPadding),
       decoration: BoxDecoration(
         gradient: theme.extension<AppGradients>()?.cardGradient,
         border: Border.all(color: theme.colorScheme.primary.withAlpha(40)),
-        borderRadius: BorderRadius.circular(AppConsts.defaultBorderRadius),
+        borderRadius: BorderRadius.circular(AppDimensions.defaultBorderRadius),
       ),
       child: Row(
         children: [
@@ -148,22 +150,24 @@ class _CartItem extends StatelessWidget {
             width: _imageSize,
             height: _imageSize,
           ),
-          const SizedBox(width: AppConsts.defaultPadding),
+          const SizedBox(width: AppDimensions.defaultPadding),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(product.name, style: theme.textTheme.bodyLarge),
-                const SizedBox(height: AppConsts.defaultPadding / 2),
+                const SizedBox(height: AppDimensions.defaultPadding / 2),
                 Container(
                   decoration: BoxDecoration(
                     color: theme.colorScheme.onSurface.withAlpha(50),
                     borderRadius: BorderRadius.circular(
-                      AppConsts.defaultBorderRadius,
+                      AppDimensions.defaultBorderRadius,
                     ),
                   ),
-                  padding: const EdgeInsets.all(AppConsts.defaultPadding / 3),
+                  padding: const EdgeInsets.all(
+                    AppDimensions.defaultPadding / 3,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -173,14 +177,14 @@ class _CartItem extends StatelessWidget {
                         iconSize: 14,
                         onTap: () {},
                       ),
-                      const SizedBox(width: AppConsts.defaultPadding / 2),
+                      const SizedBox(width: AppDimensions.defaultPadding / 2),
                       Text(
                         '${cartItem.quantity}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.primary,
                         ),
                       ),
-                      const SizedBox(width: AppConsts.defaultPadding / 2),
+                      const SizedBox(width: AppDimensions.defaultPadding / 2),
                       DecoratedIconCta(
                         icon: Icons.add,
                         iconColor: theme.colorScheme.primary,
@@ -193,7 +197,7 @@ class _CartItem extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: AppConsts.defaultPadding),
+          const SizedBox(width: AppDimensions.defaultPadding),
           Column(
             children: [
               if (itemSubtotal != itemTotal) ...[
@@ -203,7 +207,7 @@ class _CartItem extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(width: AppConsts.defaultPadding / 4),
+                const SizedBox(width: AppDimensions.defaultPadding / 4),
                 Text(
                   itemSubtotal.asPrice(product.price.currency),
                   style: theme.textTheme.bodyLarge?.copyWith(
@@ -283,14 +287,14 @@ class _SummaryRow extends StatelessWidget {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppConsts.defaultPadding / 4,
+        horizontal: AppDimensions.defaultPadding / 4,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(label, style: labelStyle ?? theme.textTheme.bodyLarge),
-          const SizedBox(width: AppConsts.defaultPadding),
+          const SizedBox(width: AppDimensions.defaultPadding),
           Text(value, style: valueStyle ?? theme.textTheme.bodyLarge),
         ],
       ),

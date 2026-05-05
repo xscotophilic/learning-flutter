@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/core/consts/app_consts.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/data/models/product.dart';
+import 'package:my_store/shared/domain/entities/product.dart';
 
 const _imageSize = 96.0;
 
@@ -30,15 +30,15 @@ class FeaturedProductCard extends StatelessWidget {
                 color: theme.colorScheme.primary.withAlpha(40),
               ),
               borderRadius: BorderRadius.circular(
-                AppConsts.defaultBorderRadius,
+                AppDimensions.defaultBorderRadius,
               ),
             ),
             child: Padding(
               padding: const EdgeInsets.only(
-                top: (_imageSize / 2) + (AppConsts.defaultPadding / 2),
-                left: AppConsts.defaultPadding,
-                right: AppConsts.defaultPadding,
-                bottom: AppConsts.defaultPadding,
+                top: (_imageSize / 2) + (AppDimensions.defaultPadding / 2),
+                left: AppDimensions.defaultPadding,
+                right: AppDimensions.defaultPadding,
+                bottom: AppDimensions.defaultPadding,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,13 +51,13 @@ class FeaturedProductCard extends StatelessWidget {
                       color: theme.colorScheme.onSurface,
                     ),
                   ),
-                  const SizedBox(height: AppConsts.defaultMargin / 4),
+                  const SizedBox(height: AppDimensions.defaultMargin / 4),
                   Row(
                     children: [
                       GestureDetector(
                         child: const Icon(Icons.favorite_border, size: 18),
                       ),
-                      const SizedBox(width: AppConsts.defaultMargin / 2),
+                      const SizedBox(width: AppDimensions.defaultMargin / 2),
                       Expanded(
                         child: Text(
                           product.price.formatted,
@@ -71,7 +71,7 @@ class FeaturedProductCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppConsts.defaultMargin / 2),
+                  const SizedBox(height: AppDimensions.defaultMargin / 2),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
