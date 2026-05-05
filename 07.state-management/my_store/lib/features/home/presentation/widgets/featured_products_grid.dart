@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_product_card.dart';
 import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
-import 'package:my_store/shared/domain/entities/product.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
 
 class FeaturedProductsGrid extends StatefulWidget {
   const FeaturedProductsGrid({super.key, required this.products});

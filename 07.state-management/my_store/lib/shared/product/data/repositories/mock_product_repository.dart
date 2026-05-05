@@ -1,6 +1,6 @@
-import 'package:my_store/features/home/domain/repositories/product_repository.dart';
-import 'package:my_store/shared/data/data_sources/mock_data.dart';
-import 'package:my_store/shared/domain/entities/product.dart';
+import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/shared/product/domain/repositories/product_repository.dart';
 
 final class MockProductRepository implements ProductRepository {
   static const Duration _kNetworkDelay = Duration(milliseconds: 1000);
@@ -10,13 +10,17 @@ final class MockProductRepository implements ProductRepository {
   @override
   Future<Product> getHeroProduct() async {
     await Future<void>.delayed(_kNetworkDelay);
-    return MockData.heroProduct;
+    final product = MockData.heroProduct;
+    _updateCache([product]);
+    return product;
   }
 
   @override
   Future<List<Product>> getFeaturedProducts() async {
     await Future<void>.delayed(_kNetworkDelay);
-    return MockData.products;
+    final products = MockData.products;
+    _updateCache(products);
+    return products;
   }
 
   @override
@@ -33,14 +37,18 @@ final class MockProductRepository implements ProductRepository {
         return missingIds.contains(product.id);
       }).toList();
 
-      for (final product in fetchedProducts) {
-        _allProductsCache[product.id] = product;
-      }
+      _updateCache(fetchedProducts);
     }
 
     return productIds
         .map((id) => _allProductsCache[id])
         .whereType<Product>()
         .toList();
+  }
+
+  void _updateCache(List<Product> products) {
+    for (final product in products) {
+      _allProductsCache[product.id] = product;
+    }
   }
 }

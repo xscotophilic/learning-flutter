@@ -1,4 +1,4 @@
-import 'package:my_store/shared/domain/entities/price.dart';
+import 'package:my_store/shared/product/domain/entities/price.dart';
 
 class OrderLineItem {
   const OrderLineItem({

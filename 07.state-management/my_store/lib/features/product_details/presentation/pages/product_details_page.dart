@@ -1,13 +1,16 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
-import 'package:my_store/shared/data/data_sources/mock_data.dart';
-import 'package:my_store/shared/domain/entities/product.dart';
+import 'package:my_store/features/product_details/presentation/providers/product_details_notifier.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/cta_panel.dart';
+import 'package:my_store/shared/widgets/generic_error_view.dart';
+import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
-class ProductDetailsPage extends StatelessWidget {
+class ProductDetailsPage extends ConsumerWidget {
   const ProductDetailsPage({super.key, required this.productId});
 
   static const routeName = '/product-details';
@@ -15,40 +18,33 @@ class ProductDetailsPage extends StatelessWidget {
   final String? productId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Widget child;
+
     if (productId == null) {
       child = const Center(child: Text('Product not found'));
     } else {
-      final product = MockData.products.where((p) {
-        return p.id == productId;
-      }).firstOrNull;
+      final productAsync = ref.watch(productDetailsProvider(productId!));
 
-      if (product == null) {
-        child = const Center(child: Text('Product not found'));
-      } else {
-        final size = MediaQuery.of(context).size;
-
-        child = Padding(
-          padding: const EdgeInsets.all(AppDimensions.defaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.network(
-                  product.imageUrl,
-                  width: math.min(size.width * 0.60, 256),
-                ),
-              ),
-              const SizedBox(height: AppDimensions.defaultPadding * 3),
-              Expanded(child: _ProductDetails(product: product)),
-              const SizedBox(height: AppDimensions.defaultPadding),
-              CTAPanel(title: 'Add to Cart', onTap: () {}),
-              const SizedBox(height: AppDimensions.defaultPadding / 2),
-            ],
-          ),
-        );
-      }
+      child = productAsync.when(
+        skipLoadingOnRefresh: false,
+        loading: () {
+          return const Center(child: GenericProgressIndicator());
+        },
+        error: (Object error, StackTrace _) {
+          return Center(
+            child: GenericErrorView(
+              onRetry: () => ref.invalidate(productDetailsProvider(productId!)),
+            ),
+          );
+        },
+        data: (Product? product) {
+          if (product == null) {
+            return const Center(child: Text('Product not found'));
+          }
+          return _ProductDetailsContent(product: product);
+        },
+      );
     }
 
     return Scaffold(
@@ -62,6 +58,37 @@ class ProductDetailsPage extends StatelessWidget {
         onTrailingTap: () {},
       ),
       body: child,
+    );
+  }
+}
+
+class _ProductDetailsContent extends StatelessWidget {
+  const _ProductDetailsContent({required this.product});
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Padding(
+      padding: const EdgeInsets.all(AppDimensions.defaultPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Image.network(
+              product.imageUrl,
+              width: math.min(size.width * 0.60, 256),
+            ),
+          ),
+          const SizedBox(height: AppDimensions.defaultPadding * 3),
+          Expanded(child: _ProductDetails(product: product)),
+          const SizedBox(height: AppDimensions.defaultPadding),
+          CTAPanel(title: 'Add to Cart', onTap: () {}),
+          const SizedBox(height: AppDimensions.defaultPadding / 2),
+        ],
+      ),
     );
   }
 }

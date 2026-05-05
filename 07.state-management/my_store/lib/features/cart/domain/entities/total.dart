@@ -1,5 +1,5 @@
 import 'package:my_store/features/cart/domain/entities/cart.dart';
-import 'package:my_store/shared/domain/entities/price.dart';
+import 'package:my_store/shared/product/domain/entities/price.dart';
 
 class Total {
   const Total({

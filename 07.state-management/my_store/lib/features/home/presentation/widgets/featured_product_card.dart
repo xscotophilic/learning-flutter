@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/shared/domain/entities/product.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
 
 const _imageSize = 96.0;
 

@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/shared/data/data_sources/mock_data.dart';
-import 'package:my_store/shared/domain/entities/price.dart';
+import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/product/domain/entities/price.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
