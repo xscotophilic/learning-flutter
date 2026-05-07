@@ -16,7 +16,7 @@ import 'package:my_store/shared/widgets/main_app_bar.dart';
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
-  static const routeName = '/';
+  static const routeName = '/home';
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
