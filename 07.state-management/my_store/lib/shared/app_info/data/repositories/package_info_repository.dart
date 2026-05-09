@@ -14,7 +14,8 @@ final class PackageInfoRepository implements AppInfoRepository {
   }
 
   @override
-  Future<String> readAppBuildNumber() async {
-    return (await _getPackageInfo()).buildNumber;
+  Future<int> readAppBuildNumber() async {
+    final buildNumber = (await _getPackageInfo()).buildNumber;
+    return int.tryParse(buildNumber) ?? 0;
   }
 }

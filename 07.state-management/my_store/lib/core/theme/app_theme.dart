@@ -75,6 +75,7 @@ class AppTheme {
 
       textTheme: ThemeData.dark().textTheme.copyWith(
         displayLarge: const TextStyle(fontSize: 36),
+        displayMedium: const TextStyle(fontSize: 28),
         titleLarge: const TextStyle(fontSize: 24),
         titleMedium: const TextStyle(fontSize: 20),
         titleSmall: const TextStyle(fontSize: 16),

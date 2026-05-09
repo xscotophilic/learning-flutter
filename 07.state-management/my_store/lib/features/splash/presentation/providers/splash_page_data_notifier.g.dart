@@ -13,7 +13,7 @@ part of 'splash_page_data_notifier.dart';
 final splashPageDataProvider = SplashPageDataNotifierProvider._();
 
 final class SplashPageDataNotifierProvider
-    extends $AsyncNotifierProvider<SplashPageDataNotifier, void> {
+    extends $AsyncNotifierProvider<SplashPageDataNotifier, SplashState> {
   SplashPageDataNotifierProvider._()
     : super(
         from: null,
@@ -34,19 +34,19 @@ final class SplashPageDataNotifierProvider
 }
 
 String _$splashPageDataNotifierHash() =>
-    r'587d0c8c06a412cd62565287b3471359cb4b86be';
+    r'afe753b36b7a9338fde87355574a3e233640840c';
 
-abstract class _$SplashPageDataNotifier extends $AsyncNotifier<void> {
-  FutureOr<void> build();
+abstract class _$SplashPageDataNotifier extends $AsyncNotifier<SplashState> {
+  FutureOr<SplashState> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final ref = this.ref as $Ref<AsyncValue<SplashState>, SplashState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<void>, void>,
-              AsyncValue<void>,
+              AnyNotifier<AsyncValue<SplashState>, SplashState>,
+              AsyncValue<SplashState>,
               Object?,
               Object?
             >;
