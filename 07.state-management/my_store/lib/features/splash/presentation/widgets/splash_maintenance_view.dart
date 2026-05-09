@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:my_store/features/splash/presentation/widgets/splash_action_view.dart';
 
 class SplashMaintenanceView extends StatelessWidget {
@@ -14,7 +15,7 @@ class SplashMaintenanceView extends StatelessWidget {
       title: message,
       details: details,
       ctaLabel: 'Close App',
-      onCtaPressed: () => SystemNavigator.pop(),
+      onCtaPressed: () => exit(0),
     );
   }
 }
