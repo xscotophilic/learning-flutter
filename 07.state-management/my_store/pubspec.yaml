@@ -21,6 +21,7 @@ dependencies:
 
   # Utilities
   intl: ^0.20.2
+  package_info_plus: ^10.1.0
 
 dev_dependencies:
   flutter_test:

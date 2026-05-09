@@ -8,7 +8,7 @@ part 'product_details_notifier.g.dart';
 class ProductDetailsNotifier extends _$ProductDetailsNotifier {
   @override
   Future<Product?> build(String id) async {
-    final repository = ref.watch(productRepositoryProvider);
+    final repository = ref.read(productRepositoryProvider);
     final products = await repository.getProductsByIds(productIds: [id]);
     return products.firstOrNull;
   }

@@ -1,3 +1,4 @@
+import 'package:my_store/shared/app_info/data/repositories/app_info_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'splash_page_data_notifier.g.dart';
@@ -6,6 +7,8 @@ part 'splash_page_data_notifier.g.dart';
 class SplashPageDataNotifier extends _$SplashPageDataNotifier {
   @override
   FutureOr<void> build() async {
-    await Future<void>.delayed(const Duration(seconds: 2));
+    final appInfoRepository = ref.read(appInfoRepositoryProvider);
+    await appInfoRepository.readAppVersion();
+    await appInfoRepository.readAppBuildNumber();
   }
 }

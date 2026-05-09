@@ -31,7 +31,7 @@ class SplashPage extends ConsumerWidget {
           error: (_, _) {
             return const _SplashErrorView();
           },
-          data: (data) {
+          data: (_) {
             return const _SplashPageContent();
           },
         ),
