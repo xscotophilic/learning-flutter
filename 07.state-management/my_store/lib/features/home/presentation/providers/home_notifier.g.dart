@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_page_data_notifier.dart';
+part of 'home_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,34 +9,33 @@ part of 'home_page_data_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(HomePageDataNotifier)
-final homePageDataProvider = HomePageDataNotifierProvider._();
+@ProviderFor(HomeNotifier)
+final homeProvider = HomeNotifierProvider._();
 
-final class HomePageDataNotifierProvider
-    extends $AsyncNotifierProvider<HomePageDataNotifier, HomePageData> {
-  HomePageDataNotifierProvider._()
+final class HomeNotifierProvider
+    extends $AsyncNotifierProvider<HomeNotifier, HomePageData> {
+  HomeNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'homePageDataProvider',
+        name: r'homeProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$homePageDataNotifierHash();
+  String debugGetCreateSourceHash() => _$homeNotifierHash();
 
   @$internal
   @override
-  HomePageDataNotifier create() => HomePageDataNotifier();
+  HomeNotifier create() => HomeNotifier();
 }
 
-String _$homePageDataNotifierHash() =>
-    r'7d64c1b235b0e7ba64118ae41e2d63a33e5453d4';
+String _$homeNotifierHash() => r'c07f8700ba3ccbf2ab97848b60dd3ea2bb86ec11';
 
-abstract class _$HomePageDataNotifier extends $AsyncNotifier<HomePageData> {
+abstract class _$HomeNotifier extends $AsyncNotifier<HomePageData> {
   FutureOr<HomePageData> build();
   @$mustCallSuper
   @override

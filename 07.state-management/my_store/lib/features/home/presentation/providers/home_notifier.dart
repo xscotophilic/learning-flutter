@@ -3,10 +3,10 @@ import 'package:my_store/shared/product/data/repositories/product_repository_pro
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'home_page_data_notifier.g.dart';
+part 'home_notifier.g.dart';
 
 @riverpod
-class HomePageDataNotifier extends _$HomePageDataNotifier {
+class HomeNotifier extends _$HomeNotifier {
   @override
   Future<HomePageData> build() async {
     final repository = ref.watch(productRepositoryProvider);

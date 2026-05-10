@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'splash_page_data_notifier.dart';
+part of 'splash_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,34 +9,33 @@ part of 'splash_page_data_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(SplashPageDataNotifier)
-final splashPageDataProvider = SplashPageDataNotifierProvider._();
+@ProviderFor(SplashNotifier)
+final splashProvider = SplashNotifierProvider._();
 
-final class SplashPageDataNotifierProvider
-    extends $AsyncNotifierProvider<SplashPageDataNotifier, SplashState> {
-  SplashPageDataNotifierProvider._()
+final class SplashNotifierProvider
+    extends $AsyncNotifierProvider<SplashNotifier, SplashState> {
+  SplashNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'splashPageDataProvider',
+        name: r'splashProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$splashPageDataNotifierHash();
+  String debugGetCreateSourceHash() => _$splashNotifierHash();
 
   @$internal
   @override
-  SplashPageDataNotifier create() => SplashPageDataNotifier();
+  SplashNotifier create() => SplashNotifier();
 }
 
-String _$splashPageDataNotifierHash() =>
-    r'1e8aa1cec0f83833d888570cee528854ebbc9d12';
+String _$splashNotifierHash() => r'9225bbdea451418a5c8d8211c788574b30109353';
 
-abstract class _$SplashPageDataNotifier extends $AsyncNotifier<SplashState> {
+abstract class _$SplashNotifier extends $AsyncNotifier<SplashState> {
   FutureOr<SplashState> build();
   @$mustCallSuper
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/home/presentation/pages/home_page.dart';
-import 'package:my_store/features/splash/presentation/providers/splash_page_data_notifier.dart';
+import 'package:my_store/features/splash/presentation/providers/splash_notifier.dart';
 import 'package:my_store/features/splash/presentation/providers/splash_state.dart';
 import 'package:my_store/features/splash/presentation/widgets/splash_error_view.dart';
 import 'package:my_store/features/splash/presentation/widgets/splash_force_update_view.dart';
@@ -16,9 +16,9 @@ class SplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final splashPageAsyncData = ref.watch(splashPageDataProvider);
+    final splashPageAsyncData = ref.watch(splashProvider);
 
-    ref.listen(splashPageDataProvider, (previous, next) {
+    ref.listen(splashProvider, (previous, next) {
       if (!next.hasError && !next.isLoading && next.hasValue) {
         final state = next.value;
         if (state is Success) {

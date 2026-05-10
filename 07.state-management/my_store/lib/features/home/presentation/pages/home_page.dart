@@ -4,7 +4,7 @@ import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/consts/app_strings.dart';
 import 'package:my_store/features/cart/presentation/pages/cart_page.dart';
 import 'package:my_store/features/home/domain/entities/home_page_data.dart';
-import 'package:my_store/features/home/presentation/providers/home_page_data_notifier.dart';
+import 'package:my_store/features/home/presentation/providers/home_notifier.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_products_grid.dart';
 import 'package:my_store/features/home/presentation/widgets/hero_banner.dart';
 import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
@@ -27,7 +27,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final homePageDataAsync = ref.watch(homePageDataProvider);
+    final homePageDataAsync = ref.watch(homeProvider);
     return Scaffold(
       key: _scaffoldKey,
       appBar: MainAppBar(
@@ -54,7 +54,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           error: (Object error, StackTrace _) {
             return Center(
               child: GenericErrorView(
-                onRetry: () => ref.invalidate(homePageDataProvider),
+                onRetry: () => ref.invalidate(homeProvider),
               ),
             );
           },
