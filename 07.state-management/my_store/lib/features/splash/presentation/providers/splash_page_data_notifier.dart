@@ -9,8 +9,8 @@ part 'splash_page_data_notifier.g.dart';
 class SplashPageDataNotifier extends _$SplashPageDataNotifier {
   @override
   Future<SplashState> build() async {
-    final appInfoRepository = ref.read(appInfoRepositoryProvider);
-    final remoteConfigRepository = ref.read(remoteConfigRepositoryProvider);
+    final appInfoRepository = ref.watch(appInfoRepositoryProvider);
+    final remoteConfigRepository = ref.watch(remoteConfigRepositoryProvider);
 
     final (currentBuildNumber, _) = await (
       appInfoRepository.readAppBuildNumber(),

@@ -9,7 +9,7 @@ part 'home_page_data_notifier.g.dart';
 class HomePageDataNotifier extends _$HomePageDataNotifier {
   @override
   Future<HomePageData> build() async {
-    final repository = ref.read(productRepositoryProvider);
+    final repository = ref.watch(productRepositoryProvider);
 
     final results = await Future.wait([
       repository.getHeroProduct(),

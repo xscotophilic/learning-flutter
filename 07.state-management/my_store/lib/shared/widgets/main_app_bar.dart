@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
-import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({
@@ -8,15 +7,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     required this.leadingIcon,
     required this.onLeadingTap,
-    this.trailingIcon,
-    this.onTrailingTap,
+    this.trailing,
   });
 
   final String title;
   final IconData leadingIcon;
   final VoidCallback onLeadingTap;
-  final IconData? trailingIcon;
-  final VoidCallback? onTrailingTap;
+  final Widget? trailing;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -26,11 +23,11 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final actions = <Widget>[];
-    if (trailingIcon != null) {
+    if (trailing != null) {
       actions.add(
         Padding(
           padding: const EdgeInsets.only(right: AppDimensions.defaultPadding),
-          child: DecoratedIconCta(icon: trailingIcon!, onTap: onTrailingTap),
+          child: trailing,
         ),
       );
     }
@@ -41,7 +38,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
       centerTitle: true,
-      leading: DecoratedIconCta(icon: leadingIcon, onTap: onLeadingTap),
+      leading: GestureDetector(onTap: onLeadingTap, child: Icon(leadingIcon)),
       actions: actions,
     );
   }

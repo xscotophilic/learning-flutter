@@ -7,7 +7,6 @@ import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/cta_panel.dart';
-import 'package:my_store/shared/widgets/decorated_icon_cta.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
 const double _imageSize = 72;
@@ -171,11 +170,13 @@ class _CartItem extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      DecoratedIconCta(
-                        icon: Icons.remove,
-                        iconColor: theme.colorScheme.primary,
-                        iconSize: 14,
+                      GestureDetector(
                         onTap: () {},
+                        child: Icon(
+                          Icons.remove,
+                          color: theme.colorScheme.primary,
+                          size: 14,
+                        ),
                       ),
                       const SizedBox(width: AppDimensions.defaultPadding / 2),
                       Text(
@@ -185,11 +186,13 @@ class _CartItem extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: AppDimensions.defaultPadding / 2),
-                      DecoratedIconCta(
-                        icon: Icons.add,
-                        iconColor: theme.colorScheme.primary,
-                        iconSize: 14,
+                      GestureDetector(
                         onTap: () {},
+                        child: Icon(
+                          Icons.add,
+                          color: theme.colorScheme.primary,
+                          size: 14,
+                        ),
                       ),
                     ],
                   ),

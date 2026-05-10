@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
+import 'package:my_store/shared/favorites/presentation/widgets/favorite_button.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 
 const _imageSize = 96.0;
@@ -54,9 +55,7 @@ class FeaturedProductCard extends StatelessWidget {
                   const SizedBox(height: AppDimensions.defaultMargin / 4),
                   Row(
                     children: [
-                      GestureDetector(
-                        child: const Icon(Icons.favorite_border, size: 18),
-                      ),
+                      FavoriteButton(productId: product.id, iconSize: 18),
                       const SizedBox(width: AppDimensions.defaultMargin / 2),
                       Expanded(
                         child: Text(

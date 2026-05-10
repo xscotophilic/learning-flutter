@@ -36,10 +36,12 @@ class _HomePageState extends ConsumerState<HomePage> {
         onLeadingTap: () {
           _scaffoldKey.currentState?.openDrawer();
         },
-        trailingIcon: Icons.shopping_bag_outlined,
-        onTrailingTap: () {
-          Navigator.pushNamed(context, CartPage.routeName);
-        },
+        trailing: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, CartPage.routeName);
+          },
+          child: const Icon(Icons.shopping_bag_outlined),
+        ),
       ),
       drawer: const AppDrawer(),
       body: Padding(

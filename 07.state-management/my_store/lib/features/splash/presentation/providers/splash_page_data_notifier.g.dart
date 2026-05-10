@@ -34,7 +34,7 @@ final class SplashPageDataNotifierProvider
 }
 
 String _$splashPageDataNotifierHash() =>
-    r'afe753b36b7a9338fde87355574a3e233640840c';
+    r'1e8aa1cec0f83833d888570cee528854ebbc9d12';
 
 abstract class _$SplashPageDataNotifier extends $AsyncNotifier<SplashState> {
   FutureOr<SplashState> build();

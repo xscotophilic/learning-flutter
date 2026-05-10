@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/product_details/presentation/providers/product_details_notifier.dart';
+import 'package:my_store/shared/favorites/presentation/widgets/favorite_button.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/cta_panel.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
@@ -19,11 +20,15 @@ class ProductDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final Widget? trailingAppBarWidget;
     final Widget child;
 
     if (productId == null) {
+      trailingAppBarWidget = null;
       child = const Center(child: Text('Product not found'));
     } else {
+      trailingAppBarWidget = FavoriteButton(productId: productId!);
+
       final productAsync = ref.watch(productDetailsProvider(productId!));
 
       child = productAsync.when(
@@ -54,8 +59,7 @@ class ProductDetailsPage extends ConsumerWidget {
         onLeadingTap: () {
           Navigator.pop(context);
         },
-        trailingIcon: Icons.favorite_border,
-        onTrailingTap: () {},
+        trailing: trailingAppBarWidget,
       ),
       body: child,
     );

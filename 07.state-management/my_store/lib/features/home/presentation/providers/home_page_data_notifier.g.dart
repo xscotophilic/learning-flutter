@@ -34,7 +34,7 @@ final class HomePageDataNotifierProvider
 }
 
 String _$homePageDataNotifierHash() =>
-    r'3831adee6c7bbb66fb5befca7d6c08441cb9f6ac';
+    r'7d64c1b235b0e7ba64118ae41e2d63a33e5453d4';
 
 abstract class _$HomePageDataNotifier extends $AsyncNotifier<HomePageData> {
   FutureOr<HomePageData> build();
