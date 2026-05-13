@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
+import 'package:my_store/shared/widgets/primary_button.dart';
 
 class HeroBanner extends StatelessWidget {
   const HeroBanner({
@@ -53,10 +54,7 @@ class HeroBanner extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: AppDimensions.defaultMargin / 2),
-                      ElevatedButton(
-                        onPressed: onButtonPressed,
-                        child: Text(buttonText),
-                      ),
+                      PrimaryButton(text: buttonText, onTap: onButtonPressed),
                     ],
                   ),
                 ),

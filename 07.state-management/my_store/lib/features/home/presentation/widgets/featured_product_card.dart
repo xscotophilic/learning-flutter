@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
+import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
+import 'package:my_store/shared/cart/presentation/widgets/add_to_cart_button.dart';
 import 'package:my_store/shared/favorites/presentation/widgets/favorite_button.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 
 const _imageSize = 96.0;
 
 class FeaturedProductCard extends StatelessWidget {
-  const FeaturedProductCard({super.key, required this.product, this.onTap});
+  const FeaturedProductCard({super.key, required this.product});
 
   final Product product;
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          ProductDetailsPage.routeName,
+          arguments: product.id,
+        );
+      },
       child: Stack(
         children: [
           Container(
@@ -71,13 +78,7 @@ class FeaturedProductCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: AppDimensions.defaultMargin / 2),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: onTap,
-                      child: const Text('Add to Cart'),
-                    ),
-                  ),
+                  AddToCartButton(product: product),
                 ],
               ),
             ),

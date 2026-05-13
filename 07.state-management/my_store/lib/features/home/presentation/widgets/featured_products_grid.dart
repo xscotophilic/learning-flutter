@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_product_card.dart';
-import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 
 class FeaturedProductsGrid extends StatefulWidget {
@@ -16,14 +15,6 @@ class FeaturedProductsGrid extends StatefulWidget {
 class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
   int _columnCount = 0;
   List<List<Product>> _columns = [];
-
-  void _onProductTap(String productId) {
-    Navigator.pushNamed(
-      context,
-      ProductDetailsPage.routeName,
-      arguments: productId,
-    );
-  }
 
   void _recompute(double availableWidth) {
     const double maxCrossAxisExtent = 256.0 + AppDimensions.defaultMargin;
@@ -60,10 +51,7 @@ class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
                         padding: const EdgeInsets.only(
                           bottom: AppDimensions.defaultMargin,
                         ),
-                        child: FeaturedProductCard(
-                          product: p,
-                          onTap: () => _onProductTap(p.id),
-                        ),
+                        child: FeaturedProductCard(product: p),
                       );
                     }).toList(),
                   ),

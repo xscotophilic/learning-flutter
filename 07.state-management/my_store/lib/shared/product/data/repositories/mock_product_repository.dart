@@ -26,10 +26,17 @@ final class MockProductRepository implements ProductRepository {
   @override
   Future<List<Product>> getProductsByIds({
     required List<String> productIds,
+    bool skipCache = false,
   }) async {
-    final missingIds = productIds.where((id) {
-      return !_allProductsCache.containsKey(id);
-    }).toList();
+    final List<String> missingIds;
+
+    if (skipCache) {
+      missingIds = productIds;
+    } else {
+      missingIds = productIds.where((id) {
+        return !_allProductsCache.containsKey(id);
+      }).toList();
+    }
 
     if (missingIds.isNotEmpty) {
       await Future<void>.delayed(_kNetworkDelay);

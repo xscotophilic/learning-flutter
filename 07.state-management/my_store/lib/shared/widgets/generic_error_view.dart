@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
+import 'package:my_store/shared/widgets/primary_button.dart';
 
 class GenericErrorView extends StatelessWidget {
   const GenericErrorView({super.key, required this.onRetry});
@@ -27,10 +28,10 @@ class GenericErrorView extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppDimensions.defaultMargin),
-        ElevatedButton.icon(
-          onPressed: onRetry,
-          icon: const Icon(Icons.refresh_rounded),
-          label: const Text('Retry'),
+        PrimaryButton(
+          text: 'Retry',
+          icon: Icons.refresh_rounded,
+          onTap: onRetry,
         ),
       ],
     );

@@ -1,4 +1,4 @@
-import 'package:my_store/features/cart/domain/entities/total.dart';
+import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
 
 class CartItem {
@@ -30,6 +30,22 @@ class Cart {
     required this.items,
     required this.total,
   });
+
+  Cart copyWith({
+    String? id,
+    String? ownerId,
+    DateTime? createdAt,
+    List<CartItem>? items,
+    Total? total,
+  }) {
+    return Cart(
+      id: id ?? this.id,
+      ownerId: ownerId ?? this.ownerId,
+      createdAt: createdAt ?? this.createdAt,
+      items: items ?? this.items,
+      total: total ?? this.total,
+    );
+  }
 
   final String id;
   final String ownerId;

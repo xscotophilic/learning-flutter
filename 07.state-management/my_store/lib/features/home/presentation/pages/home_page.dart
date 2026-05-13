@@ -8,6 +8,7 @@ import 'package:my_store/features/home/presentation/providers/home_notifier.dart
 import 'package:my_store/features/home/presentation/widgets/featured_products_grid.dart';
 import 'package:my_store/features/home/presentation/widgets/hero_banner.dart';
 import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
+import 'package:my_store/shared/cart/presentation/widgets/cart_badge.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
@@ -36,11 +37,10 @@ class _HomePageState extends ConsumerState<HomePage> {
         onLeadingTap: () {
           _scaffoldKey.currentState?.openDrawer();
         },
-        trailing: GestureDetector(
+        trailing: CartBadge(
           onTap: () {
             Navigator.pushNamed(context, CartPage.routeName);
           },
-          child: const Icon(Icons.shopping_bag_outlined),
         ),
       ),
       drawer: const AppDrawer(),
