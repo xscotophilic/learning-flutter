@@ -1,5 +1,4 @@
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
-import 'package:my_store/shared/product/domain/entities/price.dart';
 
 class Total {
   const Total({
@@ -9,7 +8,7 @@ class Total {
     required this.currency,
   });
 
-  factory Total.calculate(List<(CartItem, Price)> items) {
+  factory Total.fromCartItems(List<CartItem> items) {
     if (items.isEmpty) {
       return const Total(subtotal: 0, discount: 0, total: 0, currency: '');
     }
@@ -19,16 +18,18 @@ class Total {
     double totalAmount = 0;
     String? currency;
 
-    for (final (cartItem, price) in items) {
+    for (final item in items) {
+      final price = item.unitPrice;
+
       if (currency == null) {
         currency = price.currency;
       } else if (currency != price.currency) {
         currency = 'invalid';
       }
 
-      subtotal += cartItem.calculateSubtotal(price);
-      discount += cartItem.calculateDiscount(price);
-      totalAmount += cartItem.calculateTotal(price);
+      subtotal += item.calculateSubtotal;
+      discount += item.calculateDiscount;
+      totalAmount += item.calculateTotal;
     }
 
     return Total(

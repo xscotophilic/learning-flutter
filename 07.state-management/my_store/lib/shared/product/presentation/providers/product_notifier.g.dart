@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'product_details_notifier.dart';
+part of 'product_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,40 +9,39 @@ part of 'product_details_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(ProductDetailsNotifier)
-final productDetailsProvider = ProductDetailsNotifierFamily._();
+@ProviderFor(ProductNotifier)
+final productProvider = ProductNotifierFamily._();
 
-final class ProductDetailsNotifierProvider
-    extends $AsyncNotifierProvider<ProductDetailsNotifier, Product?> {
-  ProductDetailsNotifierProvider._({
-    required ProductDetailsNotifierFamily super.from,
+final class ProductNotifierProvider
+    extends $AsyncNotifierProvider<ProductNotifier, Product?> {
+  ProductNotifierProvider._({
+    required ProductNotifierFamily super.from,
     required String super.argument,
   }) : super(
          retry: null,
-         name: r'productDetailsProvider',
+         name: r'productProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$productDetailsNotifierHash();
+  String debugGetCreateSourceHash() => _$productNotifierHash();
 
   @override
   String toString() {
-    return r'productDetailsProvider'
+    return r'productProvider'
         ''
         '($argument)';
   }
 
   @$internal
   @override
-  ProductDetailsNotifier create() => ProductDetailsNotifier();
+  ProductNotifier create() => ProductNotifier();
 
   @override
   bool operator ==(Object other) {
-    return other is ProductDetailsNotifierProvider &&
-        other.argument == argument;
+    return other is ProductNotifierProvider && other.argument == argument;
   }
 
   @override
@@ -51,35 +50,34 @@ final class ProductDetailsNotifierProvider
   }
 }
 
-String _$productDetailsNotifierHash() =>
-    r'a8fff41a1c159a18aca9cc22213d721c86dbbb37';
+String _$productNotifierHash() => r'bde3845091a55ffd3d28be516acdac1c4214cab7';
 
-final class ProductDetailsNotifierFamily extends $Family
+final class ProductNotifierFamily extends $Family
     with
         $ClassFamilyOverride<
-          ProductDetailsNotifier,
+          ProductNotifier,
           AsyncValue<Product?>,
           Product?,
           FutureOr<Product?>,
           String
         > {
-  ProductDetailsNotifierFamily._()
+  ProductNotifierFamily._()
     : super(
         retry: null,
-        name: r'productDetailsProvider',
+        name: r'productProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  ProductDetailsNotifierProvider call(String id) =>
-      ProductDetailsNotifierProvider._(argument: id, from: this);
+  ProductNotifierProvider call(String id) =>
+      ProductNotifierProvider._(argument: id, from: this);
 
   @override
-  String toString() => r'productDetailsProvider';
+  String toString() => r'productProvider';
 }
 
-abstract class _$ProductDetailsNotifier extends $AsyncNotifier<Product?> {
+abstract class _$ProductNotifier extends $AsyncNotifier<Product?> {
   late final _$args = ref.$arg as String;
   String get id => _$args;
 

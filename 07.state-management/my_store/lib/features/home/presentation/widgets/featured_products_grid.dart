@@ -1,63 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_product_card.dart';
-import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 
-class FeaturedProductsGrid extends StatefulWidget {
-  const FeaturedProductsGrid({super.key, required this.products});
+class FeaturedProductsGrid extends ConsumerWidget {
+  const FeaturedProductsGrid({super.key, required this.productIds});
 
-  final List<Product> products;
-
-  @override
-  State<FeaturedProductsGrid> createState() => _FeaturedProductsGridState();
-}
-
-class _FeaturedProductsGridState extends State<FeaturedProductsGrid> {
-  int _columnCount = 0;
-  List<List<Product>> _columns = [];
-
-  void _recompute(double availableWidth) {
-    const double maxCrossAxisExtent = 256.0 + AppDimensions.defaultMargin;
-    final int columnCount = (availableWidth / maxCrossAxisExtent).ceil();
-
-    _columnCount = columnCount;
-    _columns = List.generate(columnCount, (_) => <Product>[]);
-    for (int i = 0; i < widget.products.length; i++) {
-      _columns[i % columnCount].add(widget.products[i]);
-    }
-  }
+  final List<String> productIds;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productStates = productIds.map((id) {
+      return ref.watch(productProvider(id));
+    }).toList();
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        _recompute(constraints.maxWidth);
+        const double maxCrossAxisExtent = 256.0 + AppDimensions.defaultMargin;
+        final int columnCount = (constraints.maxWidth / maxCrossAxisExtent)
+            .ceil();
 
-        final enableMasonryGrid = _columnCount == 2;
-        final paddingOffset = AppDimensions.defaultPadding * 3;
+        final List<Widget> visibleCards = [];
+        for (int i = 0; i < productIds.length; i++) {
+          final id = productIds[i];
+          final state = productStates[i];
 
+          if (state.isLoading ||
+              (!state.hasError && state.hasValue && state.value != null)) {
+            visibleCards.add(FeaturedProductCard(productId: id));
+          }
+        }
+
+        if (visibleCards.isEmpty) {
+          return const Text('No items available at the moment.');
+        }
+
+        final List<List<Widget>> columns = List.generate(
+          columnCount,
+          (_) => <Widget>[],
+        );
+
+        for (int i = 0; i < visibleCards.length; i++) {
+          columns[i % columnCount].add(visibleCards[i]);
+        }
+
+        final bool enableMasonryGrid = columnCount == 2;
+        final double paddingOffset = AppDimensions.defaultPadding * 3;
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (int i = 0; i < _columnCount; i++) ...[
+            for (int i = 0; i < columnCount; i++) ...[
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
                     top: enableMasonryGrid && i == 1 ? paddingOffset : 0.0,
                   ),
                   child: Column(
-                    children: _columns[i].map((p) {
+                    children: columns[i].map((card) {
                       return Padding(
                         padding: const EdgeInsets.only(
                           bottom: AppDimensions.defaultMargin,
                         ),
-                        child: FeaturedProductCard(product: p),
+                        child: card,
                       );
                     }).toList(),
                   ),
                 ),
               ),
-              if (i < _columnCount - 1) ...[
+              if (i < columnCount - 1) ...[
                 const SizedBox(width: AppDimensions.defaultMargin),
               ],
             ],

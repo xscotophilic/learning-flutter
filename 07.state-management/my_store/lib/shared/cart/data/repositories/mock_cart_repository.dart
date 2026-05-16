@@ -3,66 +3,77 @@ import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/cart/domain/exceptions/cart_exceptions.dart';
 import 'package:my_store/shared/cart/domain/repositories/cart_repository.dart';
 import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
-import 'package:my_store/shared/product/domain/entities/price.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
 
 final class MockCartRepository implements CartRepository {
   MockCartRepository();
 
   static const Duration _kNetworkDelay = Duration(milliseconds: 250);
 
-  Cart? _cart;
+  Cart<CartItem>? _cart;
 
   @override
-  Future<Cart> getOrCreateCart() async {
+  Future<Cart<CartItem>> getOrCreateCart() async {
     await Future<void>.delayed(_kNetworkDelay);
+
+    final items = <CartItem>[];
+    final total = Total.fromCartItems(items);
+
     return _cart ??= Cart(
       id: 'mock-cart-id',
       ownerId: 'mock-user-id',
       createdAt: DateTime.now(),
-      items: [],
-      total: Total.calculate([]),
+      items: items,
+      total: total,
     );
   }
 
   @override
-  Future<Cart> updateItem(String productId, int quantity) async {
+  Future<Cart<CartItem>> updateItem(String productId, int quantity) async {
     await Future<void>.delayed(_kNetworkDelay);
     if (_cart == null) {
       throw const CartNotFoundException();
     }
 
+    final newItems = List<CartItem>.from(_cart?.items ?? []);
+
     if (quantity <= 0) {
-      _cart?.items.removeWhere((i) => i.productId == productId);
+      newItems.removeWhere((i) => i.productId == productId);
     } else {
-      final existingIndex = _cart?.items.indexWhere(
+      final existingIndex = newItems.indexWhere(
         (i) => i.productId == productId,
       );
 
-      if (existingIndex != null && existingIndex >= 0) {
-        _cart?.items[existingIndex] = CartItem(
-          productId: productId,
-          quantity: quantity,
+      final product = MockData.products.cast<Product?>().firstWhere(
+        (p) => p?.id == productId,
+        orElse: () => null,
+      );
+      if (product == null) {
+        throw Exception('Product not found');
+      }
+
+      if (existingIndex < 0) {
+        newItems.add(
+          CartItem(
+            productId: productId,
+            unitPrice: product.price,
+            quantity: quantity,
+          ),
         );
       } else {
-        _cart?.items.add(CartItem(productId: productId, quantity: quantity));
+        newItems[existingIndex] = CartItem(
+          productId: productId,
+          unitPrice: product.price,
+          quantity: quantity,
+        );
       }
     }
 
-    final cartItemsWithPrices = await _buildCartItemsWithPrices(
-      _cart?.items ?? [],
+    _cart = _cart?.copyWith(
+      items: newItems,
+      total: Total.fromCartItems(newItems),
     );
-    return _cart = _cart!.copyWith(total: Total.calculate(cartItemsWithPrices));
-  }
 
-  Future<List<(CartItem, Price)>> _buildCartItemsWithPrices(
-    List<CartItem> items,
-  ) async {
-    return items.map((i) {
-      final product = MockData.findProductById(i.productId);
-      if (product == null) {
-        throw Exception('Product with id ${i.productId} not found');
-      }
-      return (i, product.price);
-    }).toList();
+    return _cart ?? (throw const CartNotFoundException());
   }
 }

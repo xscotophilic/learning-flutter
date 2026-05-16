@@ -9,6 +9,7 @@ import 'package:my_store/features/home/presentation/widgets/featured_products_gr
 import 'package:my_store/features/home/presentation/widgets/hero_banner.dart';
 import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
 import 'package:my_store/shared/cart/presentation/widgets/cart_badge.dart';
+import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
@@ -77,15 +78,34 @@ class _HomePageBody extends StatelessWidget {
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: [
-        HeroBanner(
-          foregroundImageUrl: homePageData.heroProduct.imageUrl,
-          title: 'Rock your taste buds with our cookies',
-          buttonText: 'SHOP NOW',
-          onButtonPressed: () {
-            Navigator.pushNamed(
-              context,
-              ProductDetailsPage.routeName,
-              arguments: homePageData.heroProduct.id,
+        Consumer(
+          builder: (context, ref, _) {
+            final heroProductAsync = ref.watch(
+              productProvider(homePageData.heroProductId),
+            );
+
+            return heroProductAsync.when(
+              data: (heroProduct) {
+                if (heroProduct == null) return const SizedBox();
+
+                return HeroBanner(
+                  foregroundImageUrl: heroProduct.imageUrl,
+                  title: 'Rock your taste buds with our cookies',
+                  buttonText: 'SHOP NOW',
+                  onButtonPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      ProductDetailsPage.routeName,
+                      arguments: heroProduct.id,
+                    );
+                  },
+                );
+              },
+              loading: () => const SizedBox(
+                height: 200,
+                child: Center(child: GenericProgressIndicator()),
+              ),
+              error: (err, stack) => const SizedBox(),
             );
           },
         ),
@@ -99,7 +119,7 @@ class _HomePageBody extends StatelessWidget {
 
         const SizedBox(height: AppDimensions.defaultMargin),
 
-        FeaturedProductsGrid(products: homePageData.featuredProducts),
+        FeaturedProductsGrid(productIds: homePageData.featuredProductIds),
       ],
     );
   }

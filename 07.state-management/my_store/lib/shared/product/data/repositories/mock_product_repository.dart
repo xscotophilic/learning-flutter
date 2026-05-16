@@ -8,19 +8,15 @@ final class MockProductRepository implements ProductRepository {
   final Map<String, Product> _allProductsCache = {};
 
   @override
-  Future<Product> getHeroProduct() async {
+  Future<String> getHeroProductId() async {
     await Future<void>.delayed(_kNetworkDelay);
-    final product = MockData.heroProduct;
-    _updateCache([product]);
-    return product;
+    return MockData.heroProductId;
   }
 
   @override
-  Future<List<Product>> getFeaturedProducts() async {
+  Future<List<String>> getFeaturedProductIds() async {
     await Future<void>.delayed(_kNetworkDelay);
-    final products = MockData.products;
-    _updateCache(products);
-    return products;
+    return MockData.products.map((p) => p.id).toList();
   }
 
   @override

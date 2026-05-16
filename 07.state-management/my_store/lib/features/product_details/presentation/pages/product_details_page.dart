@@ -3,10 +3,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
-import 'package:my_store/features/product_details/presentation/providers/product_details_notifier.dart';
 import 'package:my_store/shared/cart/presentation/widgets/add_to_cart_button.dart';
 import 'package:my_store/shared/favorites/presentation/widgets/favorite_button.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
@@ -29,7 +29,7 @@ class ProductDetailsPage extends ConsumerWidget {
     } else {
       trailingAppBarWidget = FavoriteButton(productId: productId!);
 
-      final productAsync = ref.watch(productDetailsProvider(productId!));
+      final productAsync = ref.watch(productProvider(productId!));
 
       child = productAsync.when(
         skipLoadingOnRefresh: false,
@@ -39,7 +39,7 @@ class ProductDetailsPage extends ConsumerWidget {
         error: (Object error, StackTrace _) {
           return Center(
             child: GenericErrorView(
-              onRetry: () => ref.invalidate(productDetailsProvider(productId!)),
+              onRetry: () => ref.invalidate(productProvider(productId!)),
             ),
           );
         },
