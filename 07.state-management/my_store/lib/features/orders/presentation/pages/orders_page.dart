@@ -5,6 +5,7 @@ import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
 import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
@@ -207,7 +208,10 @@ class _OrderLineItemRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final product = MockData.findProductById(item.productId);
+    final product = MockData.products.cast<Product?>().firstWhere(
+      (p) => p?.id == item.productId,
+      orElse: () => null,
+    );
 
     final Widget image;
     final String productName;

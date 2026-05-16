@@ -1,20 +1,11 @@
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/shared/cart/domain/entities/cart.dart';
-import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 
 class MockData {
   const MockData._();
 
-  static final heroProduct = products[3];
-
-  static Product? findProductById(String id) {
-    return products.cast<Product?>().firstWhere(
-      (p) => p?.id == id,
-      orElse: () => null,
-    );
-  }
+  static final heroProductId = products[3].id;
 
   static const products = [
     Product(
@@ -91,22 +82,7 @@ class MockData {
     ),
   ];
 
-  static final cart = Cart(
-    id: 'CART-123',
-    ownerId: 'USER-123',
-    createdAt: DateTime(2025, 11, 10, 10),
-    items: const [
-      CartItem(productId: '1', quantity: 2),
-      CartItem(productId: '4', quantity: 3),
-    ],
-    total: const Total(
-      subtotal: 66,
-      discount: 5.4,
-      total: 60.6,
-      currency: 'USD',
-    ),
-  );
-
+  // TODO: Delete this
   static final orders = [
     Order(
       id: 'ORD-2024-001',

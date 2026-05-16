@@ -51,7 +51,7 @@ class AppTheme {
     return ThemeData(
       canvasColor: _background,
       scaffoldBackgroundColor: _background,
-
+      visualDensity: VisualDensity.standard,
       colorScheme: ColorScheme.dark(
         surface: _background,
         onSurface: _onBackground,

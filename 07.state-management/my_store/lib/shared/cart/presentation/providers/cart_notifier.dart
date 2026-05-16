@@ -2,15 +2,15 @@ import 'package:my_store/shared/cart/data/repositories/cart_repository_provider.
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
 import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/product/data/repositories/product_repository_provider.dart';
-import 'package:my_store/shared/product/domain/entities/price.dart';
+import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_notifier.g.dart';
 
 @riverpod
-class CartNotifier extends _$CartNotifier {
+class _CartState extends _$CartState {
   @override
-  Future<Cart> build() async {
+  Future<Cart<CartItem>> build() async {
     final repository = ref.watch(cartRepositoryProvider);
     return repository.getOrCreateCart();
   }
@@ -34,45 +34,46 @@ class CartNotifier extends _$CartNotifier {
   }
 
   Future<void> updateQuantity(String productId, int quantity) async {
-    final currentCart = state.value;
-    if (currentCart == null) return;
+    final localCart = state.value;
+    if (localCart == null) return;
 
-    final updatedItems = _updateItems(
-      currentItems: currentCart.items,
+    final updatedItems = await _updateItems(
+      currentItems: localCart.items,
       productId: productId,
       quantity: quantity,
     );
 
-    final productRepository = ref.read(productRepositoryProvider);
-    final products = await productRepository.getProductsByIds(
-      productIds: updatedItems.map((item) => item.productId).toList(),
-      skipCache: true,
-    );
-
-    final priceById = {for (final p in products) p.id: p.price};
-
-    List<(CartItem, Price)> items = updatedItems.map((item) {
-      final price = priceById[item.productId];
-      if (price == null) {
-        throw Exception('Product not found');
-      }
-      return (item, price);
-    }).toList();
-
     state = AsyncData(
-      currentCart.copyWith(items: updatedItems, total: Total.calculate(items)),
+      localCart.copyWith(
+        items: updatedItems,
+        total: Total.fromCartItems(updatedItems),
+      ),
     );
 
-    state = await AsyncValue.guard(
-      () => ref.read(cartRepositoryProvider).updateItem(productId, quantity),
-    );
+    final cartRepository = ref.read(cartRepositoryProvider);
+    final updatedCart = await cartRepository.updateItem(productId, quantity);
+
+    state = AsyncData(updatedCart);
+
+    if (localCart.total != updatedCart.total) {
+      final productsRepository = ref.read(productRepositoryProvider);
+
+      await productsRepository.getProductsByIds(
+        productIds: updatedCart.items.map((i) => i.productId).toList(),
+        skipCache: true,
+      );
+
+      for (final item in updatedCart.items) {
+        ref.invalidate(productProvider(item.productId));
+      }
+    }
   }
 
-  List<CartItem> _updateItems({
+  Future<List<CartItem>> _updateItems({
     required List<CartItem> currentItems,
     required String productId,
     required int quantity,
-  }) {
+  }) async {
     final updatedItems = List<CartItem>.from(currentItems);
     final existingItemIndex = updatedItems.indexWhere(
       (item) => item.productId == productId,
@@ -82,15 +83,75 @@ class CartNotifier extends _$CartNotifier {
       if (quantity <= 0) {
         updatedItems.removeAt(existingItemIndex);
       } else {
-        updatedItems[existingItemIndex] = CartItem(
-          productId: productId,
+        final updatedItem = updatedItems[existingItemIndex].copyWith(
           quantity: quantity,
         );
+        updatedItems[existingItemIndex] = updatedItem;
       }
     } else if (quantity > 0) {
-      updatedItems.add(CartItem(productId: productId, quantity: quantity));
+      final productsRepository = ref.read(productRepositoryProvider);
+      final products = await productsRepository.getProductsByIds(
+        productIds: [productId],
+      );
+
+      if (products.isEmpty) throw Exception('Product not found');
+
+      updatedItems.add(
+        CartItem(
+          productId: productId,
+          unitPrice: products.first.price,
+          quantity: quantity,
+        ),
+      );
     }
 
     return updatedItems;
+  }
+}
+
+@riverpod
+class CartNotifier extends _$CartNotifier {
+  @override
+  Future<Cart<HydratedCartItem>> build() async {
+    final productRepository = ref.watch(productRepositoryProvider);
+    final cartFuture = ref.watch(_cartStateProvider.future);
+
+    final cart = await cartFuture;
+
+    final products = await productRepository.getProductsByIds(
+      productIds: cart.items.map((i) => i.productId).toList(),
+    );
+
+    final productMap = {for (var p in products) p.id: p};
+
+    final hydratedItems = cart.items.map((cartItem) {
+      final product = productMap[cartItem.productId];
+      if (product == null) {
+        throw Exception('Product ${cartItem.productId} not found');
+      }
+      return HydratedCartItem(cartItem: cartItem, product: product);
+    }).toList();
+
+    return Cart<HydratedCartItem>(
+      id: cart.id,
+      ownerId: cart.ownerId,
+      createdAt: cart.createdAt,
+      items: hydratedItems,
+      total: cart.total,
+    );
+  }
+
+  Future<void> addItem(String productId) {
+    return ref.read(_cartStateProvider.notifier).addItem(productId);
+  }
+
+  Future<void> removeItem(String productId) {
+    return ref.read(_cartStateProvider.notifier).removeItem(productId);
+  }
+
+  Future<void> updateQuantity(String productId, int quantity) {
+    return ref
+        .read(_cartStateProvider.notifier)
+        .updateQuantity(productId, quantity);
   }
 }

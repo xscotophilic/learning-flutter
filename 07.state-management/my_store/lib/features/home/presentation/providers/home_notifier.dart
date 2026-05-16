@@ -1,6 +1,5 @@
 import 'package:my_store/features/home/domain/entities/home_page_data.dart';
 import 'package:my_store/shared/product/data/repositories/product_repository_provider.dart';
-import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_notifier.g.dart';
@@ -11,14 +10,14 @@ class HomeNotifier extends _$HomeNotifier {
   Future<HomePageData> build() async {
     final repository = ref.watch(productRepositoryProvider);
 
-    final results = await Future.wait([
-      repository.getHeroProduct(),
-      repository.getFeaturedProducts(),
-    ]);
+    final (heroProductId, featuredProductIds) = await (
+      repository.getHeroProductId(),
+      repository.getFeaturedProductIds(),
+    ).wait;
 
     return HomePageData(
-      heroProduct: results[0] as Product,
-      featuredProducts: results[1] as List<Product>,
+      heroProductId: heroProductId,
+      featuredProductIds: featuredProductIds,
     );
   }
 }

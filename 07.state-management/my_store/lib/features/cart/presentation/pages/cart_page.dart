@@ -1,43 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
-import 'package:my_store/features/cart/domain/entities/cart.dart';
-import 'package:my_store/features/cart/domain/entities/total.dart';
-import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/cart/domain/entities/cart.dart';
+import 'package:my_store/shared/cart/domain/entities/total.dart';
+import 'package:my_store/shared/cart/presentation/providers/cart_notifier.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
-import 'package:my_store/shared/widgets/cta_panel.dart';
+import 'package:my_store/shared/widgets/generic_error_view.dart';
+import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
+import 'package:my_store/shared/widgets/primary_button.dart';
 
 const double _imageSize = 72;
 
-class CartPage extends StatelessWidget {
+class CartPage extends ConsumerWidget {
   const CartPage({super.key});
 
   static const routeName = '/cart';
 
   @override
-  Widget build(BuildContext context) {
-    final cart = MockData.cart;
-    final cartItems = cart.items;
-
-    // We use separate lists to ensure:
-    // - Interface Segregation: Decouples the tight coupling between models.
-    // - Explicit Intent: Clarifies the "data contract" for the needed data only.
-    // - Future Proofing: Supports future items with different data structures.
-    List<(CartItem, Price)> cartItemsWithPrices = [];
-    List<(CartItem, Product)> cartItemsWithProductDetails = [];
-
-    for (final cartItem in cartItems) {
-      final product = MockData.findProductById(cartItem.productId);
-
-      if (product != null) {
-        cartItemsWithProductDetails.add((cartItem, product));
-        cartItemsWithPrices.add((cartItem, product.price));
-      }
-    }
-
-    final total = Total.calculate(cartItemsWithPrices);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartAsync = ref.watch(cartProvider);
 
     return Scaffold(
       appBar: MainAppBar(
@@ -48,51 +32,71 @@ class CartPage extends StatelessWidget {
         },
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppDimensions.defaultPadding),
-          child: Column(
-            children: [
-              _CartContent(
-                cartItemsWithProductDetails: cartItemsWithProductDetails,
+        child: cartAsync.when(
+          skipLoadingOnRefresh: false,
+          loading: () {
+            return const Center(child: GenericProgressIndicator());
+          },
+          error: (Object error, StackTrace _) {
+            return Center(
+              child: GenericErrorView(
+                onRetry: () => ref.invalidate(cartProvider),
               ),
-              const SizedBox(height: AppDimensions.defaultPadding),
-              Container(
-                padding: const EdgeInsets.all(
-                  AppDimensions.defaultPadding / 1.5,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    AppDimensions.defaultBorderRadius / 2,
-                  ),
-                  color: Theme.of(context).colorScheme.onPrimary.withAlpha(150),
-                ),
-                child: Column(
-                  children: [
-                    _CartSummary(total: total),
-                    const SizedBox(height: AppDimensions.defaultPadding / 2),
-                    CTAPanel(
-                      title: 'Place Order',
-                      onTap: cartItems.isEmpty ? null : () {},
+            );
+          },
+          data: (cartData) {
+            final hydratedItems = cartData.items;
+
+            return Padding(
+              padding: const EdgeInsets.all(AppDimensions.defaultPadding),
+              child: Column(
+                children: [
+                  _CartContent(hydratedItems: hydratedItems),
+                  const SizedBox(height: AppDimensions.defaultPadding),
+                  Container(
+                    padding: const EdgeInsets.all(
+                      AppDimensions.defaultPadding / 1.5,
                     ),
-                  ],
-                ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.defaultBorderRadius / 2,
+                      ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onPrimary.withAlpha(150),
+                    ),
+                    child: Column(
+                      children: [
+                        _CartSummary(total: cartData.total),
+                        const SizedBox(
+                          height: AppDimensions.defaultPadding / 2,
+                        ),
+                        PrimaryButton(
+                          text: 'Place Order',
+                          fullWidth: true,
+                          onTap: hydratedItems.isEmpty ? null : () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
 }
 
-class _CartContent extends StatelessWidget {
-  const _CartContent({required this.cartItemsWithProductDetails});
+class _CartContent extends ConsumerWidget {
+  const _CartContent({required this.hydratedItems});
 
-  final List<(CartItem, Product)> cartItemsWithProductDetails;
+  final List<HydratedCartItem> hydratedItems;
 
   @override
-  Widget build(BuildContext context) {
-    if (cartItemsWithProductDetails.isEmpty) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (hydratedItems.isEmpty) {
       return Expanded(
         child: Center(
           child: Text(
@@ -104,15 +108,18 @@ class _CartContent extends StatelessWidget {
     }
     return Expanded(
       child: ListView.builder(
-        itemCount: cartItemsWithProductDetails.length,
+        itemCount: hydratedItems.length,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          final (cartItem, product) = cartItemsWithProductDetails[index];
+          final hydratedItem = hydratedItems[index];
+          final product = hydratedItem.product;
 
           return Dismissible(
-            key: ValueKey(cartItem.productId),
-            onDismissed: (direction) {},
-            child: _CartItem(item: cartItemsWithProductDetails[index]),
+            key: ValueKey(product.id),
+            onDismissed: (direction) {
+              ref.read(cartProvider.notifier).removeItem(product.id);
+            },
+            child: _CartItem(hydratedItem: hydratedItem),
           );
         },
       ),
@@ -120,18 +127,19 @@ class _CartContent extends StatelessWidget {
   }
 }
 
-class _CartItem extends StatelessWidget {
-  const _CartItem({required this.item});
+class _CartItem extends ConsumerWidget {
+  const _CartItem({required this.hydratedItem});
 
-  final (CartItem, Product) item;
+  final HydratedCartItem hydratedItem;
+
+  Product get product => hydratedItem.product;
+  CartItem get cartItem => hydratedItem.cartItem;
+  double get itemSubtotal => cartItem.calculateSubtotal;
+  double get itemTotal => cartItem.calculateTotal;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final (cartItem, product) = item;
-
-    final itemSubtotal = cartItem.calculateSubtotal(product.price);
-    final itemTotal = cartItem.calculateTotal(product.price);
 
     return Container(
       width: double.infinity,
@@ -171,7 +179,14 @@ class _CartItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          ref
+                              .read(cartProvider.notifier)
+                              .updateQuantity(
+                                product.id,
+                                cartItem.quantity - 1,
+                              );
+                        },
                         child: Icon(
                           Icons.remove,
                           color: theme.colorScheme.primary,
@@ -187,7 +202,14 @@ class _CartItem extends StatelessWidget {
                       ),
                       const SizedBox(width: AppDimensions.defaultPadding / 2),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          ref
+                              .read(cartProvider.notifier)
+                              .updateQuantity(
+                                product.id,
+                                cartItem.quantity + 1,
+                              );
+                        },
                         child: Icon(
                           Icons.add,
                           color: theme.colorScheme.primary,
@@ -205,14 +227,14 @@ class _CartItem extends StatelessWidget {
             children: [
               if (itemSubtotal != itemTotal) ...[
                 Text(
-                  itemTotal.asPrice(product.price.currency),
+                  itemTotal.asPrice(cartItem.unitPrice.currency),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(width: AppDimensions.defaultPadding / 4),
                 Text(
-                  itemSubtotal.asPrice(product.price.currency),
+                  itemSubtotal.asPrice(cartItem.unitPrice.currency),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     decoration: TextDecoration.lineThrough,
                     decorationThickness: 2,
@@ -220,7 +242,7 @@ class _CartItem extends StatelessWidget {
                 ),
               ] else ...[
                 Text(
-                  itemTotal.asPrice(product.price.currency),
+                  itemTotal.asPrice(cartItem.unitPrice.currency),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),

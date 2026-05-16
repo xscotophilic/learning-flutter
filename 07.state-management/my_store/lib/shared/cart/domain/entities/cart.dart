@@ -1,28 +1,49 @@
 import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
 
 class CartItem {
-  const CartItem({required this.productId, required this.quantity});
+  const CartItem({
+    required this.productId,
+    required this.unitPrice,
+    required this.quantity,
+  });
+
+  CartItem copyWith({String? productId, Price? unitPrice, int? quantity}) {
+    return CartItem(
+      productId: productId ?? this.productId,
+      unitPrice: unitPrice ?? this.unitPrice,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 
   final String productId;
+  final Price unitPrice;
   final int quantity;
 
-  double calculateSubtotal(Price price) => price.amount * quantity;
+  double get calculateSubtotal => unitPrice.amount * quantity;
 
-  double calculateDiscount(Price price) {
-    final discountPercent = price.discountPercent ?? 0;
+  double get calculateDiscount {
+    final discountPercent = unitPrice.discountPercent ?? 0;
     if (discountPercent > 0) {
-      return (price.amount * discountPercent / 100) * quantity;
+      return (unitPrice.amount * discountPercent / 100) * quantity;
     }
     return 0;
   }
 
-  double calculateTotal(Price price) {
-    return calculateSubtotal(price) - calculateDiscount(price);
+  double get calculateTotal {
+    return calculateSubtotal - calculateDiscount;
   }
 }
 
-class Cart {
+class HydratedCartItem {
+  const HydratedCartItem({required this.cartItem, required this.product});
+
+  final CartItem cartItem;
+  final Product product;
+}
+
+class Cart<T> {
   const Cart({
     required this.id,
     required this.ownerId,
@@ -31,14 +52,14 @@ class Cart {
     required this.total,
   });
 
-  Cart copyWith({
+  Cart<T> copyWith({
     String? id,
     String? ownerId,
     DateTime? createdAt,
-    List<CartItem>? items,
+    List<T>? items,
     Total? total,
   }) {
-    return Cart(
+    return Cart<T>(
       id: id ?? this.id,
       ownerId: ownerId ?? this.ownerId,
       createdAt: createdAt ?? this.createdAt,
@@ -50,6 +71,6 @@ class Cart {
   final String id;
   final String ownerId;
   final DateTime createdAt;
-  final List<CartItem> items;
+  final List<T> items;
   final Total total;
 }

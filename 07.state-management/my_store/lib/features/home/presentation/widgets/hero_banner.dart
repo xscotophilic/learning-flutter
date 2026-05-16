@@ -3,6 +3,24 @@ import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/shared/widgets/primary_button.dart';
 
+class HeroBannerPlaceholder extends StatelessWidget {
+  const HeroBannerPlaceholder({super.key, this.child});
+
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150,
+      decoration: BoxDecoration(
+        gradient: Theme.of(context).extension<AppGradients>()?.bannerGradient,
+        borderRadius: BorderRadius.circular(AppDimensions.defaultBorderRadius),
+      ),
+      child: child,
+    );
+  }
+}
+
 class HeroBanner extends StatelessWidget {
   const HeroBanner({
     super.key,

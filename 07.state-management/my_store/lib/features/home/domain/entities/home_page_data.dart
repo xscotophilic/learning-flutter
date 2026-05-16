@@ -1,11 +1,9 @@
-import 'package:my_store/shared/product/domain/entities/product.dart';
-
 class HomePageData {
   const HomePageData({
-    required this.heroProduct,
-    required this.featuredProducts,
+    required this.heroProductId,
+    required this.featuredProductIds,
   });
 
-  final Product heroProduct;
-  final List<Product> featuredProducts;
+  final String heroProductId;
+  final List<String> featuredProductIds;
 }
