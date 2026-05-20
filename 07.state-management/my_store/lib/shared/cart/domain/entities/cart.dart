@@ -23,7 +23,7 @@ class CartItem {
 
   double get calculateSubtotal => unitPrice.amount * quantity;
 
-  double get calculateDiscount {
+  double get calculateTotalDiscount {
     final discountPercent = unitPrice.discountPercent ?? 0;
     if (discountPercent > 0) {
       return (unitPrice.amount * discountPercent / 100) * quantity;
@@ -32,7 +32,7 @@ class CartItem {
   }
 
   double get calculateTotal {
-    return calculateSubtotal - calculateDiscount;
+    return calculateSubtotal - calculateTotalDiscount;
   }
 }
 
@@ -73,4 +73,18 @@ class Cart<T> {
   final DateTime createdAt;
   final List<T> items;
   final Total total;
+}
+
+class CartSnapshot<T> {
+  const CartSnapshot({required this.isMutating, required this.cart});
+
+  CartSnapshot<T> copyWith({bool? isMutating, Cart<T>? cart}) {
+    return CartSnapshot<T>(
+      isMutating: isMutating ?? this.isMutating,
+      cart: cart ?? this.cart,
+    );
+  }
+
+  final bool isMutating;
+  final Cart<T> cart;
 }

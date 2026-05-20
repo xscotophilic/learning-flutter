@@ -108,45 +108,65 @@ class _PriceSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final discountedPrice = product.price.calculateDiscountedPrice;
 
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: product.price.formatted,
-            style: textTheme.displayLarge?.copyWith(
-              fontWeight: FontWeight.w800,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (discountedPrice != null) ...[
+          Text(
+            product.price.formatted,
+            style: textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w300,
+              color: colorScheme.onSurface,
+              decoration: TextDecoration.lineThrough,
             ),
           ),
-          if (product.price.discountPercent != null) ...[
-            const WidgetSpan(
-              child: SizedBox(width: AppDimensions.defaultPadding / 2),
-            ),
-            WidgetSpan(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(AppDimensions.defaultBorderRadius / 2),
-                  ),
+        ],
+        const SizedBox(height: AppDimensions.defaultPadding / 4),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text:
+                    product.price.formattedDiscountedPrice ??
+                    product.price.formatted,
+                style: textTheme.displayLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.defaultPadding / 2,
-                    vertical: AppDimensions.defaultPadding / 8,
-                  ),
-                  child: Text(
-                    '${product.price.discountPercent}% OFF',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
+              ),
+              if (discountedPrice != null) ...[
+                const WidgetSpan(
+                  child: SizedBox(width: AppDimensions.defaultPadding / 2),
+                ),
+                WidgetSpan(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(AppDimensions.defaultBorderRadius / 2),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppDimensions.defaultPadding / 2,
+                        vertical: AppDimensions.defaultPadding / 8,
+                      ),
+                      child: Text(
+                        '${(product.price.discountPercent)?.floor()}% OFF',
+                        style: textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ],
-      ),
+              ],
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

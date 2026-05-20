@@ -12,7 +12,7 @@ class FavoritesNotifier extends _$FavoritesNotifier {
   }
 
   Future<void> toggle(String productId) async {
-    final currentState = state.value ?? {};
+    final currentState = state.value ?? await future;
     final isCurrentlyFavorite = currentState.contains(productId);
 
     final nextState = {...currentState};

@@ -5,6 +5,7 @@ import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
 import 'package:my_store/shared/cart/presentation/widgets/add_to_cart_button.dart';
 import 'package:my_store/shared/favorites/presentation/widgets/favorite_button.dart';
+import 'package:my_store/shared/product/domain/entities/price.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/shared/widgets/shimmer.dart';
@@ -58,6 +59,8 @@ class _Content extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
+    final discountedPrice = product?.price.calculateDiscountedPrice;
+
     return Stack(
       children: [
         Container(
@@ -99,14 +102,43 @@ class _Content extends StatelessWidget {
                       const SizedBox(width: AppDimensions.defaultMargin / 2),
                     ],
                     Expanded(
-                      child: Text(
-                        product?.price.formatted ?? '',
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: product?.price.formatted ?? '',
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: discountedPrice != null
+                                    ? FontWeight.w300
+                                    : FontWeight.bold,
+                                color: discountedPrice != null
+                                    ? theme.colorScheme.onSurface
+                                    : theme.colorScheme.primary,
+                                decoration: discountedPrice != null
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                              ),
+                            ),
+                            const WidgetSpan(
+                              child: SizedBox(
+                                width: AppDimensions.defaultMargin / 4,
+                              ),
+                            ),
+                            if (discountedPrice != null) ...[
+                              TextSpan(
+                                text: discountedPrice.asPrice(
+                                  product?.price.currency ?? '',
+                                ),
+                                style: textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w300,
-                          color: theme.colorScheme.onSurface,
-                        ),
                       ),
                     ),
                   ],

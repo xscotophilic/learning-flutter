@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/consts/app_strings.dart';
-import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/cart/presentation/pages/cart_page.dart';
 import 'package:my_store/features/home/domain/entities/home_page_data.dart';
 import 'package:my_store/features/home/presentation/providers/home_notifier.dart';

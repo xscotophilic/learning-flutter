@@ -19,13 +19,12 @@ class CartBadge extends ConsumerWidget {
         children: [
           const Icon(Icons.shopping_bag_outlined),
           cartAsync.maybeWhen(
-            data: (cart) {
-              if (cart.items.isEmpty) return const SizedBox.shrink();
+            data: (snapshot) {
+              final items = snapshot.cart.items;
 
-              final totalItems = cart.items.fold<int>(0, (
-                sum,
-                hydratedCartItem,
-              ) {
+              if (items.isEmpty) return const SizedBox.shrink();
+
+              final totalItems = items.fold<int>(0, (sum, hydratedCartItem) {
                 return sum + hydratedCartItem.cartItem.quantity;
               });
 

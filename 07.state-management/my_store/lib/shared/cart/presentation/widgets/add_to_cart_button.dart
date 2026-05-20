@@ -4,6 +4,7 @@ import 'package:my_store/shared/cart/presentation/providers/cart_notifier.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/primary_button.dart';
 import 'package:my_store/shared/widgets/secondary_button.dart';
+import 'package:my_store/shared/widgets/snackbar.dart';
 
 enum AddToCartButtonStyle { outlined, elevated }
 
@@ -20,12 +21,23 @@ class AddToCartButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressed() {
+      final snapshot = ref.read(cartProvider);
+      final isMutationPending = snapshot.value?.isMutating ?? false;
+
+      if (isMutationPending) {
+        AppSnackBar.showErrorSnackBar(
+          context,
+          clearSnackBars: true,
+          message: 'Slow down a bit, we are processing your request...',
+        );
+        return;
+      }
+
       ref.read(cartProvider.notifier).addItem(product.id);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${product.name} added to cart'),
-          duration: const Duration(seconds: 2),
-        ),
+      AppSnackBar.showSuccessSnackBar(
+        context,
+        clearSnackBars: true,
+        message: '${product.name} added to cart',
       );
     }
 

@@ -8,7 +8,7 @@ extension CurrencyExtension on String {
       case 'GBP':
         return '£';
       default:
-        return '?';
+        return '';
     }
   }
 }
@@ -30,5 +30,15 @@ class Price {
   final String currency;
   final double? discountPercent;
 
+  double? get calculateDiscountedPrice {
+    if ((discountPercent ?? 0) > 0) {
+      return amount - (amount * discountPercent! / 100);
+    }
+    return null;
+  }
+
   String get formatted => amount.asPrice(currency);
+  String? get formattedDiscountedPrice {
+    return calculateDiscountedPrice?.asPrice(currency);
+  }
 }

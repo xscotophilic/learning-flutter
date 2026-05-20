@@ -28,7 +28,7 @@ class Total {
       }
 
       subtotal += item.calculateSubtotal;
-      discount += item.calculateDiscount;
+      discount += item.calculateTotalDiscount;
       totalAmount += item.calculateTotal;
     }
 
