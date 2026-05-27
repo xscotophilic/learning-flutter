@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
+import 'package:my_store/core/extensions/iterable_extensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/data/mock_orders.dart';
+import 'package:my_store/shared/data/mock_products.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
-import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
@@ -23,7 +24,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    final orders = MockData.orders;
+    final orders = MockOrdersData.orders;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -208,9 +209,8 @@ class _OrderLineItemRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final product = MockData.products.cast<Product?>().firstWhere(
-      (p) => p?.id == item.productId,
-      orElse: () => null,
+    final product = MockProductsData.products.firstWhereOrNull(
+      (p) => p.id == item.productId,
     );
 
     final Widget image;

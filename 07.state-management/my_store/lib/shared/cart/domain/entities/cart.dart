@@ -2,6 +2,8 @@ import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 
+enum CartStatus { active, completed, abandoned }
+
 class CartItem {
   const CartItem({
     required this.productId,
@@ -48,6 +50,7 @@ class Cart<T> {
     required this.id,
     required this.ownerId,
     required this.createdAt,
+    required this.status,
     required this.items,
     required this.total,
   });
@@ -56,6 +59,7 @@ class Cart<T> {
     String? id,
     String? ownerId,
     DateTime? createdAt,
+    CartStatus? status,
     List<T>? items,
     Total? total,
   }) {
@@ -63,6 +67,7 @@ class Cart<T> {
       id: id ?? this.id,
       ownerId: ownerId ?? this.ownerId,
       createdAt: createdAt ?? this.createdAt,
+      status: status ?? this.status,
       items: items ?? this.items,
       total: total ?? this.total,
     );
@@ -71,6 +76,7 @@ class Cart<T> {
   final String id;
   final String ownerId;
   final DateTime createdAt;
+  final CartStatus status;
   final List<T> items;
   final Total total;
 }

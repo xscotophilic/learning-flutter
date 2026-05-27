@@ -1,4 +1,4 @@
-import 'package:my_store/shared/product/data/data_sources/mock_data.dart';
+import 'package:my_store/shared/data/mock_products.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/product/domain/repositories/product_repository.dart';
 
@@ -10,13 +10,13 @@ final class MockProductRepository implements ProductRepository {
   @override
   Future<String> getHeroProductId() async {
     await Future<void>.delayed(_kNetworkDelay);
-    return MockData.heroProductId;
+    return MockProductsData.heroProductId;
   }
 
   @override
   Future<List<String>> getFeaturedProductIds() async {
     await Future<void>.delayed(_kNetworkDelay);
-    return MockData.products.map((p) => p.id).toList();
+    return MockProductsData.products.map((p) => p.id).toList();
   }
 
   @override
@@ -36,7 +36,7 @@ final class MockProductRepository implements ProductRepository {
 
     if (missingIds.isNotEmpty) {
       await Future<void>.delayed(_kNetworkDelay);
-      final fetchedProducts = MockData.products.where((product) {
+      final fetchedProducts = MockProductsData.products.where((product) {
         return missingIds.contains(product.id);
       }).toList();
 

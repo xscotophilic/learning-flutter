@@ -36,6 +36,7 @@ class CartNotifier extends _$CartNotifier {
         id: cart.id,
         ownerId: cart.ownerId,
         createdAt: cart.createdAt,
+        status: cart.status,
         items: hydratedItems,
         total: cart.total,
       ),
@@ -122,8 +123,9 @@ class CartNotifier extends _$CartNotifier {
     final productRepository = ref.read(productRepositoryProvider);
     try {
       final updatedRawCart = await cartRepository.updateItem(
-        productId,
-        quantity,
+        cartId: optimisticCart.id,
+        productId: productId,
+        quantity: quantity,
       );
 
       final products = await productRepository.getProductsByIds(
@@ -153,6 +155,7 @@ class CartNotifier extends _$CartNotifier {
             id: updatedRawCart.id,
             ownerId: updatedRawCart.ownerId,
             createdAt: updatedRawCart.createdAt,
+            status: updatedRawCart.status,
             items: hydratedItems,
             total: updatedRawCart.total,
           ),

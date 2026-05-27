@@ -5,5 +5,9 @@ abstract interface class CartRepository {
 
   Future<Cart<CartItem>> getOrCreateCart();
 
-  Future<Cart<CartItem>> updateItem(String productId, int quantity);
+  Future<Cart<CartItem>> updateItem({
+    required String cartId,
+    required String productId,
+    required int quantity,
+  });
 }
