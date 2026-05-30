@@ -1,22 +1,19 @@
-import 'package:my_store/shared/data/mock_products.dart';
+import 'package:my_store/shared/app/data_sources/mock_products.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/shared/product/domain/entities/product_payload.dart';
 import 'package:my_store/shared/product/domain/repositories/product_repository.dart';
 
 final class MockProductRepository implements ProductRepository {
-  static const Duration _kNetworkDelay = Duration(milliseconds: 1000);
-
   final Map<String, Product> _allProductsCache = {};
 
   @override
   Future<String> getHeroProductId() async {
-    await Future<void>.delayed(_kNetworkDelay);
-    return MockProductsData.heroProductId;
+    return MockProductsData.getHeroProductId();
   }
 
   @override
   Future<List<String>> getFeaturedProductIds() async {
-    await Future<void>.delayed(_kNetworkDelay);
-    return MockProductsData.products.map((p) => p.id).toList();
+    return MockProductsData.getFeaturedProductIds();
   }
 
   @override
@@ -35,12 +32,10 @@ final class MockProductRepository implements ProductRepository {
     }
 
     if (missingIds.isNotEmpty) {
-      await Future<void>.delayed(_kNetworkDelay);
-      final fetchedProducts = MockProductsData.products.where((product) {
-        return missingIds.contains(product.id);
-      }).toList();
+      final rawProducts = await MockProductsData.getProductsByIds(missingIds);
+      final response = ProductsPayload.fromJson(rawProducts);
 
-      _updateCache(fetchedProducts);
+      _updateCache(response.products);
     }
 
     return productIds

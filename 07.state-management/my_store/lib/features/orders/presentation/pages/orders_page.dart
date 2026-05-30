@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
-import 'package:my_store/core/extensions/iterable_extensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/shared/data/mock_orders.dart';
-import 'package:my_store/shared/data/mock_products.dart';
+import 'package:my_store/shared/app/data_sources/mock_orders.dart';
+import 'package:my_store/shared/app/data_sources/mock_products.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
+import 'package:my_store/shared/product/domain/entities/product_payload.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
+import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -208,79 +209,97 @@ class _OrderLineItemRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final product = MockProductsData.products.firstWhereOrNull(
-      (p) => p.id == item.productId,
-    );
-
-    final Widget image;
-    final String productName;
-
-    if (product == null) {
-      productName = 'Product Not Found';
-      image = Container(
-        width: 48,
-        height: 48,
-        color: theme.colorScheme.onSurface.withAlpha(20),
-        child: Icon(
-          Icons.image_not_supported_outlined,
-          size: 20,
-          color: theme.colorScheme.onSurface.withAlpha(80),
-        ),
-      );
-    } else {
-      productName = product.name;
-      image = Image.network(
-        product.imageUrl,
-        width: 48,
-        height: 48,
-        fit: BoxFit.cover,
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.defaultPadding,
-        vertical: AppDimensions.defaultPadding / 2,
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(
-              AppDimensions.defaultBorderRadius / 2,
+    return FutureBuilder(
+      future: MockProductsData.getProductsByIds([item.productId]),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: AppDimensions.defaultPadding / 2,
             ),
-            child: image,
+            child: GenericProgressIndicator(),
+          );
+        }
+
+        if (snapshot.hasError || snapshot.data == null) {
+          return const Text('Something went wrong.');
+        }
+
+        final Widget image;
+        final String productName;
+        final theme = Theme.of(context);
+
+        final product = ProductsPayload.fromJson(
+          snapshot.data ?? {},
+        ).products.firstOrNull;
+
+        if (product == null) {
+          productName = 'Product Not Found';
+          image = Container(
+            width: 48,
+            height: 48,
+            color: theme.colorScheme.onSurface.withAlpha(20),
+            child: Icon(
+              Icons.image_not_supported_outlined,
+              size: 20,
+              color: theme.colorScheme.onSurface.withAlpha(80),
+            ),
+          );
+        } else {
+          productName = product.name;
+          image = Image.network(
+            product.imageUrl,
+            width: 48,
+            height: 48,
+            fit: BoxFit.cover,
+          );
+        }
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.defaultPadding,
+            vertical: AppDimensions.defaultPadding / 2,
           ),
-          const SizedBox(width: AppDimensions.defaultPadding / 1.5),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  productName,
-                  style: theme.textTheme.bodyLarge,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  AppDimensions.defaultBorderRadius / 2,
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  '${item.purchasePrice.formatted} x ${item.quantity}',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withAlpha(150),
-                  ),
+                child: image,
+              ),
+              const SizedBox(width: AppDimensions.defaultPadding / 1.5),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      productName,
+                      style: theme.textTheme.bodyLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${item.purchasePrice.formatted} x ${item.quantity}',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withAlpha(150),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: AppDimensions.defaultPadding / 2),
+              Text(
+                item.purchaseTotal.asPrice(item.purchasePrice.currency),
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: AppDimensions.defaultPadding / 2),
-          Text(
-            item.purchaseTotal.asPrice(item.purchasePrice.currency),
-            style: theme.textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

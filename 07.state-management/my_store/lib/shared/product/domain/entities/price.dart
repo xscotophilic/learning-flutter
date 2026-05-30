@@ -26,6 +26,15 @@ class Price {
     this.discountPercent,
   });
 
+  factory Price.fromJson(Map<String, dynamic> json) {
+    final discount = json['discount_percent'];
+    return Price(
+      amount: (json['amount'] as num).toDouble(),
+      currency: json['currency'] as String,
+      discountPercent: discount != null ? (discount as num).toDouble() : null,
+    );
+  }
+
   final double amount;
   final String currency;
   final double? discountPercent;
