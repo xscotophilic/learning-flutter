@@ -1,19 +1,11 @@
 class MockProductsData {
   const MockProductsData._();
 
-  static const Duration _kNetworkDelay = Duration(milliseconds: 1000);
+  static const heroProductId = '4';
 
-  static Future<String> getHeroProductId() async {
-    await Future<void>.delayed(_kNetworkDelay);
-    return '4';
-  }
+  static const featuredProductIds = ['1', '2', '3', '4', '5', '6'];
 
-  static Future<List<String>> getFeaturedProductIds() async {
-    await Future<void>.delayed(_kNetworkDelay);
-    return ['1', '2', '3', '4', '5', '6'];
-  }
-
-  static const _products = [
+  static const products = [
     {
       'id': '1',
       'name': 'Peanut Butter Cookie',
@@ -87,14 +79,4 @@ class MockProductsData {
       'image_url': 'https://i.ibb.co/Z6QhWxHG/molasses-cookie.webp',
     },
   ];
-
-  static Future<Map<String, dynamic>> getProductsByIds(List<String> ids) async {
-    await Future<void>.delayed(_kNetworkDelay);
-
-    return {
-      'products': _products.where((product) {
-        return ids.contains(product['id']);
-      }).toList(),
-    };
-  }
 }

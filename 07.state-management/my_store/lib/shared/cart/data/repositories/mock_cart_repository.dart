@@ -1,6 +1,6 @@
-import 'package:my_store/shared/app/stores/mock_server.dart';
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
 import 'package:my_store/shared/cart/domain/repositories/cart_repository.dart';
+import 'package:my_store/shared/mock_server/mock_server.dart';
 
 final class MockCartRepository implements CartRepository {
   MockCartRepository();

@@ -1,4 +1,4 @@
-import 'package:my_store/shared/app/data_sources/mock_products.dart';
+import 'package:my_store/shared/mock_server/mock_server.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/product/domain/entities/product_payload.dart';
 import 'package:my_store/shared/product/domain/repositories/product_repository.dart';
@@ -8,12 +8,12 @@ final class MockProductRepository implements ProductRepository {
 
   @override
   Future<String> getHeroProductId() async {
-    return MockProductsData.getHeroProductId();
+    return MockServer.getHeroProductId();
   }
 
   @override
   Future<List<String>> getFeaturedProductIds() async {
-    return MockProductsData.getFeaturedProductIds();
+    return MockServer.getFeaturedProductIds();
   }
 
   @override
@@ -32,7 +32,7 @@ final class MockProductRepository implements ProductRepository {
     }
 
     if (missingIds.isNotEmpty) {
-      final rawProducts = await MockProductsData.getProductsByIds(missingIds);
+      final rawProducts = await MockServer.getProductsByIds(missingIds);
       final response = ProductsPayload.fromJson(rawProducts);
 
       _updateCache(response.products);

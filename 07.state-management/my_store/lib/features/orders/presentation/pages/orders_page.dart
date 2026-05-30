@@ -3,8 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/shared/app/data_sources/mock_orders.dart';
-import 'package:my_store/shared/app/data_sources/mock_products.dart';
+import 'package:my_store/shared/mock_server/mock_server.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
 import 'package:my_store/shared/product/domain/entities/product_payload.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
@@ -25,8 +24,6 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    final orders = MockOrdersData.orders;
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: MainAppBar(
@@ -37,7 +34,21 @@ class _OrdersPageState extends State<OrdersPage> {
         },
       ),
       drawer: const AppDrawer(),
-      body: _OrdersContent(orders: orders),
+      body: FutureBuilder(
+        future: MockServer.getOrders(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: GenericProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return const Center(child: Text('Error loading orders'));
+          }
+
+          final orders = snapshot.data ?? [];
+
+          return _OrdersContent(orders: orders);
+        },
+      ),
     );
   }
 }
@@ -210,7 +221,7 @@ class _OrderLineItemRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: MockProductsData.getProductsByIds([item.productId]),
+      future: MockServer.getProductsByIds([item.productId]),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Padding(
@@ -222,7 +233,12 @@ class _OrderLineItemRow extends StatelessWidget {
         }
 
         if (snapshot.hasError || snapshot.data == null) {
-          return const Text('Something went wrong.');
+          return const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: AppDimensions.defaultPadding / 2,
+            ),
+            child: Text('Something went wrong.'),
+          );
         }
 
         final Widget image;

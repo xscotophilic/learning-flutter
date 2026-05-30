@@ -1,7 +1,9 @@
-import 'package:my_store/core/extensions/iterable_extensions.dart';
-import 'package:my_store/shared/app/data_sources/mock_products.dart';
+import 'package:my_store/features/orders/domain/entities/order.dart';
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
 import 'package:my_store/shared/cart/domain/entities/total.dart';
+import 'package:my_store/shared/mock_server/data/mock_cart.dart';
+import 'package:my_store/shared/mock_server/data/mock_orders.dart';
+import 'package:my_store/shared/mock_server/data/mock_products.dart';
 import 'package:my_store/shared/product/domain/entities/product_payload.dart';
 
 class MockServer {
@@ -11,35 +13,39 @@ class MockServer {
 
   static final MockServer _instance = MockServer._internal();
 
-  final Map<String, Cart<CartItem>> _carts = {};
+  static const Duration _kNetworkDelay = Duration(milliseconds: 1000);
+
+  static Future<String> getHeroProductId() async {
+    await Future<void>.delayed(_kNetworkDelay);
+    return MockProductsData.heroProductId;
+  }
+
+  static Future<List<String>> getFeaturedProductIds() async {
+    await Future<void>.delayed(_kNetworkDelay);
+    return MockProductsData.featuredProductIds;
+  }
+
+  static Future<Map<String, dynamic>> getProductsByIds(List<String> ids) async {
+    await Future<void>.delayed(_kNetworkDelay);
+
+    return {
+      'products': MockProductsData.products.where((product) {
+        return ids.contains(product['id']);
+      }).toList(),
+    };
+  }
 
   Future<Cart<CartItem>> getOrCreateCart() async {
-    // Note: this is a mock repository, so we perform the operation locally,
-    // for the actual implementation, you should call api with your user id
+    await Future<void>.delayed(_kNetworkDelay);
 
     final userId = 'mock-user-id';
 
-    final Cart<CartItem>? cart = _carts.values.firstWhereOrNull(
-      (c) => c.status == CartStatus.active && c.ownerId == userId,
-    );
-
+    final Cart<CartItem>? cart = MockCartData.getActiveCart(userId);
     if (cart != null) {
       return cart;
     }
 
-    final String cartId = 'cart-${DateTime.now().millisecondsSinceEpoch}';
-
-    final items = <CartItem>[];
-    final total = Total.fromCartItems(items);
-
-    return _carts[cartId] ??= Cart(
-      id: cartId,
-      ownerId: userId,
-      createdAt: DateTime.now(),
-      status: CartStatus.active,
-      items: items,
-      total: total,
-    );
+    return MockCartData.createCart(userId: userId, items: <CartItem>[]);
   }
 
   Future<Cart<CartItem>> updateItem({
@@ -47,10 +53,7 @@ class MockServer {
     required String productId,
     required int quantity,
   }) async {
-    // Note: this is a mock repository, so we perform the update locally,
-    // for the actual implementation, you should call api with your cart id, product id, and quantity
-
-    final cart = _carts[cartId];
+    final cart = MockCartData.getCartById(cartId);
     if (cart == null) {
       throw Exception('cart not found');
     }
@@ -64,7 +67,7 @@ class MockServer {
         (i) => i.productId == productId,
       );
 
-      final response = await MockProductsData.getProductsByIds([productId]);
+      final response = await getProductsByIds([productId]);
       final product = ProductsPayload.fromJson(response).products.firstOrNull;
 
       if (product == null) {
@@ -88,9 +91,13 @@ class MockServer {
       }
     }
 
-    return _carts[cartId] = cart.copyWith(
-      items: newItems,
-      total: Total.fromCartItems(newItems),
+    return MockCartData.updateCart(
+      cart.copyWith(items: newItems, total: Total.fromCartItems(newItems)),
     );
+  }
+
+  static Future<List<Order>> getOrders() async {
+    await Future<void>.delayed(_kNetworkDelay);
+    return MockOrdersData.orders;
   }
 }
