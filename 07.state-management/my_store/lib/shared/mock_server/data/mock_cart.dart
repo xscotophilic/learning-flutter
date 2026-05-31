@@ -1,40 +1,55 @@
 import 'package:my_store/core/extensions/iterable_extensions.dart';
-import 'package:my_store/shared/cart/domain/entities/cart.dart';
-import 'package:my_store/shared/cart/domain/entities/total.dart';
 
 class MockCartData {
   const MockCartData._();
 
-  static final Map<String, Cart<CartItem>> _carts = {};
+  static final Map<String, Map<String, dynamic>> _carts = {};
 
-  static Cart<CartItem>? getActiveCart(String userId) {
-    return _carts.values.firstWhereOrNull(
-      (c) => c.status == CartStatus.active && c.ownerId == userId,
-    );
+  static Map<String, dynamic>? getActiveCart(String userId) {
+    return {
+      'cart': _carts.values.firstWhereOrNull(
+        (c) => c['status'] == 'active' && c['owner_id'] == userId,
+      ),
+    };
   }
 
-  static Cart<CartItem> createCart({
+  static Map<String, dynamic> createCart({
     required String userId,
-    required List<CartItem> items,
+    required List<Map<String, dynamic>> items,
+    required Map<String, dynamic> total,
   }) {
     final String cartId = 'cart-${DateTime.now().millisecondsSinceEpoch}';
-    final total = Total.fromCartItems(items);
 
-    return _carts[cartId] = Cart<CartItem>(
-      id: cartId,
-      ownerId: userId,
-      items: items,
-      total: total,
-      status: CartStatus.active,
-      createdAt: DateTime.now(),
-    );
+    final cart = {
+      'id': cartId,
+      'owner_id': userId,
+      'items': items,
+      'total': total,
+      'status': 'active',
+      'created_at': DateTime.now().toIso8601String(),
+    };
+
+    _carts[cartId] = cart;
+
+    return {'cart': _carts[cartId]};
   }
 
-  static Cart<CartItem>? getCartById(String cartId) {
-    return _carts[cartId];
+  static Map<String, dynamic>? getCartById(String cartId) {
+    return {'cart': _carts[cartId]};
   }
 
-  static Cart<CartItem> updateCart(Cart<CartItem> cart) {
-    return _carts[cart.id] = cart;
+  static Map<String, dynamic> updateCart({
+    required String cartId,
+    required List<Map<String, dynamic>> items,
+    required Map<String, dynamic> total,
+  }) {
+    final cart = _carts[cartId];
+    if (cart == null) {
+      throw Exception('cart not found');
+    }
+
+    _carts[cartId] = {...cart, 'items': items, 'total': total};
+
+    return {'cart': _carts[cartId]};
   }
 }

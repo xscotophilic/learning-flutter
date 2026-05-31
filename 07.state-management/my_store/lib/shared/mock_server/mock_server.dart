@@ -1,10 +1,8 @@
+import 'package:my_store/core/extensions/iterable_extensions.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/shared/cart/domain/entities/cart.dart';
-import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/mock_server/data/mock_cart.dart';
 import 'package:my_store/shared/mock_server/data/mock_orders.dart';
 import 'package:my_store/shared/mock_server/data/mock_products.dart';
-import 'package:my_store/shared/product/domain/entities/product_payload.dart';
 
 class MockServer {
   MockServer._internal();
@@ -35,64 +33,106 @@ class MockServer {
     };
   }
 
-  Future<Cart<CartItem>> getOrCreateCart() async {
+  Future<Map<String, dynamic>> getOrCreateCart() async {
     await Future<void>.delayed(_kNetworkDelay);
 
     final userId = 'mock-user-id';
 
-    final Cart<CartItem>? cart = MockCartData.getActiveCart(userId);
-    if (cart != null) {
-      return cart;
+    final Map<String, dynamic>? payload = MockCartData.getActiveCart(userId);
+    if (payload?['cart'] != null) {
+      return payload as Map<String, dynamic>;
     }
 
-    return MockCartData.createCart(userId: userId, items: <CartItem>[]);
+    return MockCartData.createCart(
+      userId: userId,
+      items: <Map<String, dynamic>>[],
+      total: <String, dynamic>{
+        'subtotal': 0,
+        'discount': 0,
+        'total': 0,
+        'currency': '',
+      },
+    );
   }
 
-  Future<Cart<CartItem>> updateItem({
+  Future<Map<String, dynamic>> updateItem({
     required String cartId,
     required String productId,
     required int quantity,
   }) async {
-    final cart = MockCartData.getCartById(cartId);
-    if (cart == null) {
+    final response = MockCartData.getCartById(cartId);
+    if (response?['cart'] == null) {
       throw Exception('cart not found');
     }
 
-    final newItems = List<CartItem>.from(cart.items);
+    final cart = response?['cart'] as Map<String, dynamic>;
+
+    final newItems = cart['items'] as List<Map<String, dynamic>>;
 
     if (quantity <= 0) {
-      newItems.removeWhere((i) => i.productId == productId);
+      newItems.removeWhere((i) => i['product_id'] == productId);
     } else {
       final existingIndex = newItems.indexWhere(
-        (i) => i.productId == productId,
+        (i) => i['product_id'] == productId,
       );
 
-      final response = await getProductsByIds([productId]);
-      final product = ProductsPayload.fromJson(response).products.firstOrNull;
+      final product = MockProductsData.products.firstWhereOrNull((product) {
+        return product['id'] == productId;
+      });
 
       if (product == null) {
-        throw Exception('Product not found');
+        throw Exception('product not found');
       }
 
       if (existingIndex < 0) {
-        newItems.add(
-          CartItem(
-            productId: productId,
-            unitPrice: product.price,
-            quantity: quantity,
-          ),
-        );
+        newItems.add({
+          'product_id': productId,
+          'unit_price': product['price'],
+          'quantity': quantity,
+        });
       } else {
-        newItems[existingIndex] = CartItem(
-          productId: productId,
-          unitPrice: product.price,
-          quantity: quantity,
-        );
+        newItems[existingIndex] = {
+          'product_id': productId,
+          'unit_price': product['price'],
+          'quantity': quantity,
+        };
       }
     }
 
+    double amount = 0;
+    double discount = 0;
+    String? currency;
+
+    for (final item in newItems) {
+      final unitPrice = item['unit_price'] as Map<String, dynamic>;
+
+      if (currency == null) {
+        currency = unitPrice['currency'] as String?;
+      } else if (currency != unitPrice['currency']) {
+        currency = 'invalid';
+      }
+
+      final double currentItemAmount =
+          ((unitPrice['amount'] * item['quantity']) as num).toDouble();
+      final double discountPercent =
+          (unitPrice['discount_percent'] as num?)?.toDouble() ?? 0.0;
+      final double currentItemDiscount = discountPercent <= 0.0
+          ? 0
+          : ((discountPercent / 100) * currentItemAmount);
+
+      amount += currentItemAmount;
+      discount += currentItemDiscount;
+    }
+
     return MockCartData.updateCart(
-      cart.copyWith(items: newItems, total: Total.fromCartItems(newItems)),
+      cartId: cartId,
+      items: newItems,
+      total: {
+        'subtotal': amount,
+        'discount': discount,
+        'total': amount - discount,
+        'currency': currency ?? '',
+      },
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
+import 'package:my_store/shared/cart/domain/entities/cart_payload.dart';
 import 'package:my_store/shared/cart/domain/repositories/cart_repository.dart';
 import 'package:my_store/shared/mock_server/mock_server.dart';
 
@@ -12,9 +13,9 @@ final class MockCartRepository implements CartRepository {
   Future<Cart<CartItem>> getOrCreateCart() async {
     await Future<void>.delayed(_kNetworkDelay);
 
-    final cart = await _mockServer.getOrCreateCart();
+    final response = await _mockServer.getOrCreateCart();
 
-    return cart;
+    return CartPayload<CartItem>.fromJson(response).cart;
   }
 
   @override
@@ -25,12 +26,12 @@ final class MockCartRepository implements CartRepository {
   }) async {
     await Future<void>.delayed(_kNetworkDelay);
 
-    final cart = await _mockServer.updateItem(
+    final response = await _mockServer.updateItem(
       cartId: cartId,
       productId: productId,
       quantity: quantity,
     );
 
-    return cart;
+    return CartPayload<CartItem>.fromJson(response).cart;
   }
 }

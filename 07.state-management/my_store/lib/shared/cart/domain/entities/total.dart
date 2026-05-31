@@ -8,6 +8,15 @@ class Total {
     required this.currency,
   });
 
+  factory Total.fromJson(Map<String, dynamic> json) {
+    return Total(
+      subtotal: (json['subtotal'] as num).toDouble(),
+      discount: (json['discount'] as num).toDouble(),
+      total: (json['total'] as num).toDouble(),
+      currency: json['currency'] as String,
+    );
+  }
+
   factory Total.fromCartItems(List<CartItem> items) {
     if (items.isEmpty) {
       return const Total(subtotal: 0, discount: 0, total: 0, currency: '');

@@ -40,7 +40,7 @@ class CartPage extends ConsumerWidget {
           loading: () {
             return const Center(child: GenericProgressIndicator());
           },
-          error: (Object error, StackTrace _) {
+          error: (Object error, StackTrace stackTrace) {
             return Center(
               child: GenericErrorView(
                 onRetry: () => ref.invalidate(cartProvider),
