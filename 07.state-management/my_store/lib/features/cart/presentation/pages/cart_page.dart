@@ -22,6 +22,14 @@ class CartPage extends ConsumerWidget {
 
   static const routeName = '/cart';
 
+  Future<void> _placeOrder(WidgetRef ref) async {
+    final cartNotifier = ref.read(cartProvider.notifier);
+    await cartNotifier.placeOrder(
+      paymentId: DateTime.now().microsecond.toString(),
+      paymentMethodId: 'A001',
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartAsync = ref.watch(cartProvider);
@@ -80,7 +88,9 @@ class CartPage extends ConsumerWidget {
                           PrimaryButton(
                             text: 'Place Order',
                             fullWidth: true,
-                            onTap: hydratedItems.isEmpty ? null : () {},
+                            onTap: hydratedItems.isEmpty
+                                ? null
+                                : () => _placeOrder(ref),
                           ),
                         ],
                       ),

@@ -38,6 +38,15 @@ class MockCartData {
     return {'cart': _carts[cartId]};
   }
 
+  static void updateCartStatus(String cartId, String status) {
+    final cart = _carts[cartId];
+    if (cart == null) {
+      throw Exception('cart not found');
+    }
+
+    _carts[cartId] = {...cart, 'status': status};
+  }
+
   static Map<String, dynamic> updateCart({
     required String cartId,
     required List<Map<String, dynamic>> items,

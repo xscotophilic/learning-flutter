@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/shared/mock_server/mock_server.dart';
+import 'package:my_store/features/orders/presentation/providers/order_history_notifier.dart';
 import 'package:my_store/shared/product/domain/entities/price.dart';
-import 'package:my_store/shared/product/domain/entities/product_payload.dart';
+import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
+import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
-class OrdersPage extends StatefulWidget {
-  const OrdersPage({super.key});
+class OrdersPage extends ConsumerWidget {
+  OrdersPage({super.key});
 
   static const routeName = '/orders';
 
-  @override
-  State<OrdersPage> createState() => _OrdersPageState();
-}
-
-class _OrdersPageState extends State<OrdersPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final orderHistoryAsync = ref.watch(orderHistoryProvider);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: MainAppBar(
@@ -34,19 +34,20 @@ class _OrdersPageState extends State<OrdersPage> {
         },
       ),
       drawer: const AppDrawer(),
-      body: FutureBuilder(
-        future: MockServer.getOrders(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: GenericProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return const Center(child: Text('Error loading orders'));
-          }
-
-          final orders = snapshot.data ?? [];
-
-          return _OrdersContent(orders: orders);
+      body: orderHistoryAsync.when(
+        skipLoadingOnRefresh: false,
+        loading: () {
+          return const Center(child: GenericProgressIndicator());
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return Center(
+            child: GenericErrorView(
+              onRetry: () => ref.invalidate(orderHistoryProvider),
+            ),
+          );
+        },
+        data: (snapshot) {
+          return _OrdersContent(orders: snapshot);
         },
       ),
     );
@@ -79,16 +80,16 @@ class _OrdersContent extends StatelessWidget {
   }
 }
 
-class _OrderCard extends StatefulWidget {
+class _OrderCard extends ConsumerStatefulWidget {
   const _OrderCard({required this.order});
 
   final Order order;
 
   @override
-  State<_OrderCard> createState() => _OrderCardState();
+  ConsumerState<_OrderCard> createState() => _OrderCardState();
 }
 
-class _OrderCardState extends State<_OrderCard> {
+class _OrderCardState extends ConsumerState<_OrderCard> {
   bool _isExpanded = false;
 
   void _toggleExpansion() {
@@ -102,10 +103,23 @@ class _OrderCardState extends State<_OrderCard> {
 
     final items = widget.order.lineItems;
 
+    final productStates = items.map((item) {
+      return ref.watch(productProvider(item.productId));
+    }).toList();
+
+    if (productStates.any((state) => state.isLoading)) {
+      return const Center(child: GenericProgressIndicator());
+    }
+
     return Column(
       children: [
         const Divider(thickness: 0.5, height: 1),
-        for (final i in items) _OrderLineItemRow(item: i),
+        for (int i = 0; i < items.length; i++) ...[
+          _OrderLineItemRow(
+            item: items[i],
+            product: productStates[i].hasError ? null : productStates[i].value,
+          ),
+        ],
       ],
     );
   }
@@ -140,7 +154,9 @@ class _OrderCardState extends State<_OrderCard> {
           const Divider(thickness: 0.5, height: 1),
           _OrderFooter(
             itemCount: widget.order.lineItems.length,
-            formattedTotal: widget.order.total.asPrice(widget.order.currency),
+            formattedTotal: widget.order.total.asPrice(
+              widget.order.currency ?? '',
+            ),
           ),
         ],
       ),
@@ -214,108 +230,82 @@ class _OrderHeader extends StatelessWidget {
 }
 
 class _OrderLineItemRow extends StatelessWidget {
-  const _OrderLineItemRow({required this.item});
+  const _OrderLineItemRow({required this.item, required this.product});
 
   final OrderLineItem item;
+  final Product? product;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: MockServer.getProductsByIds([item.productId]),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppDimensions.defaultPadding / 2,
+    final Widget image;
+    final String productName;
+    final theme = Theme.of(context);
+
+    if (product == null) {
+      productName = 'Product Not Found';
+      image = Container(
+        width: 48,
+        height: 48,
+        color: theme.colorScheme.onSurface.withAlpha(20),
+        child: Icon(
+          Icons.image_not_supported_outlined,
+          size: 20,
+          color: theme.colorScheme.onSurface.withAlpha(80),
+        ),
+      );
+    } else {
+      productName = product?.name ?? '';
+      image = Image.network(
+        product?.imageUrl ?? '',
+        width: 48,
+        height: 48,
+        fit: BoxFit.cover,
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppDimensions.defaultPadding,
+        vertical: AppDimensions.defaultPadding / 2,
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(
+              AppDimensions.defaultBorderRadius / 2,
             ),
-            child: GenericProgressIndicator(),
-          );
-        }
-
-        if (snapshot.hasError || snapshot.data == null) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppDimensions.defaultPadding / 2,
-            ),
-            child: Text('Something went wrong.'),
-          );
-        }
-
-        final Widget image;
-        final String productName;
-        final theme = Theme.of(context);
-
-        final product = ProductsPayload.fromJson(
-          snapshot.data ?? {},
-        ).products.firstOrNull;
-
-        if (product == null) {
-          productName = 'Product Not Found';
-          image = Container(
-            width: 48,
-            height: 48,
-            color: theme.colorScheme.onSurface.withAlpha(20),
-            child: Icon(
-              Icons.image_not_supported_outlined,
-              size: 20,
-              color: theme.colorScheme.onSurface.withAlpha(80),
-            ),
-          );
-        } else {
-          productName = product.name;
-          image = Image.network(
-            product.imageUrl,
-            width: 48,
-            height: 48,
-            fit: BoxFit.cover,
-          );
-        }
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppDimensions.defaultPadding,
-            vertical: AppDimensions.defaultPadding / 2,
+            child: image,
           ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  AppDimensions.defaultBorderRadius / 2,
+          const SizedBox(width: AppDimensions.defaultPadding / 1.5),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  productName,
+                  style: theme.textTheme.bodyLarge,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                child: image,
-              ),
-              const SizedBox(width: AppDimensions.defaultPadding / 1.5),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      productName,
-                      style: theme.textTheme.bodyLarge,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${item.purchasePrice.formatted} x ${item.quantity}',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withAlpha(150),
-                      ),
-                    ),
-                  ],
+                const SizedBox(height: 2),
+                Text(
+                  '${item.purchasePrice.formattedDiscountedPrice ?? item.purchasePrice.formatted} x ${item.quantity}',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withAlpha(150),
+                  ),
                 ),
-              ),
-              const SizedBox(width: AppDimensions.defaultPadding / 2),
-              Text(
-                item.purchaseTotal.asPrice(item.purchasePrice.currency),
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        );
-      },
+          const SizedBox(width: AppDimensions.defaultPadding / 2),
+          Text(
+            item.purchaseTotal.asPrice(item.purchasePrice.currency),
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

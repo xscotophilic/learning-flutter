@@ -1,3 +1,4 @@
+import 'package:my_store/features/orders/data/repositories/orders_repository_provider.dart';
 import 'package:my_store/shared/cart/data/repositories/cart_repository_provider.dart';
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
 import 'package:my_store/shared/cart/domain/entities/total.dart';
@@ -41,6 +42,30 @@ class CartNotifier extends _$CartNotifier {
         total: cart.total,
       ),
     );
+  }
+
+  Future<void> placeOrder({
+    required String paymentId,
+    required String paymentMethodId,
+  }) async {
+    final snapshot = state.value ?? await future;
+    if (snapshot.isMutating) return;
+
+    final orderRepository = ref.read(ordersRepositoryProvider);
+
+    state = AsyncData(snapshot.copyWith(isMutating: true));
+    try {
+      await orderRepository.placeOrder(
+        cartId: snapshot.cart.id,
+        paymentId: paymentId,
+        paymentMethodId: paymentMethodId,
+      );
+      state = AsyncData(snapshot.copyWith(isMutating: false));
+      ref.invalidateSelf();
+    } catch (e, st) {
+      state = AsyncData(snapshot.copyWith(isMutating: false));
+      state = AsyncError(e, st);
+    }
   }
 
   Future<void> addItem(String productId) async {

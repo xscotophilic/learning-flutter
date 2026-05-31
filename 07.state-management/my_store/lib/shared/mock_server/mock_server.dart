@@ -1,5 +1,4 @@
 import 'package:my_store/core/extensions/iterable_extensions.dart';
-import 'package:my_store/features/orders/domain/entities/order.dart';
 import 'package:my_store/shared/mock_server/data/mock_cart.dart';
 import 'package:my_store/shared/mock_server/data/mock_orders.dart';
 import 'package:my_store/shared/mock_server/data/mock_products.dart';
@@ -136,8 +135,39 @@ class MockServer {
     );
   }
 
-  static Future<List<Order>> getOrders() async {
+  static Future<void> placeOrder({
+    required String cartId,
+    required String paymentId,
+    required String paymentMethodId,
+  }) async {
     await Future<void>.delayed(_kNetworkDelay);
-    return MockOrdersData.orders;
+
+    final response = MockCartData.getCartById(cartId);
+    if (response?['cart'] == null ||
+        response?['cart']['status'] == 'completed') {
+      throw Exception('invalid cart');
+    }
+    final cart = response?['cart'] as Map<String, dynamic>;
+
+    final lineItems = <Map<String, dynamic>>[];
+    for (final item in (cart['items'] as List<Map<String, dynamic>>)) {
+      final unitPrice = item['unit_price'] as Map<String, dynamic>;
+      lineItems.add({
+        'product_id': item['product_id'],
+        'quantity': item['quantity'],
+        'purchase_price': unitPrice,
+      });
+    }
+
+    MockOrdersData.createOrder(items: lineItems);
+
+    MockCartData.updateCartStatus(cartId, 'completed');
+
+    return;
+  }
+
+  static Future<Map<String, dynamic>?> getOrders() async {
+    await Future<void>.delayed(_kNetworkDelay);
+    return MockOrdersData.getOrders();
   }
 }
