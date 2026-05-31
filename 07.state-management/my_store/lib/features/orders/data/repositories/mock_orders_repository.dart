@@ -1,7 +1,7 @@
 import 'package:my_store/features/orders/domain/entities/order.dart';
 import 'package:my_store/features/orders/domain/entities/orders_payload.dart';
 import 'package:my_store/features/orders/domain/repositories/orders_repository.dart';
-import 'package:my_store/shared/mock_server/mock_server.dart';
+import 'package:my_store/mock_server/mock_server.dart';
 
 final class MockOrdersRepository implements OrdersRepository {
   const MockOrdersRepository();

@@ -1,7 +1,7 @@
 import 'package:my_store/core/extensions/iterable_extensions.dart';
-import 'package:my_store/shared/mock_server/data/mock_cart.dart';
-import 'package:my_store/shared/mock_server/data/mock_orders.dart';
-import 'package:my_store/shared/mock_server/data/mock_products.dart';
+import 'package:my_store/mock_server/data/mock_cart.dart';
+import 'package:my_store/mock_server/data/mock_orders.dart';
+import 'package:my_store/mock_server/data/mock_products.dart';
 
 class MockServer {
   MockServer._internal();
