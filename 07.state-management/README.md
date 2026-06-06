@@ -1,8 +1,12 @@
 # State Management
 
-In the previous section, you handled the filters screen by lifting state up into `_MyAppState` and passing it down as constructor arguments — `currentFilters` going in, `setFiltersHandler` going out. That works for one screen, but consider what happens when three unrelated screens all need to know how many items are in the cart. You'd have to thread the cart count through every widget in between, even the ones that have nothing to do with it. This is called **prop drilling**, and it becomes unmanageable quickly.
+When building a Flutter app, you often need to share data between different screens or widgets. If you manage state by simply passing variables down through widget constructors, it can quickly become messy.
 
-This section covers how to solve that with **Riverpod**, a reactive state management library for Flutter.
+Consider a shopping cart: the home screen needs to show the number of items in the cart, the product detail screen needs to let users add items, and the checkout screen needs to list all items. If you try to pass the cart data down from the top of the app using constructor arguments, you will end up threading that data through widgets that don't even care about it just to get it to the widgets that do. This is called **prop drilling**, and it becomes unmanageable as your app grows.
+
+To solve this problem cleanly, we need two things:
+1. A clear **architecture** to organize our codebase.
+2. A dedicated **state management** system to handle sharing and updating data.
 
 ## Two kinds of state
 
@@ -12,50 +16,9 @@ Before reaching for a state management solution, it's worth knowing which proble
 
 **App state** is state that multiple parts of your app need to read or change. The shopping cart, the user's favorites list, the current user session — these belong to your app, not to any single widget. Passing this kind of state through constructors scales poorly; you need a proper solution.
 
-## Why Riverpod?
-
-Flutter has several state management options. Riverpod is a good choice for learning because:
-
-- Providers are **compile-safe** — typos in provider names fail at compile time, not at runtime.
-- Providers don't require `BuildContext` to be read or written from Dart code outside widgets.
-- Providers are **lazy** by default — they only run when something is listening.
-- Everything is **reactive** — widgets automatically rebuild when the state they're watching changes.
-
-This project uses two packages. You can see them in `pubspec.yaml`:
-
-```yaml
-dependencies:
-  flutter_riverpod: ^3.3.1    # The core library
-  riverpod_annotation: ^4.0.2 # Annotations for code generation
-
-dev_dependencies:
-  build_runner: ^2.15.0       # Runs the code generator
-  riverpod_generator: ^4.0.3  # The actual generator
-```
-
-`flutter_riverpod` is the runtime. `riverpod_annotation` + `riverpod_generator` let you write providers with annotations (`@riverpod`) instead of writing boilerplate by hand.
-
-## `ProviderScope` — the root of everything
-
-Riverpod needs a `ProviderScope` widget at the very top of your widget tree. It acts as the container that stores all provider state. Nothing Riverpod-related works without it.
-
-```dart
-// main.dart
-void main() {
-  runApp(
-    ProviderScope(
-      retry: (retryCount, error) => null, // disable automatic retry
-      child: const App(),
-    ),
-  );
-}
-```
-
-The `retry` parameter controls what happens when an async provider throws. Setting it to `null` means "don't automatically retry — let the UI handle it."
-
 ## App architecture — feature-first folders
 
-Before diving into Riverpod itself, it helps to understand how `my_store` is organised. The folder structure is not arbitrary; it follows a **feature-first, layered architecture** that scales well as an app grows.
+Before diving into state management libraries, it helps to understand how `my_store` is organised. The folder structure is not arbitrary; it follows a **feature-first, layered architecture** that scales well as an app grows.
 
 ```
 lib/
@@ -79,12 +42,12 @@ lib/
 │   ├── remote_config/
 │   └── widgets/
 │
-└── mock_server/       # Simulated backend with artificial delays
+└── mock_server/       # Simulated backend
 ```
 
 **`features/`** contains everything that belongs to a single screen. If a screen is deleted, its folder goes with it.
 
-**`shared/`** contains state and widgets that multiple features depend on. The cart, for example, is needed on the home page (badge), product details page (add button), and the cart page itself — so it lives in `shared/`.
+**`shared/`** contains state and widgets that multiple features depend on. The cart, for example, is needed on the home page (badge to show number of items), product details page (add to cart button), and the cart page itself (to perform operations on cart) — so it lives in `shared/`.
 
 **`core/`** contains infrastructure that has nothing to do with features: themes, routing, constants.
 
@@ -110,7 +73,7 @@ product/
 | `data` | `domain` | Repository implementations, data sources |
 | `presentation` | `domain`, Riverpod | Providers, widgets |
 
-The key rule: **lower layers never import from higher ones.** Domain knows nothing about Riverpod. Data knows nothing about Flutter widgets. This means you can swap the mock server for a real HTTP backend by only touching the `data/` layer.
+The key rule: **lower layers never import from higher ones.** Domain knows nothing about Riverpod or Flutter. Data knows nothing about Flutter widgets. This means you can swap the mock server for a real HTTP backend by only touching the `data/` layer.
 
 ```mermaid
 flowchart LR
@@ -200,7 +163,9 @@ Notice the in-memory cache: if a product has already been fetched, it's returned
 
 ### Providing the repository to the rest of the app
 
-The repository isn't used directly by widgets — it's wrapped in a Riverpod provider so the rest of the app can get hold of it:
+The repository isn't used directly by widgets. Instead, we wrap it in a **provider** so the rest of the app can access it.
+
+> **Note:** Don't worry if you don't know Riverpod yet — we will explain it in detail in the next section. For now, think of this provider as a global registry entry that exposes the repository.
 
 ```dart
 // shared/product/data/repositories/product_repository_provider.dart
@@ -218,8 +183,8 @@ The `@Riverpod(keepAlive: true)` annotation is important. By default, Riverpod *
 
 The presentation layer is the bridge between your data and your UI. It holds two things:
 
-- **Providers** — classes annotated with `@riverpod` that fetch data from repositories, hold state, and expose methods for mutations. They live in a `presentation/providers/` subfolder alongside the feature or shared module they belong to.
-- **Feature-specific widgets** — Flutter widgets that watch providers and render the UI. These may live in `presentation/` inside a feature folder, or inside `shared/widgets/` if they're reused across multiple features.
+- **Providers** — classes or functions that fetch data from repositories, hold UI state, and expose methods for mutations. They live in a `presentation/providers/` subfolder.
+- **Feature-specific widgets** — Flutter widgets that watch providers and render the UI.
 
 ```
 shared/product/presentation/
@@ -238,7 +203,50 @@ shared/cart/presentation/
 
 The presentation layer is the only layer that imports from Riverpod and Flutter. Domain and data layers stay pure Dart — that's the boundary that makes the architecture maintainable.
 
-The rest of this section focuses on how to build presentation layer code: how providers are written, how widgets connect to them, and how state mutations work.
+Now that we understand the architectural blueprint, let's look at the tool we use inside the presentation layer to manage and share state: **Riverpod**.
+
+## State management with Riverpod
+
+### Why Riverpod?
+
+Flutter has several state management options. Riverpod is a good choice for learning because:
+
+- Providers are **compile-safe** — typos in provider names fail at compile time, not at runtime.
+- Providers don't require `BuildContext` to be read or written from Dart code outside widgets.
+- Providers are **lazy** by default — they only run when something is listening.
+- Everything is **reactive** — widgets automatically rebuild when the state they're watching changes.
+
+This project uses two packages. You can see them in `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flutter_riverpod: ^3.3.1    # The core library
+  riverpod_annotation: ^4.0.2 # Annotations for code generation
+
+dev_dependencies:
+  build_runner: ^2.15.0       # Runs the code generator
+  riverpod_generator: ^4.0.3  # The actual generator
+```
+
+`flutter_riverpod` is the runtime. `riverpod_annotation` + `riverpod_generator` let you write providers with annotations (`@riverpod`) instead of writing boilerplate by hand.
+
+### `ProviderScope` — the root of everything
+
+Riverpod needs a `ProviderScope` widget at the very top of your widget tree. It acts as the container that stores all provider state. Nothing Riverpod-related works without it.
+
+```dart
+// main.dart
+void main() {
+  runApp(
+    ProviderScope(
+      retry: (retryCount, error) => null, // disable automatic retry
+      child: const App(),
+    ),
+  );
+}
+```
+
+The `retry` parameter controls what happens when an async provider throws. Setting it to `null` means "don't automatically retry — let the UI handle it."
 
 ## Riverpod fundamentals
 
