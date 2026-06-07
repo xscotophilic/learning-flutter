@@ -1,4 +1,4 @@
-# State Management
+# Architecture and State Management
 
 When building a Flutter app, you often need to share data between different screens or widgets. If you manage state by simply passing variables down through widget constructors, it can quickly become messy.
 
@@ -12,11 +12,11 @@ To solve this problem cleanly, we need two things:
 
 Before reaching for a state management solution, it's worth knowing which problem you're actually solving.
 
-**Ephemeral state** is state that lives entirely inside one widget and is nobody else's business. Whether a dropdown is open, the current value of a text field, or whether an animation is playing — that's ephemeral state. `StatefulWidget` and `setState` are perfectly fine for this.
+**Ephemeral state** is state that lives entirely inside one widget and is nobody else's business. Whether a dropdown is open, the current value of a text field, or whether an animation is playing; that's ephemeral state. `StatefulWidget` and `setState` are perfectly fine for this.
 
-**App state** is state that multiple parts of your app need to read or change. The shopping cart, the user's favorites list, the current user session — these belong to your app, not to any single widget. Passing this kind of state through constructors scales poorly; you need a proper solution.
+**App state** is state that multiple parts of your app need to read or change. The shopping cart, the user's favorites list, the current user session; these belong to your app, not to any single widget. Passing this kind of state through constructors scales poorly; you need a proper solution.
 
-## App architecture — feature-first folders
+## App architecture - feature-first folders
 
 Before diving into state management libraries, it helps to understand how `my_store` is organised. The folder structure is not arbitrary; it follows a **feature-first, layered architecture** that scales well as an app grows.
 
@@ -47,7 +47,7 @@ lib/
 
 **`features/`** contains everything that belongs to a single screen. If a screen is deleted, its folder goes with it.
 
-**`shared/`** contains state and widgets that multiple features depend on. The cart, for example, is needed on the home page (badge to show number of items), product details page (add to cart button), and the cart page itself (to perform operations on cart) — so it lives in `shared/`.
+**`shared/`** contains state and widgets that multiple features depend on. The cart, for example, is needed on the home page (badge to show number of items), product details page (add to cart button), and the cart page itself (to perform operations on cart); so it lives in `shared/`.
 
 **`core/`** contains infrastructure that has nothing to do with features: themes, routing, constants.
 
@@ -63,26 +63,28 @@ product/
 ├── data/              # How data is fetched
 │   ├── data_sources/
 │   └── repositories/  # Implementations of domain interfaces
-└── presentation/      # Flutter: providers and widgets
-    └── providers/
+└── presentation/      # Flutter: state/logic and widgets
+    └── state_management/         # State managers, directory name can be anything, e.g. bloc, providers, etc
 ```
 
 | Layer | Depends on | Contains |
 | :---- | :--------- | :------- |
-| `domain` | Nothing (pure Dart) | Entities, repository interfaces |
+| `domain` | Nothing | Entities, repository interfaces |
 | `data` | `domain` | Repository implementations, data sources |
-| `presentation` | `domain`, Riverpod | Providers, widgets |
+| `presentation` | `domain`, State Manager | State managers, widgets |
 
-The key rule: **lower layers never import from higher ones.** Domain knows nothing about Riverpod or Flutter. Data knows nothing about Flutter widgets. This means you can swap the mock server for a real HTTP backend by only touching the `data/` layer.
+The key rule: **lower layers never import from higher ones.** Domain knows nothing about state management or UI. Data knows nothing about UI. This means you can swap the mock server for a real HTTP backend by only touching the `data/` layer.
+
+Here's how those three layers relate to each other:
 
 ```mermaid
 flowchart LR
-    P[presentation\nProviders & Widgets] -->|reads| D[domain\nEntities & Interfaces]
+    P[presentation\nState & Widgets] -->|reads| D[domain\nEntities & Interfaces]
     DA[data\nImplementations] -->|implements| D
-    P -->|watches provider that returns| DA
+    P -->|uses injected| DA
 ```
 
-## The domain layer — entities and repository contracts
+## The domain layer - entities and repository contracts
 
 Domain is the foundation. It defines what your data looks like and what operations exist, without caring how they're implemented.
 
@@ -109,7 +111,7 @@ class Product {
 }
 ```
 
-No Flutter imports. No Riverpod. Just Dart.
+No Flutter UI imports. No state management libraries. Just Dart.
 
 A **repository interface** defines what data operations are available, without implementing them:
 
@@ -125,11 +127,13 @@ abstract interface class ProductRepository {
 }
 ```
 
-The `abstract interface class` keyword means "this is a contract — implement it, don't extend it." Any class that implements `ProductRepository` must provide all three methods. The rest of the app only ever talks to this interface, never to a concrete implementation directly.
+`abstract interface class` means "this is a contract; any class that claims to be a `ProductRepository` must provide all of these methods." The rest of the app only ever talks to this interface, never to a concrete implementation directly. This is what makes swapping implementations possible.
 
-## The data layer — implementing the contract
+## The data layer - implementing the contract
 
-The data layer provides concrete implementations of domain interfaces. `MockProductRepository` fulfills the `ProductRepository` contract by talking to the `MockServer`:
+Recall that the domain layer only defines *what* operations exist, not *how* they work. The data layer is where that "how" lives; it provides concrete classes that fulfill the domain contracts by actually fetching, storing, or caching data.
+
+`MockProductRepository` fulfills the `ProductRepository` contract by talking to the `MockServer`:
 
 ```dart
 // shared/product/data/repositories/mock_product_repository.dart
@@ -159,51 +163,36 @@ final class MockProductRepository implements ProductRepository {
 }
 ```
 
-Notice the in-memory cache: if a product has already been fetched, it's returned immediately without hitting the server again. This is a pattern you'll commonly see in real apps.
+### Accessing repositories in the app
 
-### Providing the repository to the rest of the app
+Widgets don't use repositories directly. Instead, repositories are created once and made available to the parts of your app that need them - such as your state managers or controllers - through a process called **dependency injection**.
 
-The repository isn't used directly by widgets. Instead, we wrap it in a **provider** so the rest of the app can access it.
+Think of it like a supply room: rather than each worker going out to find their own tools, someone stocks the supply room once, and everyone draws from it. In Flutter, this "supply room" is usually a dependency injection container or a service locator - a central place where your repositories live and can be looked up by whoever needs them.
 
-> **Note:** Don't worry if you don't know Riverpod yet — we will explain it in detail in the next section. For now, think of this provider as a global registry entry that exposes the repository.
+This separation matters for a few reasons:
 
-```dart
-// shared/product/data/repositories/product_repository_provider.dart
-@Riverpod(keepAlive: true)
-ProductRepository productRepository(Ref ref) {
-  return MockProductRepository();
-}
-```
+- **Your UI stays clean.** Widgets only ask for data; they don't know or care where it comes from.
+- **Swapping implementations becomes easy.** Want to replace a fake in-memory repository with one that calls a real API? You change it in one place, and nothing else needs to know.
+- **Testing is simpler.** You can hand the app a fake repository during tests without touching any widget code.
 
-The `@Riverpod(keepAlive: true)` annotation is important. By default, Riverpod **disposes** a provider when no widget is listening to it. For a UI state provider (like loading data for a screen), that's fine — the data should be refreshed when you navigate back. But for a repository that holds an in-memory cache, disposing it would throw away all the cached data. `keepAlive: true` tells Riverpod to keep this provider alive for the entire lifetime of the app.
+## The presentation layer - state management and widgets
 
-> **Note:** `@Riverpod(keepAlive: true)` is the annotation equivalent of the lowercase `@riverpod`. The difference is exactly this: `@riverpod` creates an auto-disposable provider, `@Riverpod(keepAlive: true)` creates one that lives forever. Use `keepAlive` sparingly, for things like repositories, database connections, or shared services.
+The presentation layer is where your app comes to life. It's the bridge between the data your repositories provide and the UI your users actually see.
 
-## The presentation layer — providers and widgets
+It holds two kinds of things:
 
-The presentation layer is the bridge between your data and your UI. It holds two things:
-
-- **Providers** — classes or functions that fetch data from repositories, hold UI state, and expose methods for mutations. They live in a `presentation/providers/` subfolder.
-- **Feature-specific widgets** — Flutter widgets that watch providers and render the UI.
+- **State managers / controllers** - these are responsible for fetching data from repositories, keeping track of what's happening in the UI (like whether a button is loading or a list is empty), and exposing ways to trigger actions. Depending on your state management library, these might be called BLoCs, Cubits, Notifiers, Controllers, or something else entirely.
+- **Widgets** - Flutter widgets that watch the state manager and rebuild whenever something changes.
 
 ```
-shared/product/presentation/
-└── providers/
-    ├── product_notifier.dart    ← the provider you write
-    └── product_notifier.g.dart  ← generated by build_runner (never edit this)
-
 shared/cart/presentation/
-├── providers/
-│   ├── cart_notifier.dart
-│   └── cart_notifier.g.dart
+├── state/ # Holds UI state and business logic
 └── widgets/
-    ├── add_to_cart_button.dart  ← ConsumerWidget, connects to cartProvider
+    ├── add_to_cart_button.dart  # Widget that interacts with the cart state
     └── cart_badge.dart
 ```
 
-The presentation layer is the only layer that imports from Riverpod and Flutter. Domain and data layers stay pure Dart — that's the boundary that makes the architecture maintainable.
-
-Now that we understand the architectural blueprint, let's look at the tool we use inside the presentation layer to manage and share state: **Riverpod**.
+One important rule about this layer: **it's the only layer that imports Flutter or your state management library.** The domain and data layers are plain Dart; no Flutter, no external state libraries. That boundary is what keeps the architecture clean. If your business logic ever ends up importing Flutter widgets, that's a sign something has leaked into the wrong layer.
 
 ## State management with Riverpod
 
