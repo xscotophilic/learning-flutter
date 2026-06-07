@@ -1,6 +1,8 @@
 import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
 import 'package:my_store/shared/cart/domain/entities/total.dart';
+import 'package:my_store/shared/cart/domain/usecases/get_hydrated_cart.dart';
+import 'package:my_store/shared/cart/domain/usecases/update_cart_item.dart';
 import 'package:my_store/shared/product/presentation/providers/product_notifier.dart'
     show productProvider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,36 +13,10 @@ part 'cart_notifier.g.dart';
 class CartNotifier extends _$CartNotifier {
   @override
   Future<CartSnapshot<HydratedCartItem>> build() async {
-    final cartRepository = ref.watch(cartRepositoryProvider);
-    final productRepository = ref.watch(productRepositoryProvider);
+    final getHydratedCart = ref.watch(getHydratedCartUseCaseProvider);
+    final cart = await getHydratedCart.execute();
 
-    final cart = await cartRepository.getOrCreateCart();
-
-    final products = await productRepository.getProductsByIds(
-      productIds: cart.items.map((i) => i.productId).toList(),
-    );
-
-    final productMap = {for (final p in products) p.id: p};
-
-    final hydratedItems = cart.items.map((cartItem) {
-      final product = productMap[cartItem.productId];
-      if (product == null) {
-        throw Exception('Product ${cartItem.productId} not found');
-      }
-      return HydratedCartItem(cartItem: cartItem, product: product);
-    }).toList();
-
-    return CartSnapshot(
-      isMutating: false,
-      cart: Cart<HydratedCartItem>(
-        id: cart.id,
-        ownerId: cart.ownerId,
-        createdAt: cart.createdAt,
-        status: cart.status,
-        items: hydratedItems,
-        total: cart.total,
-      ),
-    );
+    return CartSnapshot(isMutating: false, cart: cart);
   }
 
   Future<void> placeOrder({
@@ -143,50 +119,24 @@ class CartNotifier extends _$CartNotifier {
       snapshot.copyWith(isMutating: true, cart: optimisticCart),
     );
 
-    final cartRepository = ref.read(cartRepositoryProvider);
-    final productRepository = ref.read(productRepositoryProvider);
+    final updateCartItem = ref.read(updateCartItemUseCaseProvider);
     try {
-      final updatedRawCart = await cartRepository.updateItem(
+      final updatedCart = await updateCartItem.execute(
         cartId: optimisticCart.id,
         productId: productId,
         quantity: quantity,
+        optimisticCartTotal: optimisticCart.total,
       );
-
-      final products = await productRepository.getProductsByIds(
-        productIds: updatedRawCart.items.map((i) => i.productId).toList(),
-        skipCache: true,
-      );
-      final productMap = {for (final p in products) p.id: p};
-
-      final hydratedItems = updatedRawCart.items.map((cartItem) {
-        final product = productMap[cartItem.productId];
-        if (product == null) {
-          throw Exception('Product ${cartItem.productId} not found');
-        }
-        return HydratedCartItem(cartItem: cartItem, product: product);
-      }).toList();
 
       // If the total differs, product notifiers are invalidated,
       // and then they re-fetch to show the accurate data.
-      if (updatedRawCart.total != optimisticCart.total) {
-        for (final item in updatedRawCart.items) {
-          ref.invalidate(productProvider(item.productId));
+      if (updatedCart.total != optimisticCart.total) {
+        for (final item in updatedCart.items) {
+          ref.invalidate(productProvider(item.cartItem.productId));
         }
       }
 
-      state = AsyncData(
-        CartSnapshot(
-          isMutating: false,
-          cart: Cart<HydratedCartItem>(
-            id: updatedRawCart.id,
-            ownerId: updatedRawCart.ownerId,
-            createdAt: updatedRawCart.createdAt,
-            status: updatedRawCart.status,
-            items: hydratedItems,
-            total: updatedRawCart.total,
-          ),
-        ),
-      );
+      state = AsyncData(CartSnapshot(isMutating: false, cart: updatedCart));
     } catch (e, st) {
       state = AsyncData(snapshot.copyWith(isMutating: false));
       state = AsyncError(e, st);
