@@ -1,9 +1,8 @@
-import 'package:my_store/features/orders/data/repositories/orders_repository_provider.dart';
-import 'package:my_store/shared/cart/data/repositories/cart_repository_provider.dart';
+import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
 import 'package:my_store/shared/cart/domain/entities/total.dart';
-import 'package:my_store/shared/product/data/repositories/product_repository_provider.dart';
-import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
+import 'package:my_store/shared/product/presentation/providers/product_notifier.dart'
+    show productProvider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_notifier.g.dart';
@@ -167,10 +166,12 @@ class CartNotifier extends _$CartNotifier {
         return HydratedCartItem(cartItem: cartItem, product: product);
       }).toList();
 
-      // For products that are in the cart,
-      // invalidate their providers to ensure they get fresh data.
-      for (final item in updatedRawCart.items) {
-        ref.invalidate(productProvider(item.productId));
+      // If the total differs, product notifiers are invalidated,
+      // and then they re-fetch to show the accurate data.
+      if (updatedRawCart.total != optimisticCart.total) {
+        for (final item in updatedRawCart.items) {
+          ref.invalidate(productProvider(item.productId));
+        }
       }
 
       state = AsyncData(

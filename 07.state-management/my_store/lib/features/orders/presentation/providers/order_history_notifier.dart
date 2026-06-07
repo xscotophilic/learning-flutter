@@ -1,4 +1,4 @@
-import 'package:my_store/features/orders/data/repositories/orders_repository_provider.dart';
+import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

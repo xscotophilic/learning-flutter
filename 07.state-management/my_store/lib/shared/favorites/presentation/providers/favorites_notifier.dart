@@ -1,4 +1,4 @@
-import 'package:my_store/shared/favorites/data/repositories/favorites_repository_provider.dart';
+import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'favorites_notifier.g.dart';

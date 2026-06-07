@@ -49,6 +49,19 @@ class Total {
     );
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (other is! Total) return false;
+
+    return other.total == total &&
+        other.discount == discount &&
+        other.subtotal == subtotal &&
+        other.currency == currency;
+  }
+
+  @override
+  int get hashCode => Object.hash(total, discount, subtotal, currency);
+
   final double subtotal;
   final double discount;
   final double total;
