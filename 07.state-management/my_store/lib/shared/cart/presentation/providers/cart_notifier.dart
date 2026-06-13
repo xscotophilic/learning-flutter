@@ -1,8 +1,8 @@
-import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/shared/cart/domain/entities/cart.dart';
 import 'package:my_store/shared/cart/domain/entities/total.dart';
 import 'package:my_store/shared/cart/domain/usecases/get_hydrated_cart.dart';
 import 'package:my_store/shared/cart/domain/usecases/update_cart_item.dart';
+import 'package:my_store/shared/orders/domain/usecases/place_order.dart';
 import 'package:my_store/shared/product/presentation/providers/product_notifier.dart'
     show productProvider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,11 +26,11 @@ class CartNotifier extends _$CartNotifier {
     final snapshot = state.value ?? await future;
     if (snapshot.isMutating) return;
 
-    final orderRepository = ref.read(ordersRepositoryProvider);
+    final placeOrder = ref.read(placeOrderUseCaseProvider);
 
     state = AsyncData(snapshot.copyWith(isMutating: true));
     try {
-      await orderRepository.placeOrder(
+      await placeOrder.execute(
         cartId: snapshot.cart.id,
         paymentId: paymentId,
         paymentMethodId: paymentMethodId,

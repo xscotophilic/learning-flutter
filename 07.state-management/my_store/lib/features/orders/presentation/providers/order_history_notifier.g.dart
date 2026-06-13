@@ -34,7 +34,7 @@ final class OrderHistoryNotifierProvider
 }
 
 String _$orderHistoryNotifierHash() =>
-    r'95c875593b51a45eadb32ff437e911644ab37308';
+    r'060632f291a23fa2fdb68847a73954f664c74018';
 
 abstract class _$OrderHistoryNotifier extends $AsyncNotifier<List<Order>> {
   FutureOr<List<Order>> build();
