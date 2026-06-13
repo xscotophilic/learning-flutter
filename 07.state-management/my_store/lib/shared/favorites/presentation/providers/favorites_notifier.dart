@@ -1,4 +1,6 @@
-import 'package:my_store/core/dependency_injection/repository_providers.dart';
+import 'package:my_store/shared/favorites/domain/usecases/add_favorite.dart';
+import 'package:my_store/shared/favorites/domain/usecases/get_favorite_ids.dart';
+import 'package:my_store/shared/favorites/domain/usecases/remove_favorite.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'favorites_notifier.g.dart';
@@ -7,8 +9,8 @@ part 'favorites_notifier.g.dart';
 class FavoritesNotifier extends _$FavoritesNotifier {
   @override
   Future<Set<String>> build() async {
-    final repository = ref.watch(favoritesRepositoryProvider);
-    return repository.getFavoriteIds();
+    final getFavoriteIds = ref.watch(getFavoriteIdsUseCaseProvider);
+    return getFavoriteIds.execute();
   }
 
   Future<void> toggle(String productId) async {
@@ -24,11 +26,12 @@ class FavoritesNotifier extends _$FavoritesNotifier {
     state = AsyncData(nextState);
 
     try {
-      final repository = ref.read(favoritesRepositoryProvider);
       if (isCurrentlyFavorite) {
-        await repository.removeFavorite(productId);
+        final removeFavorite = ref.read(removeFavoriteUseCaseProvider);
+        await removeFavorite.execute(productId);
       } else {
-        await repository.addFavorite(productId);
+        final addFavorite = ref.read(addFavoriteUseCaseProvider);
+        await addFavorite.execute(productId);
       }
     } catch (e, stackTrace) {
       state = AsyncError(e, stackTrace);
