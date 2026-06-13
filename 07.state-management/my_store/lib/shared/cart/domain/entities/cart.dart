@@ -70,7 +70,10 @@ class Cart<T> {
     required this.total,
   });
 
-  factory Cart.fromJson(Map<String, dynamic> json) {
+  factory Cart.fromJson(
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic> json) fromJsonT,
+  ) {
     return Cart<T>(
       id: json['id'] as String,
       ownerId: json['owner_id'] as String,
@@ -78,17 +81,9 @@ class Cart<T> {
       status: CartStatus.values.firstWhere(
         (e) => e.name == json['status'] as String,
       ),
-      items: (json['items'] as List<dynamic>)
-          .map((e) {
-            if (T == CartItem) {
-              return CartItem.fromJson(e as Map<String, dynamic>);
-            } else if (T == HydratedCartItem) {
-              return HydratedCartItem.fromJson(e as Map<String, dynamic>);
-            }
-            throw Exception('Invalid cart item type: $T');
-          })
-          .cast<T>()
-          .toList(),
+      items: (json['items'] as List<dynamic>).map((e) {
+        return fromJsonT(e as Map<String, dynamic>);
+      }).toList(),
       total: Total.fromJson(json['total'] as Map<String, dynamic>),
     );
   }

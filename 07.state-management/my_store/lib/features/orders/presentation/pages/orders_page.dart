@@ -13,15 +13,20 @@ import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 
-class OrdersPage extends ConsumerWidget {
-  OrdersPage({super.key});
+class OrdersPage extends ConsumerStatefulWidget {
+  const OrdersPage({super.key});
 
   static const routeName = '/orders';
 
+  @override
+  ConsumerState<OrdersPage> createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends ConsumerState<OrdersPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final orderHistoryAsync = ref.watch(orderHistoryProvider);
 
     return Scaffold(

@@ -15,7 +15,7 @@ final class MockCartRepository implements CartRepository {
 
     final response = await _mockServer.getOrCreateCart();
 
-    return CartPayload<CartItem>.fromJson(response).cart;
+    return CartPayload<CartItem>.fromJson(response, CartItem.fromJson).cart;
   }
 
   @override
@@ -32,6 +32,6 @@ final class MockCartRepository implements CartRepository {
       quantity: quantity,
     );
 
-    return CartPayload<CartItem>.fromJson(response).cart;
+    return CartPayload<CartItem>.fromJson(response, CartItem.fromJson).cart;
   }
 }

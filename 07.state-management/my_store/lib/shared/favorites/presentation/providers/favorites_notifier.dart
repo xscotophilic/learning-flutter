@@ -33,8 +33,8 @@ class FavoritesNotifier extends _$FavoritesNotifier {
         final addFavorite = ref.read(addFavoriteUseCaseProvider);
         await addFavorite.execute(productId);
       }
-    } catch (e, stackTrace) {
-      state = AsyncError(e, stackTrace);
+    } catch (e) {
+      state = AsyncData(currentState);
     }
   }
 }

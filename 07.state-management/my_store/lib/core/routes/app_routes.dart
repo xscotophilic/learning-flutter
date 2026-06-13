@@ -14,7 +14,7 @@ class AppRoutes {
       case SplashPage.routeName:
         return MaterialPageRoute(builder: (context) => const SplashPage());
       case HomePage.routeName:
-        return MaterialPageRoute(builder: (context) => HomePage());
+        return MaterialPageRoute(builder: (context) => const HomePage());
       case ProductDetailsPage.routeName:
         final String? productId;
         if (arguments is String) {
@@ -28,7 +28,7 @@ class AppRoutes {
       case CartPage.routeName:
         return MaterialPageRoute(builder: (context) => const CartPage());
       case OrdersPage.routeName:
-        return MaterialPageRoute(builder: (context) => OrdersPage());
+        return MaterialPageRoute(builder: (context) => const OrdersPage());
       default:
         return null;
     }
