@@ -1,5 +1,5 @@
-import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
+import 'package:my_store/features/product/domain/usecases/get_product_by_id.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_notifier.g.dart';
@@ -8,8 +8,7 @@ part 'product_notifier.g.dart';
 class ProductNotifier extends _$ProductNotifier {
   @override
   Future<Product?> build(String id) async {
-    final repository = ref.watch(productRepositoryProvider);
-    final products = await repository.getProductsByIds(productIds: [id]);
-    return products.firstOrNull;
+    final useCase = ref.watch(getProductByIdUseCaseProvider);
+    return useCase.execute(id);
   }
 }
