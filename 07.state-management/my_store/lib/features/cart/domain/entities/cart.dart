@@ -127,3 +127,29 @@ class CartSnapshot<T> {
   final bool isMutating;
   final Cart<T> cart;
 }
+
+extension HydratedCartExtension on Cart<HydratedCartItem> {
+  Cart<HydratedCartItem> updateItemQuantity(String productId, int quantity) {
+    final List<HydratedCartItem> updatedItems = [];
+    for (final item in items) {
+      if (item.product.id == productId) {
+        if (quantity > 0) {
+          updatedItems.add(
+            HydratedCartItem(
+              cartItem: item.cartItem.copyWith(quantity: quantity),
+              product: item.product,
+            ),
+          );
+        }
+      } else {
+        updatedItems.add(item);
+      }
+    }
+
+    final updatedTotal = Total.fromCartItems(
+      updatedItems.map((item) => item.cartItem).toList(),
+    );
+
+    return copyWith(items: updatedItems, total: updatedTotal);
+  }
+}

@@ -1,5 +1,4 @@
 import 'package:my_store/features/cart/domain/entities/cart.dart';
-import 'package:my_store/features/cart/domain/entities/total.dart';
 import 'package:my_store/features/cart/domain/usecases/get_hydrated_cart.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_item.dart';
 import 'package:my_store/features/orders/domain/usecases/place_order.dart';
@@ -30,6 +29,8 @@ class CartNotifier extends _$CartNotifier {
 
     state = AsyncData(snapshot.copyWith(isMutating: true));
     try {
+      // Payment details should be handled dynamically when the app adds a payment feature.
+      // For now, this is generated here instead of leaking orchestration to the UI.
       await placeOrder.execute(
         cartId: snapshot.cart.id,
         paymentId: paymentId,
@@ -74,45 +75,13 @@ class CartNotifier extends _$CartNotifier {
     }).firstOrNull;
   }
 
-  Cart<HydratedCartItem> _createOptimisticCart({
-    required CartSnapshot<HydratedCartItem> snapshot,
-    required String productId,
-    required int quantity,
-  }) {
-    final List<HydratedCartItem> optimisticItems = [];
-    for (final item in snapshot.cart.items) {
-      if (item.product.id == productId) {
-        if (quantity > 0) {
-          optimisticItems.add(
-            HydratedCartItem(
-              cartItem: item.cartItem.copyWith(quantity: quantity),
-              product: item.product,
-            ),
-          );
-        }
-      } else {
-        optimisticItems.add(item);
-      }
-    }
-
-    final optimisticTotal = Total.fromCartItems(
-      optimisticItems.map((item) => item.cartItem).toList(),
-    );
-
-    return snapshot.cart.copyWith(
-      items: optimisticItems,
-      total: optimisticTotal,
-    );
-  }
-
   Future<void> _updateQuantity(String productId, int quantity) async {
     final snapshot = state.value ?? await future;
     if (snapshot.isMutating) return;
 
-    final optimisticCart = _createOptimisticCart(
-      snapshot: snapshot,
-      productId: productId,
-      quantity: quantity,
+    final optimisticCart = snapshot.cart.updateItemQuantity(
+      productId,
+      quantity,
     );
 
     state = AsyncData(
