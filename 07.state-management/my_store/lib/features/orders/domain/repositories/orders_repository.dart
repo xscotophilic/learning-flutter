@@ -1,4 +1,4 @@
-import 'package:my_store/shared/orders/domain/entities/order.dart';
+import 'package:my_store/features/orders/domain/entities/order.dart';
 
 abstract interface class OrdersRepository {
   const OrdersRepository();
