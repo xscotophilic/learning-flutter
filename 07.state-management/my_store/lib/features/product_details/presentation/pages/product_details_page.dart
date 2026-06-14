@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/cart/presentation/widgets/add_to_cart_button.dart';
-import 'package:my_store/shared/favorites/presentation/widgets/favorite_button.dart';
+import 'package:my_store/features/favorites/presentation/widgets/favorite_button.dart';
 import 'package:my_store/shared/product/domain/entities/product.dart';
 import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';

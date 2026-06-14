@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_store/shared/favorites/presentation/providers/favorites_notifier.dart';
+import 'package:my_store/features/favorites/presentation/providers/favorites_notifier.dart';
 
 class FavoriteButton extends ConsumerStatefulWidget {
   const FavoriteButton({super.key, required this.productId, this.iconSize});

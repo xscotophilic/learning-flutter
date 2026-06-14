@@ -1,4 +1,4 @@
-import 'package:my_store/shared/favorites/domain/repositories/favorites_repository.dart';
+import 'package:my_store/features/favorites/domain/repositories/favorites_repository.dart';
 
 final class MockFavoritesRepository implements FavoritesRepository {
   static const Duration _kNetworkDelay = Duration(milliseconds: 250);

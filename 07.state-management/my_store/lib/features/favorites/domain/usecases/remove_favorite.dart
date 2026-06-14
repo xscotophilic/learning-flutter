@@ -1,13 +1,11 @@
 import 'package:my_store/core/dependency_injection/repository_providers.dart';
-import 'package:my_store/shared/favorites/domain/repositories/favorites_repository.dart';
+import 'package:my_store/features/favorites/domain/repositories/favorites_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'remove_favorite.g.dart';
 
 class RemoveFavoriteUseCase {
-  RemoveFavoriteUseCase({
-    required this.favoritesRepository,
-  });
+  RemoveFavoriteUseCase({required this.favoritesRepository});
 
   final FavoritesRepository favoritesRepository;
 
