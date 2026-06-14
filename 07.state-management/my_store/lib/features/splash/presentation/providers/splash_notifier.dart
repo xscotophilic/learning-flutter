@@ -1,5 +1,5 @@
 import 'package:my_store/features/splash/domain/entities/splash_state.dart';
-import 'package:my_store/features/splash/domain/usecases/check_app_status.dart';
+import 'package:my_store/features/splash/presentation/providers/splash_usecase_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'splash_notifier.g.dart';

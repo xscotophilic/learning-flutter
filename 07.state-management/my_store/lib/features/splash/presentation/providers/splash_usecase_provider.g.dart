@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'check_app_status.dart';
+part of 'splash_usecase_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator

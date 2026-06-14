@@ -1,10 +1,6 @@
-import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/features/splash/domain/entities/splash_state.dart';
 import 'package:my_store/shared/app_info/domain/repositories/app_info_repository.dart';
 import 'package:my_store/shared/remote_config/domain/repositories/remote_config_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'check_app_status.g.dart';
 
 class CheckAppStatusUseCase {
   const CheckAppStatusUseCase({
@@ -40,12 +36,4 @@ class CheckAppStatusUseCase {
 
     return const Success();
   }
-}
-
-@riverpod
-CheckAppStatusUseCase checkAppStatusUseCase(Ref ref) {
-  return CheckAppStatusUseCase(
-    appInfoRepository: ref.watch(appInfoRepositoryProvider),
-    remoteConfigRepository: ref.watch(remoteConfigRepositoryProvider),
-  );
 }
