@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'remove_favorite.g.dart';
 
 class RemoveFavoriteUseCase {
-  RemoveFavoriteUseCase({required this.favoritesRepository});
+  const RemoveFavoriteUseCase({required this.favoritesRepository});
 
   final FavoritesRepository favoritesRepository;
 

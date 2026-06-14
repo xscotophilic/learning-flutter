@@ -6,9 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'get_orders.g.dart';
 
 class GetOrdersUseCase {
-  GetOrdersUseCase({
-    required this.ordersRepository,
-  });
+  const GetOrdersUseCase({required this.ordersRepository});
 
   final OrdersRepository ordersRepository;
 

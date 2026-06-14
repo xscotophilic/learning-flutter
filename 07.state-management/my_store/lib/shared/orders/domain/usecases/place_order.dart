@@ -5,9 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'place_order.g.dart';
 
 class PlaceOrderUseCase {
-  PlaceOrderUseCase({
-    required this.ordersRepository,
-  });
+  const PlaceOrderUseCase({required this.ordersRepository});
 
   final OrdersRepository ordersRepository;
 

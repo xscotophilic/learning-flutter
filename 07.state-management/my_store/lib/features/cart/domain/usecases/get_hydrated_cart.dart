@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'get_hydrated_cart.g.dart';
 
 class GetHydratedCartUseCase {
-  GetHydratedCartUseCase({
+  const GetHydratedCartUseCase({
     required this.cartRepository,
     required this.productRepository,
   });

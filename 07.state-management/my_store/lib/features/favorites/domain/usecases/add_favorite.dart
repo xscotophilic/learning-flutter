@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'add_favorite.g.dart';
 
 class AddFavoriteUseCase {
-  AddFavoriteUseCase({required this.favoritesRepository});
+  const AddFavoriteUseCase({required this.favoritesRepository});
 
   final FavoritesRepository favoritesRepository;
 

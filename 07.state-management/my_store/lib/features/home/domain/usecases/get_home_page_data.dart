@@ -6,9 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'get_home_page_data.g.dart';
 
 class GetHomePageDataUseCase {
-  GetHomePageDataUseCase({
-    required this.productRepository,
-  });
+  const GetHomePageDataUseCase({required this.productRepository});
 
   final ProductRepository productRepository;
 

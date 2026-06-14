@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'update_cart_item.g.dart';
 
 class UpdateCartItemUseCase {
-  UpdateCartItemUseCase({
+  const UpdateCartItemUseCase({
     required this.cartRepository,
     required this.productRepository,
   });

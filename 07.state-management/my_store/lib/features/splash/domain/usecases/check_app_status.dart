@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'check_app_status.g.dart';
 
 class CheckAppStatusUseCase {
-  CheckAppStatusUseCase({
+  const CheckAppStatusUseCase({
     required this.appInfoRepository,
     required this.remoteConfigRepository,
   });
