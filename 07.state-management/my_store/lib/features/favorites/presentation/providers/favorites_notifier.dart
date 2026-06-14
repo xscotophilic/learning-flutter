@@ -1,6 +1,4 @@
-import 'package:my_store/features/favorites/domain/usecases/add_favorite.dart';
-import 'package:my_store/features/favorites/domain/usecases/get_favorite_ids.dart';
-import 'package:my_store/features/favorites/domain/usecases/remove_favorite.dart';
+import 'package:my_store/features/favorites/presentation/providers/favorites_usecase_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'favorites_notifier.g.dart';
