@@ -1,9 +1,5 @@
-import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
 import 'package:my_store/features/orders/domain/repositories/orders_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'get_orders.g.dart';
 
 class GetOrdersUseCase {
   const GetOrdersUseCase({required this.ordersRepository});
@@ -13,11 +9,4 @@ class GetOrdersUseCase {
   Future<List<Order>> execute() async {
     return ordersRepository.getOrders();
   }
-}
-
-@riverpod
-GetOrdersUseCase getOrdersUseCase(Ref ref) {
-  return GetOrdersUseCase(
-    ordersRepository: ref.watch(ordersRepositoryProvider),
-  );
 }

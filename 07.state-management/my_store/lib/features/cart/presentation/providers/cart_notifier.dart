@@ -1,7 +1,7 @@
 import 'package:my_store/features/cart/domain/entities/cart.dart';
 import 'package:my_store/features/cart/domain/usecases/get_hydrated_cart.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_item.dart';
-import 'package:my_store/features/orders/domain/usecases/place_order.dart';
+import 'package:my_store/features/orders/presentation/providers/orders_usecase_providers.dart';
 import 'package:my_store/features/product/presentation/providers/product_notifier.dart'
     show productProvider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
