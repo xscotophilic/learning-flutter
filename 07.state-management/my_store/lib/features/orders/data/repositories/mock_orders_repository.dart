@@ -1,5 +1,5 @@
+import 'package:my_store/features/orders/data/models/order_model.dart';
 import 'package:my_store/features/orders/domain/entities/order.dart';
-import 'package:my_store/features/orders/domain/entities/orders_payload.dart';
 import 'package:my_store/features/orders/domain/repositories/orders_repository.dart';
 import 'package:my_store/mock_server/mock_server.dart';
 
@@ -23,9 +23,9 @@ final class MockOrdersRepository implements OrdersRepository {
   Future<List<Order>> getOrders() async {
     final response = await MockServer.getOrders();
 
-    final orders = OrdersPayload.fromJson(
+    final orders = OrdersPayloadModel.fromJson(
       response as Map<String, dynamic>,
-    ).orders;
+    ).toDomain();
 
     return orders;
   }

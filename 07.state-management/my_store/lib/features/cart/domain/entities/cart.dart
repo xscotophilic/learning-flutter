@@ -11,14 +11,6 @@ class CartItem {
     required this.quantity,
   });
 
-  factory CartItem.fromJson(Map<String, dynamic> json) {
-    return CartItem(
-      productId: json['product_id'] as String,
-      unitPrice: Price.fromJson(json['unit_price'] as Map<String, dynamic>),
-      quantity: json['quantity'] as int,
-    );
-  }
-
   CartItem copyWith({String? productId, Price? unitPrice, int? quantity}) {
     return CartItem(
       productId: productId ?? this.productId,
@@ -49,13 +41,6 @@ class CartItem {
 class HydratedCartItem {
   const HydratedCartItem({required this.cartItem, required this.product});
 
-  factory HydratedCartItem.fromJson(Map<String, dynamic> json) {
-    return HydratedCartItem(
-      cartItem: CartItem.fromJson(json['cart_item'] as Map<String, dynamic>),
-      product: Product.fromJson(json['product'] as Map<String, dynamic>),
-    );
-  }
-
   final CartItem cartItem;
   final Product product;
 }
@@ -69,24 +54,6 @@ class Cart<T> {
     required this.items,
     required this.total,
   });
-
-  factory Cart.fromJson(
-    Map<String, dynamic> json,
-    T Function(Map<String, dynamic> json) fromJsonT,
-  ) {
-    return Cart<T>(
-      id: json['id'] as String,
-      ownerId: json['owner_id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      status: CartStatus.values.firstWhere(
-        (e) => e.name == json['status'] as String,
-      ),
-      items: (json['items'] as List<dynamic>).map((e) {
-        return fromJsonT(e as Map<String, dynamic>);
-      }).toList(),
-      total: Total.fromJson(json['total'] as Map<String, dynamic>),
-    );
-  }
 
   Cart<T> copyWith({
     String? id,

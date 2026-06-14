@@ -7,16 +7,6 @@ class OrderLineItem {
     required this.purchasePrice,
   });
 
-  factory OrderLineItem.fromJson(Map<String, dynamic> json) {
-    return OrderLineItem(
-      productId: json['product_id'] as String,
-      quantity: json['quantity'] as int,
-      purchasePrice: Price.fromJson(
-        json['purchase_price'] as Map<String, dynamic>,
-      ),
-    );
-  }
-
   final String productId;
   final int quantity;
   final Price purchasePrice;
@@ -33,17 +23,6 @@ class Order {
     required this.placedAt,
     required this.lineItems,
   });
-
-  factory Order.fromJson(Map<String, dynamic> json) {
-    final lineItems = (json['line_items'] as List<dynamic>?)?.map((e) {
-      return OrderLineItem.fromJson(e as Map<String, dynamic>);
-    }).toList();
-    return Order(
-      id: json['id'] as String,
-      placedAt: DateTime.parse(json['placed_at'] as String),
-      lineItems: lineItems ?? [],
-    );
-  }
 
   final String id;
   final DateTime placedAt;

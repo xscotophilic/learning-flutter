@@ -1,5 +1,5 @@
+import 'package:my_store/features/product/data/models/product_model.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
-import 'package:my_store/features/product/domain/entities/product_payload.dart';
 import 'package:my_store/features/product/domain/repositories/product_repository.dart';
 import 'package:my_store/mock_server/mock_server.dart';
 
@@ -33,9 +33,9 @@ final class MockProductRepository implements ProductRepository {
 
     if (missingIds.isNotEmpty) {
       final rawProducts = await MockServer.getProductsByIds(missingIds);
-      final response = ProductsPayload.fromJson(rawProducts);
+      final response = ProductsPayloadModel.fromJson(rawProducts);
 
-      _updateCache(response.products);
+      _updateCache(response.toDomain());
     }
 
     return productIds

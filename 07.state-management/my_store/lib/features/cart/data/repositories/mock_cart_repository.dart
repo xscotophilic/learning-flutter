@@ -1,5 +1,5 @@
+import 'package:my_store/features/cart/data/models/cart_model.dart';
 import 'package:my_store/features/cart/domain/entities/cart.dart';
-import 'package:my_store/features/cart/domain/entities/cart_payload.dart';
 import 'package:my_store/features/cart/domain/repositories/cart_repository.dart';
 import 'package:my_store/mock_server/mock_server.dart';
 
@@ -15,7 +15,7 @@ final class MockCartRepository implements CartRepository {
 
     final response = await _mockServer.getOrCreateCart();
 
-    return CartPayload<CartItem>.fromJson(response, CartItem.fromJson).cart;
+    return CartPayloadModel.fromJson(response).toDomain();
   }
 
   @override
@@ -32,6 +32,6 @@ final class MockCartRepository implements CartRepository {
       quantity: quantity,
     );
 
-    return CartPayload<CartItem>.fromJson(response, CartItem.fromJson).cart;
+    return CartPayloadModel.fromJson(response).toDomain();
   }
 }
