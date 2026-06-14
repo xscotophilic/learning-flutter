@@ -4,10 +4,10 @@ import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/features/cart/presentation/widgets/add_to_cart_button.dart';
 import 'package:my_store/features/favorites/presentation/widgets/favorite_button.dart';
+import 'package:my_store/features/product/domain/entities/price.dart';
+import 'package:my_store/features/product/domain/entities/product.dart';
+import 'package:my_store/features/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
-import 'package:my_store/shared/product/domain/entities/price.dart';
-import 'package:my_store/shared/product/domain/entities/product.dart';
-import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/shared/widgets/shimmer.dart';
 
 const _imageSize = 96.0;

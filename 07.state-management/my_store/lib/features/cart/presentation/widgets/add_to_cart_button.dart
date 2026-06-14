@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/features/cart/presentation/providers/cart_notifier.dart';
-import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/features/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/primary_button.dart';
 import 'package:my_store/shared/widgets/secondary_button.dart';
 import 'package:my_store/shared/widgets/snackbar.dart';

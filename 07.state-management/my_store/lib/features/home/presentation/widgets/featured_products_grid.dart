@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/features/home/presentation/widgets/featured_product_card.dart';
-import 'package:my_store/shared/product/presentation/providers/product_notifier.dart';
+import 'package:my_store/features/product/presentation/providers/product_notifier.dart';
 
 class FeaturedProductsGrid extends ConsumerWidget {
   const FeaturedProductsGrid({super.key, required this.productIds});

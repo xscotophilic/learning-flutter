@@ -1,5 +1,5 @@
 import 'package:my_store/core/dependency_injection/repository_providers.dart';
-import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/features/product/domain/entities/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_notifier.g.dart';

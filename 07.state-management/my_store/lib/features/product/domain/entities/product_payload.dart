@@ -1,4 +1,4 @@
-import 'package:my_store/shared/product/domain/entities/product.dart';
+import 'package:my_store/features/product/domain/entities/product.dart';
 
 class ProductsPayload {
   const ProductsPayload({required this.products});

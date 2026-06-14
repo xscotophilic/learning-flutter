@@ -1,7 +1,7 @@
+import 'package:my_store/features/product/domain/entities/product.dart';
+import 'package:my_store/features/product/domain/entities/product_payload.dart';
+import 'package:my_store/features/product/domain/repositories/product_repository.dart';
 import 'package:my_store/mock_server/mock_server.dart';
-import 'package:my_store/shared/product/domain/entities/product.dart';
-import 'package:my_store/shared/product/domain/entities/product_payload.dart';
-import 'package:my_store/shared/product/domain/repositories/product_repository.dart';
 
 final class MockProductRepository implements ProductRepository {
   final Map<String, Product> _allProductsCache = {};
