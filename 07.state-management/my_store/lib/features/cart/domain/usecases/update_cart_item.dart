@@ -1,11 +1,7 @@
-import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/features/cart/domain/entities/cart.dart';
 import 'package:my_store/features/cart/domain/entities/total.dart' show Total;
 import 'package:my_store/features/cart/domain/repositories/cart_repository.dart';
 import 'package:my_store/features/product/domain/repositories/product_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'update_cart_item.g.dart';
 
 class UpdateCartItemUseCase {
   const UpdateCartItemUseCase({
@@ -54,12 +50,4 @@ class UpdateCartItemUseCase {
       total: updatedRawCart.total,
     );
   }
-}
-
-@riverpod
-UpdateCartItemUseCase updateCartItemUseCase(Ref ref) {
-  return UpdateCartItemUseCase(
-    cartRepository: ref.watch(cartRepositoryProvider),
-    productRepository: ref.watch(productRepositoryProvider),
-  );
 }

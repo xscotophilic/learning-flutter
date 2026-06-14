@@ -1,10 +1,6 @@
-import 'package:my_store/core/dependency_injection/repository_providers.dart';
 import 'package:my_store/features/cart/domain/entities/cart.dart';
 import 'package:my_store/features/cart/domain/repositories/cart_repository.dart';
 import 'package:my_store/features/product/domain/repositories/product_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'get_hydrated_cart.g.dart';
 
 class GetHydratedCartUseCase {
   const GetHydratedCartUseCase({
@@ -41,12 +37,4 @@ class GetHydratedCartUseCase {
       total: cart.total,
     );
   }
-}
-
-@riverpod
-GetHydratedCartUseCase getHydratedCartUseCase(Ref ref) {
-  return GetHydratedCartUseCase(
-    cartRepository: ref.watch(cartRepositoryProvider),
-    productRepository: ref.watch(productRepositoryProvider),
-  );
 }
