@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
-import 'package:my_store/shared/cart/presentation/providers/cart_notifier.dart';
+import 'package:my_store/features/cart/presentation/providers/cart_notifier.dart';
 
 class CartBadge extends ConsumerWidget {
   const CartBadge({super.key, this.onTap});

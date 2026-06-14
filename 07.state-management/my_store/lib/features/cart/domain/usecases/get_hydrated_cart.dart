@@ -1,6 +1,6 @@
 import 'package:my_store/core/dependency_injection/repository_providers.dart';
-import 'package:my_store/shared/cart/domain/entities/cart.dart';
-import 'package:my_store/shared/cart/domain/repositories/cart_repository.dart';
+import 'package:my_store/features/cart/domain/entities/cart.dart';
+import 'package:my_store/features/cart/domain/repositories/cart_repository.dart';
 import 'package:my_store/shared/product/domain/repositories/product_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -1,4 +1,4 @@
-import 'package:my_store/shared/cart/domain/entities/cart.dart';
+import 'package:my_store/features/cart/domain/entities/cart.dart';
 
 abstract interface class CartRepository {
   const CartRepository();

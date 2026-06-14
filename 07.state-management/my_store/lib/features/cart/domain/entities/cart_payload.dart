@@ -1,4 +1,4 @@
-import 'package:my_store/shared/cart/domain/entities/cart.dart';
+import 'package:my_store/features/cart/domain/entities/cart.dart';
 
 class CartPayload<T> {
   const CartPayload({required this.cart});
