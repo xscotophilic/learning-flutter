@@ -1,5 +1,5 @@
 import 'package:my_store/features/product/domain/entities/product.dart';
-import 'package:my_store/features/product/domain/usecases/get_product_by_id.dart';
+import 'package:my_store/features/product/presentation/providers/product_usecase_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_notifier.g.dart';
