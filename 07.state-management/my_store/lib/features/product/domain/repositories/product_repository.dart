@@ -5,8 +5,9 @@ abstract interface class ProductRepository {
 
   Future<List<String>> getFeaturedProductIds();
 
-  Future<List<Product>> getProductsByIds({
+  Future<List<Product>> getProductsByIds({required List<String> productIds});
+
+  Future<List<Product>> refreshProductsByIds({
     required List<String> productIds,
-    bool skipCache = false,
   });
 }

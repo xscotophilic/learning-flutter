@@ -24,11 +24,12 @@ class UpdateCartItemUseCase {
       quantity: quantity,
     );
 
-    final shouldSkipCache = updatedRawCart.total != optimisticCartTotal;
+    final fetchProducts = updatedRawCart.total != optimisticCartTotal
+        ? productRepository.refreshProductsByIds
+        : productRepository.getProductsByIds;
 
-    final products = await productRepository.getProductsByIds(
+    final products = await fetchProducts(
       productIds: updatedRawCart.items.map((i) => i.productId).toList(),
-      skipCache: shouldSkipCache,
     );
 
     final productMap = {for (final p in products) p.id: p};

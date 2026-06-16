@@ -16,26 +16,24 @@ final class MockProductRepository implements ProductRepository {
     return MockServer.getFeaturedProductIds();
   }
 
+  Future<void> _fetchAndCacheProducts(List<String> productIds) async {
+    final rawProducts = await MockServer.getProductsByIds(productIds);
+    final response = ProductsPayloadModel.fromJson(rawProducts);
+    for (final product in response.toDomain()) {
+      _allProductsCache[product.id] = product;
+    }
+  }
+
   @override
   Future<List<Product>> getProductsByIds({
     required List<String> productIds,
-    bool skipCache = false,
   }) async {
-    final List<String> missingIds;
-
-    if (skipCache) {
-      missingIds = productIds;
-    } else {
-      missingIds = productIds.where((id) {
-        return !_allProductsCache.containsKey(id);
-      }).toList();
-    }
+    final missingIds = productIds.where((id) {
+      return !_allProductsCache.containsKey(id);
+    }).toList();
 
     if (missingIds.isNotEmpty) {
-      final rawProducts = await MockServer.getProductsByIds(missingIds);
-      final response = ProductsPayloadModel.fromJson(rawProducts);
-
-      _updateCache(response.toDomain());
+      await _fetchAndCacheProducts(missingIds);
     }
 
     return productIds
@@ -44,9 +42,15 @@ final class MockProductRepository implements ProductRepository {
         .toList();
   }
 
-  void _updateCache(List<Product> products) {
-    for (final product in products) {
-      _allProductsCache[product.id] = product;
-    }
+  @override
+  Future<List<Product>> refreshProductsByIds({
+    required List<String> productIds,
+  }) async {
+    await _fetchAndCacheProducts(productIds);
+
+    return productIds
+        .map((id) => _allProductsCache[id])
+        .whereType<Product>()
+        .toList();
   }
 }
