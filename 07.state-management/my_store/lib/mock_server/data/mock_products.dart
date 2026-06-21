@@ -13,7 +13,7 @@ class MockProductsData {
           'A rich, indulgent cookie packed with creamy peanut butter flavor in every bite. '
           'Perfectly crisp on the edges with a soft, chewy center that melts in your mouth. '
           'Made with premium roasted peanut butter and a touch of vanilla for extra depth. '
-          'The classic crosshatch pattern isn\'t just for looks — it ensures even baking throughout. '
+          'The classic crosshatch pattern isn\'t just for looks, it ensures even baking throughout. '
           'A timeless treat loved by peanut butter fans of all ages.',
       'price': {'amount': 18.0, 'currency': 'USD', 'discount_percent': 10},
       'image_url': 'https://i.ibb.co/jBNW3CC/peanut-butter-cookie.webp',
@@ -38,7 +38,7 @@ class MockProductsData {
           'Soft, pillowy, and slightly tangy thanks to a touch of cream of tartar in the dough. '
           'The warm cinnamon crust gives way to a melt-in-your-mouth, buttery soft center. '
           'Simple yet irresistible, this cookie fills the room with a comforting, spiced aroma. '
-          'Perfect for sharing — though once you start, stopping is nearly impossible.',
+          'Perfect for sharing; though once you start, stopping is nearly impossible.',
       'price': {'amount': 14.0, 'currency': 'USD'},
       'image_url': 'https://i.ibb.co/whXG6Y2w/snickerdoodle.webp',
     },
@@ -49,7 +49,7 @@ class MockProductsData {
           'The ultimate crowd-pleaser, loaded with generous pockets of rich semi-sweet chocolate chips. '
           'Golden-brown and perfectly crisp on the outside with a gooey, soft center inside. '
           'Made with brown butter and a blend of sugars for deep caramel-like undertones. '
-          'Every bite guarantees melty chocolate in every single mouthful — no dry spots here. '
+          'Every bite guarantees melty chocolate in every single mouthful, no dry spots here. '
           'The cookie that started it all, and still the one everyone reaches for first.',
       'price': {'amount': 10.0, 'currency': 'USD', 'discount_percent': 10},
       'image_url': 'https://i.ibb.co/9mS5StLX/choco-chip-cookie.webp',
@@ -59,7 +59,7 @@ class MockProductsData {
       'name': 'Shortbread Cookie',
       'description':
           'An elegant, buttery cookie with a delicate crumb that simply dissolves on the tongue. '
-          'Made with just a few quality ingredients — real butter, flour, and a whisper of sugar. '
+          'Made with just a few quality ingredients - real butter, flour, and a whisper of sugar. '
           'Its simplicity is its strength, letting the rich, creamy butter flavor truly shine. '
           'Lightly golden with a satisfying snap, it pairs beautifully with tea or coffee. '
           'A refined, timeless classic that proves the finest things in life are often the simplest.',
