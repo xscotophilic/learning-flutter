@@ -29,9 +29,9 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar(BuildContext context, String title, Color product_color) {
+  AppBar buildAppBar(BuildContext context, String title, Color productColor) {
     return AppBar(
-      backgroundColor: product_color,
+      backgroundColor: productColor,
       elevation: 0,
       leading: IconButton(
         icon: SvgPicture.asset(

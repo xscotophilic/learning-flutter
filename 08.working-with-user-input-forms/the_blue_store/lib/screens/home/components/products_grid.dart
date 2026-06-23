@@ -6,10 +6,10 @@ import './item_card.dart';
 import '../../../providers/products.dart';
 import '../../product_details/product_details.dart';
 
-class productsGrid extends StatelessWidget {
+class ProductsGrid extends StatelessWidget {
   final bool showOnlyFavs;
 
-  productsGrid(this.showOnlyFavs);
+  const ProductsGrid(this.showOnlyFavs);
 
   @override
   Widget build(BuildContext context) {

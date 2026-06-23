@@ -54,24 +54,27 @@ class ItemCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width < 400 ? 80 : 200,
-                      child: Text(
-                        product.title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                        overflow: TextOverflow.fade,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width:
+                            MediaQuery.of(context).size.width < 400 ? 80 : 200,
+                        child: Text(
+                          product.title,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.fade,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "\$${product.price}",
-                    ),
-                  ],
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "\$${product.price}",
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -94,7 +97,7 @@ class ItemCard extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         cart.addItem(
-                          ProductId: product.id,
+                          productId: product.id,
                           title: product.title,
                           price: product.price,
                         );

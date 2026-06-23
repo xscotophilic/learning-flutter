@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:the_blue_store/app_drawer.dart';
+import 'package:the_blue_store/providers/product.dart';
+import 'package:the_blue_store/providers/products.dart';
 
-import '../../../app_drawer.dart';
-import '../../../const.dart';
-import '../../../providers/product.dart';
-import '../../../providers/products.dart';
+import '../../const.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
@@ -87,7 +87,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       child: Scaffold(
         appBar: buildAppBar(context),
         drawer: AppDrawer(),
-        body: Body(),
+        body: _body(),
       ),
     );
   }
@@ -114,7 +114,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     );
   }
 
-  Widget Body() {
+  Widget _body() {
     return Container(
       margin: EdgeInsets.all(Constants.kDefaultPaddin),
       child: Form(

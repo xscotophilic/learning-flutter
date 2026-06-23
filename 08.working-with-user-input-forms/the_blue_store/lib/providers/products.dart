@@ -4,7 +4,7 @@ import './product.dart';
 import '../data.dart';
 
 class Products with ChangeNotifier {
-  List<Product> _items = PRODUCTS;
+  List<Product> _items = products;
 
   List<Product> get items {
     return [..._items];

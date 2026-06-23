@@ -20,7 +20,7 @@ class Body extends StatelessWidget {
             padding: const EdgeInsets.all(
               Constants.kDefaultPaddin,
             ),
-            child: productsGrid(showOnlyFavs),
+            child: ProductsGrid(showOnlyFavs),
           ),
         ),
       ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'providers/product.dart';
 
-List<Product> PRODUCTS = [
+List<Product> products = [
   Product(
     id: 'p1',
     title: 'Rick T-shirt',

@@ -7,38 +7,38 @@ class Constants {
   static String mainFontName = '';
   static String secondaryFontName = '';
 
-  static TextTheme ThemeText(
-    Color HeadingColor,
-    Color BodyTextColor,
+  static TextTheme themeText(
+    Color headingColor,
+    Color bodyTextColor,
   ) {
     return ThemeData.dark().textTheme.copyWith(
           // Heading Fonts
           headline3: TextStyle(
             fontFamily: mainFontName,
             fontSize: 24,
-            color: HeadingColor,
+            color: headingColor,
           ),
           headline5: TextStyle(
             fontFamily: mainFontName,
             fontSize: 18,
-            color: HeadingColor,
+            color: headingColor,
           ),
           headline6: TextStyle(
             fontFamily: mainFontName,
             fontSize: 16,
-            color: HeadingColor,
+            color: headingColor,
           ),
           // Body Fonts
           bodyText1: TextStyle(
             fontFamily: mainFontName,
             fontSize: 14,
-            color: BodyTextColor,
+            color: bodyTextColor,
             fontWeight: FontWeight.normal,
           ),
           bodyText2: TextStyle(
             fontFamily: mainFontName,
             fontSize: 13,
-            color: BodyTextColor,
+            color: bodyTextColor,
             fontWeight: FontWeight.normal,
           ),
         );
@@ -62,7 +62,7 @@ class Constants {
       scaffoldBackgroundColor: lightBackground,
       primaryColor: lightPrimary,
       accentColor: lightAccent,
-      textTheme: ThemeText(
+      textTheme: themeText(
         lightAccent,
         textDarkColor,
       ),
@@ -80,7 +80,7 @@ class Constants {
       scaffoldBackgroundColor: darkBackground,
       primaryColor: darkPrimary,
       accentColor: darkAccent,
-      textTheme: ThemeText(
+      textTheme: themeText(
         darkAccent,
         textLightColor,
       ),
