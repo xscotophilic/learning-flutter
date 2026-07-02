@@ -8,6 +8,7 @@ import 'package:my_store/features/product/domain/entities/price.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
 import 'package:my_store/features/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/features/product_details/presentation/pages/product_details_page.dart';
+import 'package:my_store/shared/widgets/error_image_placeholder.dart';
 import 'package:my_store/shared/widgets/shimmer.dart';
 
 const _imageSize = 96.0;
@@ -155,14 +156,22 @@ class _Content extends StatelessWidget {
         ),
         if (!_isPlaceholder) ...[
           Center(
-            child: Image.network(
-              product?.imageUrl ?? '',
-              height: _imageSize,
-              width: _imageSize,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.cookie, size: _imageSize);
-              },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                AppDimensions.defaultBorderRadius,
+              ),
+              child: Image.network(
+                product?.imageUrl ?? '',
+                height: _imageSize,
+                width: _imageSize,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const ErrorImagePlaceholder(
+                    width: _imageSize,
+                    height: _imageSize,
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
+import 'package:my_store/shared/widgets/error_image_placeholder.dart';
 import 'package:my_store/shared/widgets/primary_button.dart';
 
 class HeroBannerPlaceholder extends StatelessWidget {
@@ -42,7 +43,7 @@ class HeroBanner extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final contentWidth = constraints.maxWidth * 0.62;
-        final imageWidth = constraints.maxWidth > 420
+        final imageSize = constraints.maxWidth > 420
             ? 100.0
             : constraints.maxWidth -
                   contentWidth -
@@ -87,8 +88,17 @@ class HeroBanner extends StatelessWidget {
                 ),
                 child: Image.network(
                   foregroundImageUrl,
-                  height: imageWidth,
-                  width: imageWidth,
+                  height: imageSize,
+                  width: imageSize,
+                  errorBuilder: (context, error, stackTrace) {
+                    return ErrorImagePlaceholder(
+                      width: imageSize,
+                      height: imageSize,
+                      padding: const EdgeInsets.all(
+                        AppDimensions.defaultPadding * 3,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

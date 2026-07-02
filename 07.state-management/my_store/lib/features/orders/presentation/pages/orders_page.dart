@@ -9,6 +9,7 @@ import 'package:my_store/features/product/domain/entities/price.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
 import 'package:my_store/features/product/presentation/providers/product_notifier.dart';
 import 'package:my_store/shared/widgets/app_drawer.dart';
+import 'package:my_store/shared/widgets/error_image_placeholder.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
@@ -246,11 +247,13 @@ class _OrderLineItemRow extends StatelessWidget {
     final String productName;
     final theme = Theme.of(context);
 
+    final imageSize = 48.0;
+
     if (product == null) {
       productName = 'Product Not Found';
       image = Container(
-        width: 48,
-        height: 48,
+        width: imageSize,
+        height: imageSize,
         color: theme.colorScheme.onSurface.withAlpha(20),
         child: Icon(
           Icons.image_not_supported_outlined,
@@ -262,9 +265,16 @@ class _OrderLineItemRow extends StatelessWidget {
       productName = product?.name ?? '';
       image = Image.network(
         product?.imageUrl ?? '',
-        width: 48,
-        height: 48,
+        width: imageSize,
+        height: imageSize,
         fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return ErrorImagePlaceholder(
+            width: imageSize,
+            height: imageSize,
+            padding: const EdgeInsets.all(AppDimensions.defaultPadding / 3),
+          );
+        },
       );
     }
 

@@ -9,6 +9,7 @@ import 'package:my_store/features/cart/domain/entities/total.dart';
 import 'package:my_store/features/cart/presentation/providers/cart_notifier.dart';
 import 'package:my_store/features/product/domain/entities/price.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
+import 'package:my_store/shared/widgets/error_image_placeholder.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/loading_overlay.dart';
@@ -174,6 +175,12 @@ class _CartItem extends StatelessWidget {
                 product.imageUrl,
                 width: _imageSize,
                 height: _imageSize,
+                errorBuilder: (context, error, stackTrace) {
+                  return const ErrorImagePlaceholder(
+                    width: _imageSize,
+                    height: _imageSize,
+                  );
+                },
               ),
               if (hasDiscount) ...[
                 Positioned.fill(

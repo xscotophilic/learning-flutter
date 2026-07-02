@@ -7,6 +7,7 @@ import 'package:my_store/features/cart/presentation/widgets/add_to_cart_button.d
 import 'package:my_store/features/favorites/presentation/widgets/favorite_button.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
 import 'package:my_store/features/product/presentation/providers/product_notifier.dart';
+import 'package:my_store/shared/widgets/error_image_placeholder.dart';
 import 'package:my_store/shared/widgets/generic_error_view.dart';
 import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
@@ -74,6 +75,7 @@ class _ProductDetailsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final imageSize = math.min(size.width * 0.60, 256.0);
 
     return Padding(
       padding: const EdgeInsets.all(AppDimensions.defaultPadding),
@@ -83,7 +85,13 @@ class _ProductDetailsContent extends StatelessWidget {
           Center(
             child: Image.network(
               product.imageUrl,
-              width: math.min(size.width * 0.60, 256),
+              width: imageSize,
+              errorBuilder: (context, error, stackTrace) {
+                return const ErrorImagePlaceholder(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(AppDimensions.defaultPadding * 3),
+                );
+              },
             ),
           ),
           const SizedBox(height: AppDimensions.defaultPadding * 3),
