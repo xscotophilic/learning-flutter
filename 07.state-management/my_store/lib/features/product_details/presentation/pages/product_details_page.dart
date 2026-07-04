@@ -83,15 +83,20 @@ class _ProductDetailsContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: Image.network(
-              product.imageUrl,
-              width: imageSize,
-              errorBuilder: (context, error, stackTrace) {
-                return const ErrorImagePlaceholder(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(AppDimensions.defaultPadding * 3),
-                );
-              },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                AppDimensions.defaultBorderRadius,
+              ),
+              child: Image.network(
+                product.imageUrl,
+                width: imageSize,
+                errorBuilder: (context, error, stackTrace) {
+                  return const ErrorImagePlaceholder(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(AppDimensions.defaultPadding * 3),
+                  );
+                },
+              ),
             ),
           ),
           const SizedBox(height: AppDimensions.defaultPadding * 3),

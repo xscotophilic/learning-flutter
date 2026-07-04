@@ -86,19 +86,25 @@ class HeroBanner extends StatelessWidget {
                   top: AppDimensions.defaultPadding,
                   right: AppDimensions.defaultPadding,
                 ),
-                child: Image.network(
-                  foregroundImageUrl,
-                  height: imageSize,
-                  width: imageSize,
-                  errorBuilder: (context, error, stackTrace) {
-                    return ErrorImagePlaceholder(
-                      width: imageSize,
-                      height: imageSize,
-                      padding: const EdgeInsets.all(
-                        AppDimensions.defaultPadding * 3,
-                      ),
-                    );
-                  },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.defaultBorderRadius,
+                  ),
+                  child: Image.network(
+                    foregroundImageUrl,
+                    height: imageSize,
+                    width: imageSize,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return ErrorImagePlaceholder(
+                        width: imageSize,
+                        height: imageSize,
+                        padding: const EdgeInsets.all(
+                          AppDimensions.defaultPadding * 3,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
