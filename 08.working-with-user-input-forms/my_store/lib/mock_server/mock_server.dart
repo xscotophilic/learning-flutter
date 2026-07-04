@@ -17,9 +17,9 @@ class MockServer {
     return MockProductsData.heroProductId;
   }
 
-  static Future<List<String>> getFeaturedProductIds() async {
+  static Future<Map<String, dynamic>> getFeaturedProducts() async {
     await Future<void>.delayed(_kNetworkDelay);
-    return MockProductsData.featuredProductIds;
+    return {'products': MockProductsData.products};
   }
 
   static Future<Map<String, dynamic>> getProductsByIds(List<String> ids) async {
@@ -30,6 +30,23 @@ class MockServer {
         return ids.contains(product['id']);
       }).toList(),
     };
+  }
+
+  static Future<Map<String, dynamic>> getMyProducts({
+    required String userId,
+  }) async {
+    await Future<void>.delayed(_kNetworkDelay);
+    return {
+      'products': MockProductsData.products.where((product) {
+        return product['creator_id'] == userId;
+      }).toList(),
+    };
+  }
+
+  static Future<void> deleteProduct({required String id}) async {
+    await Future<void>.delayed(_kNetworkDelay);
+
+    MockProductsData.products.removeWhere((p) => p['id'] == id);
   }
 
   Future<Map<String, dynamic>> getOrCreateCart() async {

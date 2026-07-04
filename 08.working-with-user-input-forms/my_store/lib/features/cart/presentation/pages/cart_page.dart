@@ -171,16 +171,22 @@ class _CartItem extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Image.network(
-                product.imageUrl,
-                width: _imageSize,
-                height: _imageSize,
-                errorBuilder: (context, error, stackTrace) {
-                  return const ErrorImagePlaceholder(
-                    width: _imageSize,
-                    height: _imageSize,
-                  );
-                },
+              ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  AppDimensions.defaultBorderRadius,
+                ),
+                child: Image.network(
+                  product.imageUrl,
+                  width: _imageSize,
+                  height: _imageSize,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const ErrorImagePlaceholder(
+                      width: _imageSize,
+                      height: _imageSize,
+                    );
+                  },
+                ),
               ),
               if (hasDiscount) ...[
                 Positioned.fill(

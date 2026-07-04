@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/consts/app_strings.dart';
 import 'package:my_store/features/home/presentation/pages/home_page.dart';
+import 'package:my_store/features/my_products/presentation/pages/my_products_page.dart';
 import 'package:my_store/features/orders/presentation/pages/orders_page.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -47,6 +48,16 @@ class AppDrawer extends StatelessWidget {
                 Navigator.of(
                   context,
                 ).pushReplacementNamed(OrdersPage.routeName);
+              },
+            ),
+            _buildListTile(
+              context: context,
+              title: 'My Products',
+              icon: Icons.inventory_2_outlined,
+              tapHandler: () {
+                Navigator.of(
+                  context,
+                ).pushReplacementNamed(MyProductsPage.routeName);
               },
             ),
           ],

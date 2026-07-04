@@ -37,6 +37,7 @@ class ProductModel {
     required this.description,
     required this.price,
     required this.imageUrl,
+    required this.creatorId,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +47,7 @@ class ProductModel {
       description: json['description'] as String,
       price: PriceModel.fromJson(json['price'] as Map<String, dynamic>),
       imageUrl: json['image_url'] as String,
+      creatorId: json['creator_id'] as String,
     );
   }
 
@@ -54,6 +56,7 @@ class ProductModel {
   final String description;
   final PriceModel price;
   final String imageUrl;
+  final String creatorId;
 
   Product toDomain() {
     return Product(
@@ -62,6 +65,7 @@ class ProductModel {
       description: description,
       price: price.toDomain(),
       imageUrl: imageUrl,
+      creatorId: creatorId,
     );
   }
 }

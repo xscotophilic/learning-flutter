@@ -1,11 +1,9 @@
 class MockProductsData {
-  const MockProductsData._();
+  MockProductsData._();
 
   static const heroProductId = '4';
 
-  static const featuredProductIds = ['1', '2', '3', '4', '5', '6'];
-
-  static const products = [
+  static List<Map<String, dynamic>> products = [
     {
       'id': '1',
       'name': 'Peanut Butter Cookie',
@@ -17,6 +15,7 @@ class MockProductsData {
           'A timeless treat loved by peanut butter fans of all ages.',
       'price': {'amount': 18.0, 'currency': 'USD', 'discount_percent': 10},
       'image_url': 'https://i.ibb.co/jBNW3CC/peanut-butter-cookie.webp',
+      'creator_id': '000001',
     },
     {
       'id': '2',
@@ -29,6 +28,7 @@ class MockProductsData {
           'A classic comfort cookie that feels like a warm hug with every single bite.',
       'price': {'amount': 20.0, 'currency': 'USD', 'discount_percent': 10},
       'image_url': 'https://i.ibb.co/Q79ByhmD/oatmeal-raisin-cookie.webp',
+      'creator_id': '000001',
     },
     {
       'id': '3',
@@ -41,6 +41,7 @@ class MockProductsData {
           'Perfect for sharing; though once you start, stopping is nearly impossible.',
       'price': {'amount': 14.0, 'currency': 'USD'},
       'image_url': 'https://i.ibb.co/whXG6Y2w/snickerdoodle.webp',
+      'creator_id': '000001',
     },
     {
       'id': '4',
@@ -53,6 +54,7 @@ class MockProductsData {
           'The cookie that started it all, and still the one everyone reaches for first.',
       'price': {'amount': 10.0, 'currency': 'USD', 'discount_percent': 10},
       'image_url': 'https://i.ibb.co/9mS5StLX/choco-chip-cookie.webp',
+      'creator_id': '000001',
     },
     {
       'id': '5',
@@ -65,6 +67,7 @@ class MockProductsData {
           'A refined, timeless classic that proves the finest things in life are often the simplest.',
       'price': {'amount': 16.0, 'currency': 'USD'},
       'image_url': 'https://i.ibb.co/Kz7NyDpH/shortbread-cookie.webp',
+      'creator_id': '000001',
     },
     {
       'id': '6',
@@ -77,6 +80,7 @@ class MockProductsData {
           'A festive favorite that brings warmth and spice to any cookie jar or dessert spread.',
       'price': {'amount': 12.0, 'currency': 'USD'},
       'image_url': 'https://i.ibb.co/Z6QhWxHG/molasses-cookie.webp',
+      'creator_id': '000001',
     },
   ];
 }
