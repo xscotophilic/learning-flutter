@@ -32,6 +32,7 @@ class SplashPage extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(AppDimensions.defaultMargin),
           child: splashPageAsyncData.when(
+            skipLoadingOnRefresh: false,
             loading: () {
               return const SplashPageContent();
             },

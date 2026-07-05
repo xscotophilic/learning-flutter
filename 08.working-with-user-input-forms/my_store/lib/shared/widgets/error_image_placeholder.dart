@@ -19,7 +19,7 @@ class ErrorImagePlaceholder extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.error,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: const BorderRadius.all(
           Radius.circular(AppDimensions.defaultBorderRadius),
         ),

@@ -36,8 +36,11 @@ class AppTheme {
   static final Color _primary = const Color(0xFFE8B84A);
   static final Color _onPrimary = const Color(0xFF343028);
 
-  static final Color _secondary = const Color(0xFFE8324A);
+  static final Color _secondary = const Color(0xFFE04F5F);
   static final Color _onSecondary = const Color(0xFFF2EEE8);
+
+  static final Color _tertiary = const Color(0xFF1B8A5A);
+  static final Color _onTertiary = const Color(0xFFF2EEE8);
 
   static final Color _drawer = const Color(0xFF1E1C16);
 
@@ -59,6 +62,8 @@ class AppTheme {
         onPrimary: _onPrimary,
         secondary: _secondary,
         onSecondary: _onSecondary,
+        tertiary: _tertiary,
+        onTertiary: _onTertiary,
       ),
       extensions: [
         AppGradients(
