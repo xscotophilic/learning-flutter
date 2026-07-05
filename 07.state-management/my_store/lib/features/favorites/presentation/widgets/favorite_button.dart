@@ -76,7 +76,7 @@ class _FavoriteButtonState extends ConsumerState<FavoriteButton>
           child: Icon(
             isFavorite ? Icons.favorite : Icons.favorite_border,
             key: ValueKey(isFavorite),
-            color: isFavorite ? Colors.red : null,
+            color: isFavorite ? Theme.of(context).colorScheme.secondary : null,
             size: widget.iconSize,
           ),
         ),

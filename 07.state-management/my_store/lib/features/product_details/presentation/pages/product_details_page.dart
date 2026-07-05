@@ -155,9 +155,9 @@ class _PriceSection extends StatelessWidget {
                 ),
                 WidgetSpan(
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      color: colorScheme.tertiary,
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(AppDimensions.defaultBorderRadius / 2),
                       ),
                     ),

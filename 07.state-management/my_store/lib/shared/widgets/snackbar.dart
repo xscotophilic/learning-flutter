@@ -8,6 +8,7 @@ final class AppSnackBar {
     required String message,
     required Duration duration,
     required Color backgroundColor,
+    required Color textColor,
     required bool clearSnackBars,
   }) {
     if (clearSnackBars) {
@@ -15,7 +16,7 @@ final class AppSnackBar {
     }
 
     final snackBar = SnackBar(
-      content: Text(message),
+      content: Text(message, style: TextStyle(color: textColor)),
       duration: duration,
       backgroundColor: backgroundColor,
     );
@@ -34,6 +35,7 @@ final class AppSnackBar {
       message: message,
       duration: duration,
       backgroundColor: Theme.of(context).colorScheme.primary,
+      textColor: Theme.of(context).colorScheme.onPrimary,
       clearSnackBars: clearSnackBars,
     );
   }
@@ -48,7 +50,8 @@ final class AppSnackBar {
       context,
       message: message,
       duration: duration,
-      backgroundColor: Theme.of(context).colorScheme.error,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
+      textColor: Theme.of(context).colorScheme.onSecondary,
       clearSnackBars: clearSnackBars,
     );
   }

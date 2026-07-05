@@ -86,6 +86,7 @@ class _HomePageBody extends StatelessWidget {
             );
 
             return heroProductAsync.when(
+              skipLoadingOnRefresh: false,
               loading: () {
                 return const Shimmer(
                   enabled: true,
