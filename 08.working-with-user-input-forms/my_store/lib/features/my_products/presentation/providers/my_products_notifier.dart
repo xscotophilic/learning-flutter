@@ -1,3 +1,4 @@
+import 'package:my_store/features/home/presentation/providers/home_notifier.dart';
 import 'package:my_store/features/my_products/domain/entities/my_products.dart';
 import 'package:my_store/features/my_products/presentation/providers/my_products_usecase_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,6 +25,11 @@ class MyProductsNotifier extends _$MyProductsNotifier {
     try {
       await deleteProduct.execute(id: id);
       state = AsyncData(snapshot.copyWith(isMutating: false));
+
+      final homeSnapshot = ref.read(homeProvider).value;
+      if (homeSnapshot?.featuredProductIds.contains(id) ?? false) {
+        ref.invalidate(homeProvider);
+      }
       ref.invalidateSelf();
     } catch (e, st) {
       state = AsyncData(snapshot.copyWith(isMutating: false));
