@@ -5,7 +5,7 @@ class GetMyProductsUseCase {
 
   final ProductRepository productRepository;
 
-  Future<List<String>> execute({required String userId}) {
-    return productRepository.getMyProducts(userId: userId);
+  Future<List<String>> execute() {
+    return productRepository.getMyProducts();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:my_store/core/extensions/iterable_extensions.dart';
 import 'package:my_store/mock_server/data/mock_cart.dart';
 import 'package:my_store/mock_server/data/mock_orders.dart';
@@ -33,9 +35,18 @@ class MockServer {
   }
 
   static Future<Map<String, dynamic>> getMyProducts({
-    required String userId,
+    required Map<String, dynamic> headers,
   }) async {
     await Future<void>.delayed(_kNetworkDelay);
+
+    final token = headers['Authorization'] as String?;
+    if (token == null) {
+      throw Exception('Authorization token is required');
+    }
+
+    // Assume that the user id is the same as the token.
+    final userId = token;
+
     return {
       'products': MockProductsData.products.where((product) {
         return product['creator_id'] == userId;
@@ -43,8 +54,107 @@ class MockServer {
     };
   }
 
-  static Future<void> deleteProduct({required String id}) async {
+  static Future<Map<String, dynamic>> createProduct({
+    required Map<String, dynamic> headers,
+    required Map<String, dynamic> data,
+  }) async {
     await Future<void>.delayed(_kNetworkDelay);
+
+    final token = headers['Authorization'] as String?;
+    if (token == null) {
+      throw Exception('Authorization token is required');
+    }
+
+    // Assume that the user id is the same as the token.
+    final userId = token;
+
+    final name = data['name'] as String?;
+    final description = data['description'] as String?;
+    final price = data['price'] as Object?;
+    final imageUrl = data['image_url'] as String?;
+
+    if (name == null ||
+        description == null ||
+        price == null ||
+        imageUrl == null) {
+      throw Exception('Invalid product data');
+    }
+
+    final product = {
+      'id': math.Random().nextInt(1000000).toString(),
+      'name': name,
+      'description': description,
+      'price': price,
+      'image_url': imageUrl,
+      'creator_id': userId,
+    };
+
+    MockProductsData.products.add(product);
+    return product;
+  }
+
+  static Future<Map<String, dynamic>> updateProduct({
+    required Map<String, dynamic> headers,
+    required Map<String, dynamic> data,
+  }) async {
+    await Future<void>.delayed(_kNetworkDelay);
+
+    final token = headers['Authorization'] as String?;
+    if (token == null) {
+      throw Exception('Authorization token is required');
+    }
+
+    // Assume that the user id is the same as the token.
+    final userId = token;
+
+    final index = MockProductsData.products.indexWhere(
+      (p) => p['id'] == data['id'],
+    );
+    if (index < 0) {
+      throw Exception('product not found');
+    }
+
+    final existingProduct = MockProductsData.products[index];
+    if (existingProduct['creator_id'] != userId) {
+      throw Exception('permission denied');
+    }
+
+    final updatedProduct = {
+      'id': existingProduct['id'],
+      'name': data['name'] ?? existingProduct['name'],
+      'description': data['description'] ?? existingProduct['description'],
+      'price': data['price'] ?? existingProduct['price'],
+      'image_url': data['image_url'] ?? existingProduct['image_url'],
+      'creator_id': userId,
+    };
+
+    MockProductsData.products[index] = updatedProduct;
+    return updatedProduct;
+  }
+
+  static Future<void> deleteProduct({
+    required Map<String, dynamic> headers,
+    required String id,
+  }) async {
+    await Future<void>.delayed(_kNetworkDelay);
+
+    final token = headers['Authorization'] as String?;
+    if (token == null) {
+      throw Exception('Authorization token is required');
+    }
+
+    // Assume that the user id is the same as the token.
+    final userId = token;
+
+    final index = MockProductsData.products.indexWhere((p) => p['id'] == id);
+    if (index < 0) {
+      throw Exception('product not found');
+    }
+
+    final existingProduct = MockProductsData.products[index];
+    if (existingProduct['creator_id'] != userId) {
+      throw Exception('permission denied');
+    }
 
     MockProductsData.products.removeWhere((p) => p['id'] == id);
   }

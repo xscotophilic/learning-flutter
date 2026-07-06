@@ -34,7 +34,7 @@ final class MyProductsNotifierProvider
 }
 
 String _$myProductsNotifierHash() =>
-    r'57eeb708089870f4eba55084c600cc5c2212fa6f';
+    r'4383b319c9376672c1b536138857729bb0c8a3f8';
 
 abstract class _$MyProductsNotifier extends $AsyncNotifier<MyProductsSnapshot> {
   FutureOr<MyProductsSnapshot> build();

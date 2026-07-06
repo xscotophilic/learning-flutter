@@ -17,6 +17,14 @@ class PriceModel {
     );
   }
 
+  factory PriceModel.fromDomain(Price price) {
+    return PriceModel(
+      amount: price.amount,
+      currency: price.currency,
+      discountPercent: price.discountPercent,
+    );
+  }
+
   final double amount;
   final String currency;
   final double? discountPercent;
@@ -27,6 +35,14 @@ class PriceModel {
       currency: currency,
       discountPercent: discountPercent,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'amount': amount,
+      'currency': currency,
+      if ((discountPercent ?? 0) > 0) 'discount_percent': discountPercent,
+    };
   }
 }
 
@@ -51,6 +67,17 @@ class ProductModel {
     );
   }
 
+  factory ProductModel.fromDomain(Product product) {
+    return ProductModel(
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: PriceModel.fromDomain(product.price),
+      imageUrl: product.imageUrl,
+      creatorId: product.creatorId,
+    );
+  }
+
   final String id;
   final String name;
   final String description;
@@ -67,6 +94,16 @@ class ProductModel {
       imageUrl: imageUrl,
       creatorId: creatorId,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id.isNotEmpty) 'id': id,
+      'name': name,
+      'description': description,
+      'price': price.toJson(),
+      'image_url': imageUrl,
+    };
   }
 }
 

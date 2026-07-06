@@ -11,7 +11,11 @@ abstract interface class ProductRepository {
     required List<String> productIds,
   });
 
-  Future<List<String>> getMyProducts({required String userId});
+  Future<List<String>> getMyProducts();
+
+  Future<Product> createProduct(Product product);
+
+  Future<Product> updateProduct(Product product);
 
   Future<void> deleteProduct({required String id});
 }

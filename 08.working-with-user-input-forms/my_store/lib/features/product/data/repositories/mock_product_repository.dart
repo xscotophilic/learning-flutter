@@ -64,14 +64,45 @@ final class MockProductRepository implements ProductRepository {
   }
 
   @override
-  Future<List<String>> getMyProducts({required String userId}) async {
-    final products = await MockServer.getMyProducts(userId: userId);
+  Future<List<String>> getMyProducts() async {
+    final products = await MockServer.getMyProducts(
+      headers: {'Authorization': '000001'},
+    );
     return _cacheResponseAndExtractIds(products);
   }
 
   @override
+  Future<Product> createProduct(Product productRequest) async {
+    final productModel = ProductModel.fromDomain(productRequest);
+    final productJson = productModel.toJson();
+
+    final rawProduct = await MockServer.createProduct(
+      headers: {'Authorization': '000001'},
+      data: productJson,
+    );
+
+    final product = ProductModel.fromJson(rawProduct).toDomain();
+    _allProductsCache[product.id] = product;
+    return product;
+  }
+
+  @override
+  Future<Product> updateProduct(Product productRequest) async {
+    final rawProduct = await MockServer.updateProduct(
+      headers: {'Authorization': '000001'},
+      data: ProductModel.fromDomain(productRequest).toJson(),
+    );
+    final product = ProductModel.fromJson(rawProduct).toDomain();
+    _allProductsCache[product.id] = product;
+    return product;
+  }
+
+  @override
   Future<void> deleteProduct({required String id}) async {
-    await MockServer.deleteProduct(id: id);
+    await MockServer.deleteProduct(
+      headers: {'Authorization': '000001'},
+      id: id,
+    );
     _allProductsCache.remove(id);
   }
 }

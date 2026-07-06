@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
 import 'package:my_store/core/theme/app_theme.dart';
+import 'package:my_store/features/my_products/presentation/pages/product_form_page.dart';
 import 'package:my_store/features/my_products/presentation/providers/my_products_notifier.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
 import 'package:my_store/features/product/presentation/providers/product_notifier.dart';
@@ -38,7 +39,9 @@ class _MyProductsPageState extends ConsumerState<MyProductsPage> {
           _scaffoldKey.currentState?.openDrawer();
         },
         trailing: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, ProductFormPage.routeName);
+          },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(
               vertical: AppDimensions.defaultPadding / 3,
@@ -95,17 +98,17 @@ class _MyProductsList extends ConsumerWidget {
 
         return productAsync.when(
           skipLoadingOnRefresh: false,
+          loading: () {
+            return const _LoadingTile();
+          },
+          error: (e, st) {
+            return _ErrorTile(id: id);
+          },
           data: (product) {
             if (product == null) {
               return _ErrorTile(id: id);
             }
             return _ProductTile(product: product);
-          },
-          error: (e, st) {
-            return _ErrorTile(id: id);
-          },
-          loading: () {
-            return const _LoadingTile();
           },
         );
       },
@@ -292,8 +295,10 @@ class _CTAButtons extends StatelessWidget {
   }
 
   void _onEditBtnTapped(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Edit product feature coming soon!')),
+    Navigator.pushNamed(
+      context,
+      ProductFormPage.routeName,
+      arguments: product.id,
     );
   }
 
