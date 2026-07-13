@@ -17,7 +17,7 @@ class ProductPriceAndDiscountField extends StatelessWidget {
     if (value == null || value.trim().isEmpty) {
       return 'Price is required';
     }
-    if (double.tryParse(value) == null) {
+    if ((double.tryParse(value) ?? 0) <= 0) {
       return 'Invalid price';
     }
     return null;

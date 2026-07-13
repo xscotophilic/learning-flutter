@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_store/core/consts/app_dimensions.dart';
+import 'package:my_store/features/my_products/domain/entities/my_products.dart';
 import 'package:my_store/features/my_products/presentation/providers/my_products_notifier.dart';
 import 'package:my_store/features/my_products/presentation/widgets/product_currency_field.dart';
 import 'package:my_store/features/my_products/presentation/widgets/product_description_field.dart';
@@ -15,6 +16,7 @@ import 'package:my_store/shared/widgets/generic_progress_indicator.dart';
 import 'package:my_store/shared/widgets/loading_overlay.dart';
 import 'package:my_store/shared/widgets/main_app_bar.dart';
 import 'package:my_store/shared/widgets/primary_button.dart';
+import 'package:my_store/shared/widgets/snackbar.dart';
 
 const _validCurrencies = ['USD', 'EUR', 'GBP'];
 
@@ -73,6 +75,8 @@ class _ProductFormState extends ConsumerState<ProductForm> {
   late final TextEditingController _imageUrlController;
 
   Product? get _product => widget.product;
+
+  bool get _isExistingProduct => _product != null;
 
   @override
   void initState() {
@@ -136,7 +140,7 @@ class _ProductFormState extends ConsumerState<ProductForm> {
       child: SizedBox(
         width: double.infinity,
         child: PrimaryButton(
-          text: _product != null ? 'Save Changes' : 'Create Product',
+          text: _isExistingProduct ? 'Save Changes' : 'Create Product',
           icon: Icons.edit_note_outlined,
           onTap: _saveForm,
         ),
@@ -146,11 +150,31 @@ class _ProductFormState extends ConsumerState<ProductForm> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<MyProductsSnapshot>>(myProductsProvider, (
+      previous,
+      next,
+    ) {
+      if (next.hasError) {
+        AppSnackBar.showErrorSnackBar(context, message: next.error.toString());
+        return;
+      }
+
+      if (next.value?.isSuccess ?? false) {
+        String message = 'Product created successfully';
+        if (_isExistingProduct) {
+          message = 'Product updated successfully';
+        }
+
+        AppSnackBar.showSuccessSnackBar(context, message: message);
+        Navigator.of(context).pop();
+      }
+    });
+
     final isMutating = ref.watch(myProductsProvider).value?.isMutating ?? false;
 
     return Scaffold(
       appBar: MainAppBar(
-        title: _product != null ? 'Edit Product' : 'Add Product',
+        title: _isExistingProduct ? 'Edit Product' : 'Add Product',
         leadingIcon: Icons.arrow_back_ios_new,
         onLeadingTap: () {
           Navigator.pop(context);

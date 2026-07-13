@@ -1,16 +1,24 @@
+enum MyProductsMutationStatus { idle, mutating, success }
+
 class MyProductsSnapshot {
   const MyProductsSnapshot({
-    required this.isMutating,
     required this.productIds,
+    this.mutationStatus = MyProductsMutationStatus.idle,
   });
 
-  MyProductsSnapshot copyWith({bool? isMutating, List<String>? productIds}) {
+  MyProductsSnapshot copyWith({
+    List<String>? productIds,
+    MyProductsMutationStatus? mutationStatus,
+  }) {
     return MyProductsSnapshot(
-      isMutating: isMutating ?? this.isMutating,
       productIds: productIds ?? this.productIds,
+      mutationStatus: mutationStatus ?? this.mutationStatus,
     );
   }
 
-  final bool isMutating;
   final List<String> productIds;
+  final MyProductsMutationStatus mutationStatus;
+
+  bool get isMutating => mutationStatus == MyProductsMutationStatus.mutating;
+  bool get isSuccess => mutationStatus == MyProductsMutationStatus.success;
 }

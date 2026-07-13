@@ -47,6 +47,16 @@ class _ProductImageFieldState extends State<ProductImageField> {
     });
   }
 
+  String? _validator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Image URL is required';
+    }
+    if (Uri.tryParse(value) == null) {
+      return 'Invalid image URL';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -145,13 +155,14 @@ class _ProductImageFieldState extends State<ProductImageField> {
         ),
         const SizedBox(height: AppDimensions.defaultMargin),
 
-        const FieldLabel(label: 'Image URL'),
+        const FieldLabel(label: 'Image URL', isRequired: true),
         TextFormField(
           controller: widget.imageUrlController,
           decoration: const InputDecoration(
             hintText: 'https://example.com/image.jpg',
             suffixIcon: Icon(Icons.link),
           ),
+          validator: _validator,
         ),
       ],
     );
