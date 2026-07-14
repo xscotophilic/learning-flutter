@@ -14,9 +14,9 @@ class MockServer {
 
   static const Duration _kNetworkDelay = Duration(milliseconds: 1000);
 
-  static Future<String> getHeroProductId() async {
+  static Future<Map<String, dynamic>> getHeroProduct() async {
     await Future<void>.delayed(_kNetworkDelay);
-    return MockProductsData.heroProductId;
+    return MockProductsData.products.first;
   }
 
   static Future<Map<String, dynamic>> getFeaturedProducts() async {

@@ -1,8 +1,6 @@
 class MockProductsData {
   MockProductsData._();
 
-  static const heroProductId = '4';
-
   static List<Map<String, dynamic>> products = [
     {
       'id': '1',

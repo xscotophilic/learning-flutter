@@ -1,9 +1,9 @@
 import 'package:my_store/features/product/domain/entities/product.dart';
 
 abstract interface class ProductRepository {
-  Future<String> getHeroProductId();
+  Future<Product> getHeroProduct();
 
-  Future<List<String>> getFeaturedProductIds();
+  Future<List<Product>> getFeaturedProducts();
 
   Future<List<Product>> getProductsByIds({required List<String> productIds});
 
@@ -11,7 +11,7 @@ abstract interface class ProductRepository {
     required List<String> productIds,
   });
 
-  Future<List<String>> getMyProducts();
+  Future<List<Product>> getMyProducts();
 
   Future<Product> createProduct(Product product);
 

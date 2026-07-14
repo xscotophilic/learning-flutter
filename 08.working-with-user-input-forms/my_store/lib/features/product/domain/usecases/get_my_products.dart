@@ -5,7 +5,8 @@ class GetMyProductsUseCase {
 
   final ProductRepository productRepository;
 
-  Future<List<String>> execute() {
-    return productRepository.getMyProducts();
+  Future<List<String>> execute() async {
+    final products = await productRepository.getMyProducts();
+    return products.map((e) => e.id).toList();
   }
 }
