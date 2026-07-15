@@ -6,22 +6,34 @@ import 'package:my_store/mock_server/mock_server.dart';
 final class MockProductRepository implements ProductRepository {
   final Map<String, Product> _allProductsCache = {};
 
-  @override
-  Future<String> getHeroProductId() async {
-    return MockServer.getHeroProductId();
-  }
-
-  @override
-  Future<List<String>> getFeaturedProductIds() async {
-    return MockServer.getFeaturedProductIds();
-  }
-
-  Future<void> _fetchAndCacheProducts(List<String> productIds) async {
-    final rawProducts = await MockServer.getProductsByIds(productIds);
+  List<Product> _cacheProductsFromResponse(Map<String, dynamic> rawProducts) {
     final response = ProductsPayloadModel.fromJson(rawProducts);
-    for (final product in response.toDomain()) {
+    final products = response.toDomain();
+
+    for (final product in products) {
       _allProductsCache[product.id] = product;
     }
+
+    return products;
+  }
+
+  Future<List<Product>> _fetchAndCacheProducts(List<String> productIds) async {
+    final rawProducts = await MockServer.getProductsByIds(productIds);
+    return _cacheProductsFromResponse(rawProducts);
+  }
+
+  @override
+  Future<Product> getHeroProduct() async {
+    final rawProduct = await MockServer.getHeroProduct();
+    final product = ProductModel.fromJson(rawProduct).toDomain();
+    _allProductsCache[product.id] = product;
+    return product;
+  }
+
+  @override
+  Future<List<Product>> getFeaturedProducts() async {
+    final products = await MockServer.getFeaturedProducts();
+    return _cacheProductsFromResponse(products);
   }
 
   @override
@@ -46,11 +58,6 @@ final class MockProductRepository implements ProductRepository {
   Future<List<Product>> refreshProductsByIds({
     required List<String> productIds,
   }) async {
-    await _fetchAndCacheProducts(productIds);
-
-    return productIds
-        .map((id) => _allProductsCache[id])
-        .whereType<Product>()
-        .toList();
+    return await _fetchAndCacheProducts(productIds);
   }
 }

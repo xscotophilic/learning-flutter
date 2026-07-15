@@ -1,10 +1,6 @@
 class MockProductsData {
   const MockProductsData._();
 
-  static const heroProductId = '4';
-
-  static const featuredProductIds = ['1', '2', '3', '4', '5', '6'];
-
   static const products = [
     {
       'id': '1',

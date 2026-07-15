@@ -7,14 +7,14 @@ class GetHomePageDataUseCase {
   final ProductRepository productRepository;
 
   Future<HomePageData> execute() async {
-    final (heroProductId, featuredProductIds) = await (
-      productRepository.getHeroProductId(),
-      productRepository.getFeaturedProductIds(),
+    final (heroProduct, featuredProducts) = await (
+      productRepository.getHeroProduct(),
+      productRepository.getFeaturedProducts(),
     ).wait;
 
     return HomePageData(
-      heroProductId: heroProductId,
-      featuredProductIds: featuredProductIds,
+      heroProductId: heroProduct.id,
+      featuredProductIds: featuredProducts.map((e) => e.id).toList(),
     );
   }
 }
