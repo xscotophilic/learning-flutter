@@ -53,22 +53,22 @@ If you're new to these concepts:
 4. [docs/advanced_patterns.md](docs/04.advanced_patterns.md)
 5. [docs/my_store_walkthrough.md](docs/05.my_store_walkthrough.md)
 
-### Chapter 1: Architecture
+### Section 1: Architecture
 
 Learn how the project is organised and how Clean Architecture is applied. Check [docs/architecture.md](docs/01.architecture.md).
 
-### Chapter 2: Dependency Injection
+### Section 2: Dependency Injection
 
 Learn how dependencies are wired together and why abstractions matter. Check [docs/dependency_injection.md](docs/02.dependency_injection.md).
 
-### Chapter 3: Riverpod Basics
+### Section 3: Riverpod Basics
 
 Learn the Riverpod concepts used throughout the project. Check [docs/riverpod_basics.md](docs/03.riverpod_basics.md).
 
-### Chapter 4: Riverpod Advanced Patterns
+### Section 4: Riverpod Advanced Patterns
 
 Production-oriented Riverpod patterns and UI optimisations. Check [docs/advanced_patterns.md](docs/04.advanced_patterns.md).
 
-### Chapter 5: Showcase App Walkthrough
+### Section 5: Showcase App Walkthrough
 
 Explore how all concepts are applied in a complete application. Check [docs/my_store_walkthrough.md](docs/05.my_store_walkthrough.md).
