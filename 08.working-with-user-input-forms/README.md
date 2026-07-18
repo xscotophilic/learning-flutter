@@ -1,99 +1,61 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/47301282/123751450-63448280-d8d5-11eb-8be6-4603b8e534f1.png" alt="Working with User Input & Forms"/>
-</p>
+# Working with User Input & Forms
 
-- Take user input in addition to input widgets in Material Components and Cupertino. TextFields do not have an ID like in Android/ Html, text cannot be retrieved upon demand and must instead be stored in a variable on change or use a controller. You can use forms also.
+## Project Structure
 
-<img src="https://user-images.githubusercontent.com/47301282/123751440-617abf00-d8d5-11eb-9505-77b3c1578e23.png" alt="Introduction to TextField"/>
-
-- A TextField widget allows collection of information from the user. The code for a basic TextField is as simple as:
-
-```
-TextField()
-```
-
-- Retrieving information from a TextField
-
-  - The easiest way to do this is to use the onChanged method and store the current value in a simple variable.
-
-    ```
-    String username = "";
-
-    TextField(
-        onChanged: (userInput) {
-            username = userInput;
-        },
-    )
-    ```
-
-  - The second way to do this is to use a TextEditingController.
-
-    ```
-    TextEditingController usernameController = TextEditingController();
-
-    TextField(
-        controller: usernameController,
-    )
-    ```
-
-    And get or set values using:
-
-    ```
-    print(usernameController.text); // Print current value of
-    controller.text = 'Hello World'; // Set new value
-    ```
-
-<img src="https://user-images.githubusercontent.com/47301282/123751447-62135580-d8d5-11eb-9131-eae0c10ebf4d.png" alt="Using Forms"/>
-
-- It is mainly used to interact with the app as well as gather information from the users.
-
-- Flutter provides a Form widget to create a form. The form widget acts as a container, which allows us to group and validate the multiple form fields. When you create a form, it is necessary to provide the GlobalKey.
-
-```
-final _formKey = GlobalKey<FormState>();
-
-@override
-Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Form(
-        key: _formKey,
-        child: Column(
-            children: <Widget>[
-            // Add TextFormFields and ElevatedButton here.
-            ],
-        ),
-    );
-}
-
+```text
+├── README.md
+├── docs/
+│   ├── 01.flutter_forms.md
+│   ├── 02.input_validation.md
+│   ├── 03.mutations_and_ref_listen.md
+│   └── 04.my_store_walkthrough.md
+└── my_store/
+    └── Complete showcase application
 ```
 
-- Some more topics to discover:
+## What We Will Learn
 
-  1. Working with focus in TextFields
+- Collecting text input using `TextFormField`
+- Managing controller lifecycle with `TextEditingController`
+- Coordinating form-wide validation with `Form` and `GlobalKey<FormState>`
+- Centralising input styling with `InputDecorationTheme`
+- Writing field-level validators for required, numeric, optional, and URL fields
+- Restricting allowed characters at input time with `inputFormatters`
+- Reacting to provider state changes for side effects using `ref.listen`
+- Extending a Riverpod `AsyncNotifier` with full CRUD mutations
+- Debouncing text input to drive live previews
 
-     - Working with autofocus
-     - Working with custom focus changes
+## Why Do We Need Forms?
 
-  2. Changing Keyboard Properties for TextFields
+Most production applications need to collect data from users: sign-up forms, product listings, profile editors, checkout flows. Flutter provides the raw tools, but without structure it is easy to end up with scattered state, inconsistent validation timing, and hard-to-test code.
 
-     - Keyboard Type
-     - TextInputAction
-     - Autocorrect
-     - Text Capitalization
-     - Text Style, Alignment and Cursor Options
+The `Form` widget solves the coordination problem: it wraps multiple fields and lets you trigger validation across all of them with a single method call. Combined with `TextEditingController` for reading and pre-populating values, and `inputFormatters` for restricting characters as they are typed.
 
-  3. Controlling the Size and Maximum Length in a TextField
+If we mutate server data, on the state management side we need to handle loading, success, and error states. This chapter extends the Riverpod patterns from [Architecture and State Management Chapter](../07.architecture-and-state-management/README.md) with `ref.listen`.
 
-     - Making an expandable TextField
+## Documentation
 
-  4. Decorating the TextField
+### Recommended Reading Order
 
----
+If you're new to these concepts:
 
-- You can read about `Working with User Input & Forms` in details on provided links:
+1. [docs/01.flutter_forms.md](docs/01.flutter_forms.md)
+2. [docs/02.input_validation.md](docs/02.input_validation.md)
+3. [docs/03.mutations_and_ref_listen.md](docs/03.mutations_and_ref_listen.md)
+4. [docs/04.my_store_walkthrough.md](docs/04.my_store_walkthrough.md)
 
-  - [A Deep Dive Into Flutter TextField by Deven Joshi](https://medium.com/flutter-community/a-deep-dive-into-flutter-textfields-f0e676aaab7a)
-  - [Input widgets by fluter](https://flutter.dev/docs/development/ui/widgets/input)
-  - [Build a form with validation by fluter](https://flutter.dev/docs/cookbook/forms/validation)
-  - [Flutter Forms by javapoint](https://www.javatpoint.com/flutter-forms)
-  - [To create a Beautiful Text Box with in Flutter by Omkar Mestry](https://om-m-mestry.medium.com/to-create-a-beautiful-text-box-with-in-flutter-a7a4d11ae13f)
+### Section 1: Flutter Forms
+
+Learn how `Form`, `TextFormField`, `TextEditingController`, and `InputDecorationTheme` work together to build structured, consistently styled input forms. Check [docs/01.flutter_forms.md](docs/01.flutter_forms.md).
+
+### Section 2: Input Validation & Formatters
+
+Learn how to write field-level validators, restrict characters with `inputFormatters`, build reusable field widgets, debounce live previews, and implement a custom animated dropdown (cause flutter's dropdown doesn't look good). Check [docs/02.input_validation.md](docs/02.input_validation.md).
+
+### Section 3: CRUD Mutations & ref.listen
+
+Learn how to extend a Riverpod `AsyncNotifier` with create, update, and delete operations using the `isMutating` lifecycle, and how to react to state transitions using `ref.listen` for navigation and notifications. Check [docs/03.mutations_and_ref_listen.md](docs/03.mutations_and_ref_listen.md).
+
+### Section 4: Showcase App Walkthrough
+
+Explore how all concepts are applied in the updated `my_store` application. Check [docs/04.my_store_walkthrough.md](docs/04.my_store_walkthrough.md).

@@ -36,7 +36,7 @@ class _ProductImageFieldState extends State<ProductImageField> {
   void _onImageUrlChanged() {
     _debounceTimer?.cancel();
 
-    _debounceTimer = Timer(const Duration(milliseconds: 750), () {
+    _debounceTimer = Timer(const Duration(milliseconds: 2000), () {
       if (!mounted) return;
 
       final uri = Uri.tryParse(_imageUrl);

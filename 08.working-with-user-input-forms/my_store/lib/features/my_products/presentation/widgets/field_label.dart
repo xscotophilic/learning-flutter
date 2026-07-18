@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/core/consts/app_dimensions.dart';
 
 class FieldLabel extends StatelessWidget {
   const FieldLabel({super.key, required this.label, this.isRequired = false});
@@ -9,7 +10,7 @@ class FieldLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6.0),
+      padding: const EdgeInsets.only(bottom: AppDimensions.defaultMargin / 4),
       child: RichText(
         text: TextSpan(
           text: label,
