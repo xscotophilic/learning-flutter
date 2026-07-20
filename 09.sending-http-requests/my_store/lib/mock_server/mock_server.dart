@@ -34,18 +34,10 @@ class MockServer {
     };
   }
 
-  static Future<Map<String, dynamic>> getMyProducts({
-    required Map<String, dynamic> headers,
-  }) async {
+  static Future<Map<String, dynamic>> getMyProducts() async {
     await Future<void>.delayed(_kNetworkDelay);
 
-    final token = headers['Authorization'] as String?;
-    if (token == null) {
-      throw Exception('Authorization token is required');
-    }
-
-    // Assume that the user id is the same as the token.
-    final userId = token;
+    final userId = 'demo-user';
 
     return {
       'products': MockProductsData.products.where((product) {
@@ -55,18 +47,11 @@ class MockServer {
   }
 
   static Future<Map<String, dynamic>> createProduct({
-    required Map<String, dynamic> headers,
     required Map<String, dynamic> data,
   }) async {
     await Future<void>.delayed(_kNetworkDelay);
 
-    final token = headers['Authorization'] as String?;
-    if (token == null) {
-      throw Exception('Authorization token is required');
-    }
-
-    // Assume that the user id is the same as the token.
-    final userId = token;
+    final userId = 'demo-user';
 
     final name = data['name'] as String?;
     final description = data['description'] as String?;
@@ -94,18 +79,11 @@ class MockServer {
   }
 
   static Future<Map<String, dynamic>> updateProduct({
-    required Map<String, dynamic> headers,
     required Map<String, dynamic> data,
   }) async {
     await Future<void>.delayed(_kNetworkDelay);
 
-    final token = headers['Authorization'] as String?;
-    if (token == null) {
-      throw Exception('Authorization token is required');
-    }
-
-    // Assume that the user id is the same as the token.
-    final userId = token;
+    final userId = 'demo-user';
 
     final index = MockProductsData.products.indexWhere(
       (p) => p['id'] == data['id'],
@@ -132,19 +110,10 @@ class MockServer {
     return updatedProduct;
   }
 
-  static Future<void> deleteProduct({
-    required Map<String, dynamic> headers,
-    required String id,
-  }) async {
+  static Future<void> deleteProduct({required String id}) async {
     await Future<void>.delayed(_kNetworkDelay);
 
-    final token = headers['Authorization'] as String?;
-    if (token == null) {
-      throw Exception('Authorization token is required');
-    }
-
-    // Assume that the user id is the same as the token.
-    final userId = token;
+    final userId = 'demo-user';
 
     final index = MockProductsData.products.indexWhere((p) => p['id'] == id);
     if (index < 0) {
