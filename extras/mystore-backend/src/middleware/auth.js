@@ -1,10 +1,10 @@
+// Placeholder auth - no real authentication.
+// Always assigns a fixed demo user ID instead of reading it from
+// a header, because accepting the user ID directly from the client
+// would allow anyone to impersonate any user by simply changing the
+// header value. This will be replaced with proper JWT verification
+// once authentication is introduced.
 export default function auth(req, res, next) {
-  const token = req.headers["authorization"];
-
-  if (!token) {
-    return res.status(401).json({ message: "Authorization token is required" });
-  }
-
-  req.user_id = token;
+  req.user_id = "demo-user";
   next();
 }
