@@ -149,7 +149,7 @@ final class ProductRepositoryProvider
   }
 }
 
-String _$productRepositoryHash() => r'4a26ee81b8da2d5c3764f54327b1edcaa04799cb';
+String _$productRepositoryHash() => r'9af8c641be22b4b6e0b89a7798e11a9b786fe0c8';
 
 @ProviderFor(cartRepository)
 final cartRepositoryProvider = CartRepositoryProvider._();
