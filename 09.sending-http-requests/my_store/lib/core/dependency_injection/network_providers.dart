@@ -13,6 +13,7 @@ http.Client httpClient(Ref ref) {
 ApiClient apiClient(Ref ref) {
   return ApiClient(
     client: ref.watch(httpClientProvider),
-    baseUrl: 'http://192.168.31.15:3000/api/v1',
+    baseUrl:
+        'https://victorious-determination-production-344e.up.railway.app/api/v1',
   );
 }

@@ -2,6 +2,8 @@ import 'package:my_store/shared/app_info/domain/repositories/app_info_repository
 import 'package:package_info_plus/package_info_plus.dart';
 
 final class PackageInfoRepository implements AppInfoRepository {
+  PackageInfoRepository();
+
   PackageInfo? _packageInfo;
 
   Future<PackageInfo> _getPackageInfo() async {

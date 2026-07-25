@@ -190,7 +190,7 @@ final class CartRepositoryProvider
   }
 }
 
-String _$cartRepositoryHash() => r'cd0ec1bca82d07e09bbe3514e73b708c1b42bfeb';
+String _$cartRepositoryHash() => r'4635e03f95ccf9ffc397cca38ddb436c6160443a';
 
 @ProviderFor(favoritesRepository)
 final favoritesRepositoryProvider = FavoritesRepositoryProvider._();
@@ -238,7 +238,7 @@ final class FavoritesRepositoryProvider
 }
 
 String _$favoritesRepositoryHash() =>
-    r'f516aee7c0132270f470634e42d48e47a9d3b389';
+    r'ca9cbb69e8757a2866745741496d53edbe85fbfb';
 
 @ProviderFor(ordersRepository)
 final ordersRepositoryProvider = OrdersRepositoryProvider._();
@@ -284,4 +284,4 @@ final class OrdersRepositoryProvider
   }
 }
 
-String _$ordersRepositoryHash() => r'517dc0ec45d4e2e50bb5e32b376155ff6c800c82';
+String _$ordersRepositoryHash() => r'302116e85aebe8e0e3f6a50640b162dbb03d7d14';

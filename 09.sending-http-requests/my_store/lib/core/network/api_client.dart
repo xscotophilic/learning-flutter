@@ -23,7 +23,7 @@ class ApiClient {
     });
   }
 
-  Future<dynamic> post(String path, {required Map<String, dynamic> body}) {
+  Future<dynamic> post(String path, {Map<String, dynamic>? body}) {
     return _handleRequest(() {
       final call = client.post(
         Uri.parse('$baseUrl$path'),
@@ -38,7 +38,22 @@ class ApiClient {
     });
   }
 
-  Future<dynamic> put(String path, {required Map<String, dynamic> body}) {
+  Future<dynamic> patch(String path, {Map<String, dynamic>? body}) {
+    return _handleRequest(() {
+      final call = client.patch(
+        Uri.parse('$baseUrl$path'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode(body),
+      );
+
+      return call.timeout(_timeout);
+    });
+  }
+
+  Future<dynamic> put(String path, {Map<String, dynamic>? body}) {
     return _handleRequest(() {
       final call = client.put(
         Uri.parse('$baseUrl$path'),
