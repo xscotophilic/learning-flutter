@@ -1,11 +1,11 @@
 import express from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
-import auth from "../middleware/auth.js";
+import dummyAuth from "../middleware/dummyAuth.js";
 import { getCart, updateCartItem } from "../controllers/cart.controller.js";
 
 const router = express.Router();
 
-router.get("/", auth, asyncHandler(getCart));
-router.patch("/items", auth, asyncHandler(updateCartItem));
+router.get("/", dummyAuth, asyncHandler(getCart));
+router.patch("/items", dummyAuth, asyncHandler(updateCartItem));
 
 export default router;

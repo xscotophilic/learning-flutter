@@ -16,6 +16,13 @@ CREATE TABLE IF NOT EXISTS products (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS user_favorites (
+  user_id TEXT NOT NULL,
+  product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, product_id)
+);
+
 CREATE TABLE IF NOT EXISTS carts (
   id SERIAL PRIMARY KEY,
   owner_id TEXT NOT NULL,
@@ -40,6 +47,8 @@ CREATE TABLE IF NOT EXISTS cart_items (
 CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,
   owner_id TEXT NOT NULL,
+  payment_id TEXT NOT NULL,
+  payment_method_id TEXT NOT NULL,
   placed_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

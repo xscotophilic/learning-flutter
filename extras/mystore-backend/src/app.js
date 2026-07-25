@@ -1,6 +1,7 @@
 import express from "express";
 
 import productRoutes from "./routes/products.js";
+import favoritesRoutes from "./routes/favorites.js";
 import cartRoutes from "./routes/cart.js";
 import orderRoutes from "./routes/orders.js";
 
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/favorites", favoritesRoutes);
 app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/orders", orderRoutes);
 

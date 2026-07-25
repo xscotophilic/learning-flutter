@@ -23,18 +23,20 @@ const mapLineItem = (row) => ({
 const mapOrderRow = (row, lineItemRows) => ({
   id: row.id.toString(),
   placed_at: row.placed_at.toISOString(),
+  payment_id: row.payment_id,
+  payment_method_id: row.payment_method_id,
   line_items: lineItemRows.map(mapLineItem),
 });
 
 const Order = {
-  async create({ ownerId, lineItems }) {
+  async create({ ownerId, lineItems, paymentId, paymentMethodId }) {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
 
       const { rows } = await client.query(
-        "INSERT INTO orders (owner_id) VALUES ($1) RETURNING *",
-        [ownerId],
+        "INSERT INTO orders (owner_id, payment_id, payment_method_id) VALUES ($1, $2, $3) RETURNING *",
+        [ownerId, paymentId, paymentMethodId],
       );
       const order = rows[0];
 

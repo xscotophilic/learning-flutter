@@ -217,7 +217,11 @@ pass "Prepare checkout"
 # Checkout
 #########################################
 
-request POST "/api/v1/orders" "$USER1" ""
+request POST "/api/v1/orders" "$USER1" "{
+\"cart_id\":$CART_ID,
+\"payment_id\":\"pay_123\",
+\"payment_method_id\":\"pm_123\"
+}"
 
 [[ "$STATUS" == "201" ]] || fail "Checkout"
 
@@ -237,11 +241,50 @@ pass "Orders"
 # Checkout again should fail
 #########################################
 
-request POST "/api/v1/orders" "$USER1" ""
+request POST "/api/v1/orders" "$USER1" "{
+\"cart_id\":$CART_ID,
+\"payment_id\":\"pay_123\",
+\"payment_method_id\":\"pm_123\"
+}"
 
 [[ "$STATUS" == "400" ]] || fail "Completed cart"
 
 pass "Completed cart"
+
+#########################################
+# Favorites
+#########################################
+
+# 1. Get initial favorites (should be empty array)
+request GET "/api/v1/favorites" "$USER1" ""
+[[ "$STATUS" == "200" ]] || fail "Get initial favorites"
+FAVORITES_COUNT=$(echo "$BODY" | jq '.data | length')
+[[ "$FAVORITES_COUNT" == "0" ]] || fail "Favorites not empty initially"
+pass "Get initial favorites"
+
+# 2. Add product to favorites
+request POST "/api/v1/favorites" "$USER1" "{\"product_id\":\"$PRODUCT_ID\"}"
+[[ "$STATUS" == "200" ]] || fail "Add favorite"
+pass "Add favorite"
+
+# 3. Get favorites (should contain the product id)
+request GET "/api/v1/favorites" "$USER1" ""
+[[ "$STATUS" == "200" ]] || fail "Get favorites after adding"
+HAS_FAVORITE=$(echo "$BODY" | jq -r ".data | contains([\"$PRODUCT_ID\"])")
+[[ "$HAS_FAVORITE" == "true" ]] || fail "Product ID missing from favorites"
+pass "Get favorites after adding"
+
+# 4. Remove product from favorites
+request DELETE "/api/v1/favorites/$PRODUCT_ID" "$USER1" ""
+[[ "$STATUS" == "200" ]] || fail "Remove favorite"
+pass "Remove favorite"
+
+# 5. Get favorites again (should be empty)
+request GET "/api/v1/favorites" "$USER1" ""
+[[ "$STATUS" == "200" ]] || fail "Get favorites after removing"
+FAVORITES_COUNT_AFTER=$(echo "$BODY" | jq '.data | length')
+[[ "$FAVORITES_COUNT_AFTER" == "0" ]] || fail "Favorites not empty after removing"
+pass "Get favorites after removing"
 
 #########################################
 # Delete wrong user

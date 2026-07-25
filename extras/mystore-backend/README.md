@@ -247,6 +247,69 @@ Deletes a product. Only the creator may delete it.
 { "message": "Permission denied" }
 ```
 
+## Favorites
+
+### `GET /favorites`
+
+Returns a list of product IDs favorited by the authenticated user.
+
+- **Auth required:** Yes
+- **Query params:** None
+- **Body:** None
+
+**Response `200 OK`**
+
+```json
+{
+  "data": ["1", "2"]
+}
+```
+
+### `POST /favorites`
+
+Adds a product to the authenticated user's favorites list.
+
+- **Auth required:** Yes
+
+**Body**
+
+```json
+{
+  "product_id": "1"
+}
+```
+
+| Field        | Type           | Required | Notes                               |
+| ------------ | -------------- | -------- | ----------------------------------- |
+| `product_id` | numeric string | Yes      | Must reference an existing product. |
+
+**Response `200 OK`**
+
+```json
+{
+  "data": null
+}
+```
+
+### `DELETE /favorites/:productId`
+
+Removes a product from the authenticated user's favorites list.
+
+- **Auth required:** Yes
+
+**Path params**
+| Param | Type | Notes |
+|---|---|---|
+| `productId` | numeric string | Product id to remove from favorites |
+
+**Response `200 OK`**
+
+```json
+{
+  "data": null
+}
+```
+
 ## Cart
 
 ### `GET /cart`
