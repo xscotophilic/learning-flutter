@@ -62,9 +62,7 @@ const Cart = {
     const numericId = parseInt(id, 10);
     if (Number.isNaN(numericId)) return null;
 
-    const rows = await query("SELECT * FROM carts WHERE id = $1", [
-      numericId,
-    ]);
+    const rows = await query("SELECT * FROM carts WHERE id = $1", [numericId]);
     if (!rows[0]) return null;
 
     const itemRows = await getItemRows(numericId);

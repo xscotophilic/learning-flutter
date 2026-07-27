@@ -2,7 +2,12 @@ import Cart from "../models/Cart.js";
 import Order from "../models/Order.js";
 import ApiError from "../utils/ApiError.js";
 
-export async function createOrderFromCart({ ownerId, cartId, paymentId, paymentMethodId }) {
+export async function createOrderFromCart({
+  ownerId,
+  cartId,
+  paymentId,
+  paymentMethodId,
+}) {
   const cart = await Cart.findById(cartId);
 
   if (!cart || cart.status === "completed" || cart.owner_id !== ownerId) {
@@ -15,7 +20,12 @@ export async function createOrderFromCart({ ownerId, cartId, paymentId, paymentM
     purchase_price: item.unit_price,
   }));
 
-  const order = await Order.create({ ownerId, lineItems, paymentId, paymentMethodId });
+  const order = await Order.create({
+    ownerId,
+    lineItems,
+    paymentId,
+    paymentMethodId,
+  });
 
   await Cart.updateStatus(cart.id, "completed");
 

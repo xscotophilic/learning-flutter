@@ -1,16 +1,17 @@
 import express from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
-import dummyAuth from "../middleware/dummyAuth.js";
 import {
   getFavoriteIds,
   addFavorite,
   removeFavorite,
 } from "../controllers/favorites.controller.js";
 
-const router = express.Router();
+export default function favoritesRouter(auth) {
+  const router = express.Router();
 
-router.get("/", dummyAuth, asyncHandler(getFavoriteIds));
-router.post("/", dummyAuth, asyncHandler(addFavorite));
-router.delete("/:productId", dummyAuth, asyncHandler(removeFavorite));
+  router.get("/", auth, asyncHandler(getFavoriteIds));
+  router.post("/", auth, asyncHandler(addFavorite));
+  router.delete("/:productId", auth, asyncHandler(removeFavorite));
 
-export default router;
+  return router;
+}

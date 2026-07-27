@@ -1,11 +1,12 @@
 import express from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
-import dummyAuth from "../middleware/dummyAuth.js";
 import { createOrder, getOrders } from "../controllers/orders.controller.js";
 
-const router = express.Router();
+export default function ordersRouter(auth) {
+  const router = express.Router();
 
-router.post("/", dummyAuth, asyncHandler(createOrder));
-router.get("/", dummyAuth, asyncHandler(getOrders));
+  router.post("/", auth, asyncHandler(createOrder));
+  router.get("/", auth, asyncHandler(getOrders));
 
-export default router;
+  return router;
+}
