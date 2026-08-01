@@ -16,7 +16,7 @@ const SELECT_PRODUCT = `
 `;
 
 const mapRow = (row) => ({
-  id: row.id.toString(),
+  id: row.id,
   name: row.name,
   description: row.description,
   price: Price.mapRow(row),
@@ -36,22 +36,17 @@ const Product = {
   },
 
   async findById(id) {
-    const numericId = parseInt(id, 10);
-    if (Number.isNaN(numericId)) return null;
-
-    const rows = await query(`${SELECT_PRODUCT} WHERE p.id = $1`, [numericId]);
+    const rows = await query(`${SELECT_PRODUCT} WHERE p.id = $1`, [id]);
     return rows[0] ? mapRow(rows[0]) : null;
   },
 
   async findByIds(ids) {
-    const numericIds = (ids || [])
-      .map((id) => parseInt(id, 10))
-      .filter((id) => !Number.isNaN(id));
+    const validIds = (ids || []).filter((id) => typeof id === "string" && id.length > 0);
 
-    if (numericIds.length === 0) return [];
+    if (validIds.length === 0) return [];
 
-    const rows = await query(`${SELECT_PRODUCT} WHERE p.id = ANY($1::int[])`, [
-      numericIds,
+    const rows = await query(`${SELECT_PRODUCT} WHERE p.id = ANY($1::uuid[])`, [
+      validIds,
     ]);
     return rows.map(mapRow);
   },

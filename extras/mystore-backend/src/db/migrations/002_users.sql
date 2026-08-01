@@ -1,9 +1,0 @@
-CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
-  google_sub TEXT NOT NULL UNIQUE,
-  email TEXT NOT NULL,
-  name TEXT,
-  picture TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);

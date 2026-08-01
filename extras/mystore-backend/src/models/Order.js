@@ -21,7 +21,7 @@ const mapLineItem = (row) => ({
 });
 
 const mapOrderRow = (row, lineItemRows) => ({
-  id: row.id.toString(),
+  id: row.id,
   placed_at: row.placed_at.toISOString(),
   payment_id: row.payment_id,
   payment_method_id: row.payment_method_id,

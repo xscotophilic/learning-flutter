@@ -11,7 +11,7 @@ export default function jwtAuth(req, res, next) {
 
   try {
     const payload = verifyAppToken(token);
-    req.user_id = String(payload.user_id);
+    req.user_id = payload.user_id;
     return next();
   } catch (err) {
     if (err instanceof jwt.TokenExpiredError) {

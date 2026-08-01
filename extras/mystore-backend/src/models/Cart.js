@@ -16,7 +16,7 @@ const SELECT_ITEMS = `
 `;
 
 const mapCartRow = (row, items) => ({
-  id: row.id.toString(),
+  id: row.id,
   owner_id: row.owner_id,
   created_at: row.created_at.toISOString(),
   status: row.status,
@@ -32,7 +32,7 @@ const mapCartRow = (row, items) => ({
 const getItemRows = async (cartId) => query(SELECT_ITEMS, [cartId]);
 
 const mapItem = (row) => ({
-  product_id: row.product_id.toString(),
+  product_id: row.product_id,
   unit_price: Price.mapRow(row),
   quantity: row.quantity,
 });
@@ -59,13 +59,10 @@ const Cart = {
   },
 
   async findById(id) {
-    const numericId = parseInt(id, 10);
-    if (Number.isNaN(numericId)) return null;
-
-    const rows = await query("SELECT * FROM carts WHERE id = $1", [numericId]);
+    const rows = await query("SELECT * FROM carts WHERE id = $1", [id]);
     if (!rows[0]) return null;
 
-    const itemRows = await getItemRows(numericId);
+    const itemRows = await getItemRows(id);
     return mapCartRow(rows[0], itemRows.map(mapItem));
   },
 
