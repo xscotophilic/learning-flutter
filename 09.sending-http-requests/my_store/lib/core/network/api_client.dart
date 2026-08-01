@@ -4,6 +4,7 @@ import 'dart:io' show SocketException;
 
 import 'package:http/http.dart' as http;
 import 'package:my_store/core/network/api_exception.dart';
+import 'package:my_store/core/utils/app_logger.dart';
 
 const Duration _timeout = Duration(seconds: 30);
 
@@ -124,6 +125,8 @@ class ApiClient {
     try {
       final response = await sendRequest();
 
+      AppLogger.i('HTTP ${response.request?.method ?? ''} ${response.request?.url} -> ${response.statusCode}');
+
       final decodedBody = _decodeBody(response.body);
       if (response.statusCode >= 200 && response.statusCode < 300) {
         if (decodedBody is Map<String, dynamic> &&
@@ -133,13 +136,18 @@ class ApiClient {
         return decodedBody;
       }
 
-      throw _mapErrorResponse(response.statusCode, decodedBody);
-    } on SocketException {
+      final error = _mapErrorResponse(response.statusCode, decodedBody);
+      AppLogger.w('API Exception: ${error.message} (${error.statusCode})');
+      throw error;
+    } on SocketException catch (e, st) {
+      AppLogger.e('Network SocketException', error: e, stackTrace: st);
       throw const NoInternetException();
-    } on TimeoutException {
+    } on TimeoutException catch (e, st) {
+      AppLogger.e('Network TimeoutException', error: e, stackTrace: st);
       throw const RequestTimeoutException();
     } catch (e, st) {
       if (e is ApiException) rethrow;
+      AppLogger.e('Unexpected API Error', error: e, stackTrace: st);
       throw Error.throwWithStackTrace(
         ServerException(statusCode: -1, message: 'Unknown error', error: e),
         st,
