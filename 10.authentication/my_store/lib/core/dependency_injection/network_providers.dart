@@ -1,18 +1,41 @@
-import 'package:http/http.dart' as http;
+import 'package:my_store/core/dependency_injection/service_providers.dart';
 import 'package:my_store/core/network/api_client.dart';
+import 'package:my_store/core/network/chained_client.dart';
+import 'package:my_store/core/network/interceptors/auth_interceptor.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'network_providers.g.dart';
 
 @Riverpod(keepAlive: true)
-http.Client httpClient(Ref ref) {
-  return http.Client();
+class AuthToken extends _$AuthToken {
+  @override
+  String? build() => null;
+
+  void setToken(String? token) {
+    state = token;
+  }
+}
+
+@Riverpod(keepAlive: true)
+AuthInterceptor authInterceptor(Ref ref) {
+  return AuthInterceptor(
+    tokenProvider: () => ref.read(authTokenProvider),
+    onUnauthorized: () {
+      ref.read(authTokenProvider.notifier).setToken(null);
+    },
+  );
 }
 
 @Riverpod(keepAlive: true)
 ApiClient apiClient(Ref ref) {
+  final httpClient = ChainedClient(
+    ref.watch(httpClientProvider),
+    interceptors: [ref.watch(authInterceptorProvider)],
+  );
+
   return ApiClient(
-    client: ref.watch(httpClientProvider),
-    baseUrl: 'http://192.168.1.6:3000/api/v1',
+    httpClient: httpClient,
+    baseUrl:
+        'https://victorious-determination-production-344e.up.railway.app/api/v2',
   );
 }

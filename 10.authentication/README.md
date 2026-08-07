@@ -88,28 +88,71 @@ android {
 }
 ```
 
-#### Getting a `GOOGLE_CLIENT_ID` for a Flutter app + webapp
+#### Setting up OAuth client IDs in Google Cloud Console
 
-If you have multiple clients (e.g. a Flutter app and a webapp), you'll create multiple OAuth client IDs in Google Cloud Console, but the backend generally only needs **one** of them:
+Even if you only have a Flutter app (Android + iOS) with no separate
+website, you still need to create a **Web application** OAuth client ID.
+It's what makes tokens from your native apps verifiable by this backend —
+Android/iOS-type client IDs exist only to authorize those native apps to
+sign in, they cannot be used as `serverClientId` or as this backend's
+`GOOGLE_CLIENT_ID`.
 
-1. In [Google Cloud Console](https://console.cloud.google.com/), create/select a project, then configure the **OAuth consent screen** under _APIs & Services_.
-2. Under _APIs & Services → Credentials → Create Credentials → OAuth client ID_, create one client ID per platform:
-   - **Web application** - used by your webapp directly.
-   - **Android** - requires your app's package name + SHA-1 signing fingerprint. When done this will give you a json file. Save it we will use it later.
-   - **iOS** - requires your app's bundle ID. When done this will give you a plist file. Save it we will use it later.
-3. In the Flutter app, configure `google_sign_in` with the **Web** client ID as `serverClientId`:
+1. In [Google Cloud Console](https://console.cloud.google.com/),
+   create/select a project, then configure the **OAuth consent screen**
+   under _APIs & Services_.
+2. Under _APIs & Services → Credentials → Create Credentials → OAuth
+   client ID_, create one client ID per platform:
+   - **Web application** - required even without a real webapp; this is
+     the only client ID type this backend can verify tokens against. You
+     can leave "Authorized JavaScript origins" / "redirect URIs" empty if
+     you have no browser-based flow yet.
+   - **Android** - requires your app's package name + SHA-1 signing
+     fingerprint.
+   - **iOS** - requires your app's bundle ID.
+   - Each client ID is shown on screen once created (Cloud Console also
+     lets you download a generic OAuth client JSON/plist for your own
+     reference, but this is not the same as Firebase's
+     `google-services.json` / `GoogleService-Info.plist` — it won't be
+     auto-read by the plugin, so just note down each client ID to use
+     manually below, we will need them later).
 
-   ```dart
-   final googleSignIn = GoogleSignIn(
-     serverClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
-   );
-   ```
+3. Set `GOOGLE_CLIENT_ID` in this backend's `.env` to the **Web
+   application** client ID. If you ever have tokens audienced to more
+   than one client ID, `GOOGLE_CLIENT_ID` also supports a comma-separated
+   list, and any of them will be accepted as a valid audience.
 
+4. Wire up the Flutter app so every platform's sign-in produces a token audienced to that same Web client ID, which is what lets this backend verify tokens from Android and iOS alike:
+   - **Android**: The Android client ID itself isn't passed anywhere in android native code nor in Dart. Google resolves it automatically from your package name and SHA-1 registered.
+   - **iOS**: add the **iOS** client ID to `ios/Runner/Info.plist` as `GIDClientID`, and add the required `CFBundleURLTypes` URL scheme (reversed client ID) — this URL scheme entry is required regardless of how `clientId`/`serverClientId` are configured.
+
+```xml
+    <!-- ios/Runner/Info.plist -->
+    <key>GIDClientID</key>
+    <string>YOUR_IOS_CLIENT_ID.apps.googleusercontent.com</string>
+
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <!-- REVERSED_CLIENT_ID for the iOS client -->
+          <string>com.googleusercontent.apps.YOUR_IOS_CLIENT_ID</string>
+        </array>
+      </dict>
+    </array>
 ```
 
-This makes Google issue an ID token audienced to your Web client ID even when the user signs in from the native app, so both clients produce tokens your backend can verify against the same ID.
+- Common: pass the **Web** client ID as `serverClientId` when initializing `GoogleSignIn` in dart
 
-4. Set `GOOGLE_CLIENT_ID` in your backend's `.env` to that **Web application** client ID.
-
-If you end up with tokens audienced to more than one client ID (e.g. a native flow that doesn't use `serverClientId`), `GOOGLE_CLIENT_ID` can be set to a comma-separated list and all of them will be accepted as valid audiences.
+```dart
+       final googleSignIn = GoogleSignIn(
+         serverClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
+       );
 ```
+
+Either way, Google issues an ID token audienced to the Web client ID
+even when the user signs in from a native app, so every client
+produces tokens this backend can verify against the same
+`GOOGLE_CLIENT_ID`.

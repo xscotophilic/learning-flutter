@@ -12,6 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Authentication
+  google_sign_in: ^7.2.0
+
   # Network
   http: ^1.6.0
 

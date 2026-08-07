@@ -9,14 +9,14 @@ import 'package:my_store/core/utils/app_logger.dart';
 const Duration _timeout = Duration(seconds: 30);
 
 class ApiClient {
-  const ApiClient({required this.client, required this.baseUrl});
+  const ApiClient({required this.httpClient, required this.baseUrl});
 
-  final http.Client client;
+  final http.Client httpClient;
   final String baseUrl;
 
   Future<dynamic> get(String path) {
     return _handleRequest(() {
-      final call = client.get(
+      final call = httpClient.get(
         Uri.parse('$baseUrl$path'),
         headers: {'Accept': 'application/json'},
       );
@@ -26,7 +26,7 @@ class ApiClient {
 
   Future<dynamic> post(String path, {Map<String, dynamic>? body}) {
     return _handleRequest(() {
-      final call = client.post(
+      final call = httpClient.post(
         Uri.parse('$baseUrl$path'),
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ class ApiClient {
 
   Future<dynamic> patch(String path, {Map<String, dynamic>? body}) {
     return _handleRequest(() {
-      final call = client.patch(
+      final call = httpClient.patch(
         Uri.parse('$baseUrl$path'),
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ class ApiClient {
 
   Future<dynamic> put(String path, {Map<String, dynamic>? body}) {
     return _handleRequest(() {
-      final call = client.put(
+      final call = httpClient.put(
         Uri.parse('$baseUrl$path'),
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ class ApiClient {
 
   Future<dynamic> delete(String path) async {
     return _handleRequest(() {
-      final call = client.delete(
+      final call = httpClient.delete(
         Uri.parse('$baseUrl$path'),
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,9 @@ class ApiClient {
     try {
       final response = await sendRequest();
 
-      AppLogger.i('HTTP ${response.request?.method ?? ''} ${response.request?.url} -> ${response.statusCode}');
+      AppLogger.i(
+        'HTTP ${response.request?.method ?? ''} ${response.request?.url} -> ${response.statusCode}',
+      );
 
       final decodedBody = _decodeBody(response.body);
       if (response.statusCode >= 200 && response.statusCode < 300) {
