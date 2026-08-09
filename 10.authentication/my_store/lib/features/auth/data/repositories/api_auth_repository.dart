@@ -11,6 +11,14 @@ final class ApiAuthRepository implements AuthRepository {
   final GoogleSignIn _googleSignIn;
 
   @override
+  Future<void> initialize() async {
+    await _googleSignIn.initialize(
+      serverClientId:
+          '133016414218-hujhmf162df52jsqp0qmf4aqqf4baupg.apps.googleusercontent.com',
+    );
+  }
+
+  @override
   Future<(String, User)> signInWithGoogle() async {
     final account = await _googleSignIn.authenticate();
     final idToken = account.authentication.idToken;

@@ -9,6 +9,57 @@ part of 'auth_usecase_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
+@ProviderFor(initializeAuthRepositoryUseCase)
+final initializeAuthRepositoryUseCaseProvider =
+    InitializeAuthRepositoryUseCaseProvider._();
+
+final class InitializeAuthRepositoryUseCaseProvider
+    extends
+        $FunctionalProvider<
+          InitializeAuthRepositoryUseCase,
+          InitializeAuthRepositoryUseCase,
+          InitializeAuthRepositoryUseCase
+        >
+    with $Provider<InitializeAuthRepositoryUseCase> {
+  InitializeAuthRepositoryUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'initializeAuthRepositoryUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$initializeAuthRepositoryUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<InitializeAuthRepositoryUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  InitializeAuthRepositoryUseCase create(Ref ref) {
+    return initializeAuthRepositoryUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(InitializeAuthRepositoryUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<InitializeAuthRepositoryUseCase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$initializeAuthRepositoryUseCaseHash() =>
+    r'ba3527014756e557a948e3cb592b20ed8366c94a';
+
 @ProviderFor(signInWithGoogleUseCase)
 final signInWithGoogleUseCaseProvider = SignInWithGoogleUseCaseProvider._();
 

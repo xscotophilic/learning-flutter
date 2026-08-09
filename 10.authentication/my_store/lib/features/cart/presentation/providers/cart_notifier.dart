@@ -1,8 +1,8 @@
+import 'package:my_store/core/dependency_injection/network_providers.dart';
 import 'package:my_store/features/cart/domain/entities/cart.dart';
 import 'package:my_store/features/cart/presentation/providers/cart_usecase_providers.dart';
 import 'package:my_store/features/orders/presentation/providers/orders_usecase_providers.dart';
-import 'package:my_store/features/product/presentation/providers/product_notifier.dart'
-    show productProvider;
+import 'package:my_store/features/product/presentation/providers/product_notifier.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_notifier.g.dart';
@@ -11,6 +11,11 @@ part 'cart_notifier.g.dart';
 class CartNotifier extends _$CartNotifier {
   @override
   Future<CartSnapshot<HydratedCartItem>> build() async {
+    final token = ref.watch(authTokenProvider);
+    if (token == null) {
+      return CartSnapshot(isMutating: false, cart: Cart.empty());
+    }
+
     final getHydratedCart = ref.watch(getHydratedCartUseCaseProvider);
     final cart = await getHydratedCart.execute();
 

@@ -1,3 +1,4 @@
+import 'package:my_store/core/dependency_injection/network_providers.dart';
 import 'package:my_store/features/favorites/presentation/providers/favorites_usecase_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -7,6 +8,9 @@ part 'favorites_notifier.g.dart';
 class FavoritesNotifier extends _$FavoritesNotifier {
   @override
   Future<Set<String>> build() async {
+    final token = ref.watch(authTokenProvider);
+    if (token == null) return {};
+
     final getFavoriteIds = ref.watch(getFavoriteIdsUseCaseProvider);
     return getFavoriteIds.execute();
   }

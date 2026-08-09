@@ -9,10 +9,15 @@ part 'auth_notifier.g.dart';
 class AuthNotifier extends _$AuthNotifier {
   @override
   FutureOr<AuthSnapshot> build() async {
+    final initializeAuthRepository = ref.read(
+      initializeAuthRepositoryUseCaseProvider,
+    );
+    await initializeAuthRepository.execute();
+
     return const AuthSnapshot(user: null);
   }
 
-  Future<void> signIn() async {
+  Future<void> signInWithGoogle() async {
     final snapshot = state.value ?? const AuthSnapshot(user: null);
     if (snapshot.isMutating) return;
 
@@ -38,8 +43,8 @@ class AuthNotifier extends _$AuthNotifier {
       final signOut = ref.read(signOutUseCaseProvider);
       await signOut.execute();
     } finally {
-      ref.read(authTokenProvider.notifier).setToken(null);
       state = const AsyncData(AuthSnapshot(user: null));
+      ref.read(authTokenProvider.notifier).setToken(null);
     }
   }
 }
