@@ -1,7 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_store/core/network/api_client.dart';
 import 'package:my_store/features/auth/data/models/auth_response_model.dart';
-import 'package:my_store/features/auth/domain/entities/user.dart';
+import 'package:my_store/features/auth/domain/entities/auth.dart';
 import 'package:my_store/features/auth/domain/repositories/auth_repository.dart';
 
 final class ApiAuthRepository implements AuthRepository {

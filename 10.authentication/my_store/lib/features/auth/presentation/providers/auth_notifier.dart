@@ -1,5 +1,5 @@
 import 'package:my_store/core/dependency_injection/network_providers.dart';
-import 'package:my_store/features/auth/domain/entities/auth_state.dart';
+import 'package:my_store/features/auth/domain/entities/auth.dart';
 import 'package:my_store/features/auth/presentation/providers/auth_usecase_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,7 +18,7 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<void> signInWithGoogle() async {
-    final snapshot = state.value ?? const AuthSnapshot(user: null);
+    final snapshot = state.value ?? await future;
     if (snapshot.isMutating) return;
 
     state = AsyncData(snapshot.copyWith(isMutating: true));
@@ -35,8 +35,8 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<void> signOut() async {
-    final snapshot = state.value;
-    if (snapshot == null || snapshot.isMutating) return;
+    final snapshot = state.value ?? await future;
+    if (snapshot.isMutating) return;
 
     state = AsyncData(snapshot.copyWith(isMutating: true));
     try {
