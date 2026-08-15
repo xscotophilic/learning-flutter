@@ -14,6 +14,15 @@ class AuthNotifier extends _$AuthNotifier {
     );
     await initializeAuthRepository.execute();
 
+    final restoreSession = ref.read(restoreSessionUseCaseProvider);
+    final session = await restoreSession.execute();
+
+    if (session != null) {
+      final (token, user) = session;
+      ref.read(authTokenProvider.notifier).setToken(token);
+      return AuthSnapshot(user: user);
+    }
+
     return const AuthSnapshot(user: null);
   }
 

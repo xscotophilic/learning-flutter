@@ -60,6 +60,54 @@ final class InitializeAuthRepositoryUseCaseProvider
 String _$initializeAuthRepositoryUseCaseHash() =>
     r'ba3527014756e557a948e3cb592b20ed8366c94a';
 
+@ProviderFor(restoreSessionUseCase)
+final restoreSessionUseCaseProvider = RestoreSessionUseCaseProvider._();
+
+final class RestoreSessionUseCaseProvider
+    extends
+        $FunctionalProvider<
+          RestoreSessionUseCase,
+          RestoreSessionUseCase,
+          RestoreSessionUseCase
+        >
+    with $Provider<RestoreSessionUseCase> {
+  RestoreSessionUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'restoreSessionUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$restoreSessionUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<RestoreSessionUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RestoreSessionUseCase create(Ref ref) {
+    return restoreSessionUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RestoreSessionUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RestoreSessionUseCase>(value),
+    );
+  }
+}
+
+String _$restoreSessionUseCaseHash() =>
+    r'344e3ede5bce5ab261ccc5888a24be03d82595ef';
+
 @ProviderFor(signInWithGoogleUseCase)
 final signInWithGoogleUseCaseProvider = SignInWithGoogleUseCaseProvider._();
 

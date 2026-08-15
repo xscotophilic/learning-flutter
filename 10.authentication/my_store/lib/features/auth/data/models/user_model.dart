@@ -25,4 +25,11 @@ class UserModel {
   User toDomain() {
     return User(id: id, email: email, name: name, picture: picture);
   }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'email': email,
+    'name': name,
+    'picture': picture,
+  };
 }

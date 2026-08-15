@@ -1,42 +1,54 @@
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:my_store/core/network/api_client.dart';
-import 'package:my_store/features/auth/data/models/auth_response_model.dart';
+import 'package:my_store/features/auth/data/local/auth_local_data_source.dart';
+import 'package:my_store/features/auth/data/local/auth_remote_data_source.dart';
+import 'package:my_store/features/auth/data/local/google_auth_data_source.dart';
 import 'package:my_store/features/auth/domain/entities/auth.dart';
 import 'package:my_store/features/auth/domain/repositories/auth_repository.dart';
 
 final class ApiAuthRepository implements AuthRepository {
-  ApiAuthRepository(this._apiClient, this._googleSignIn);
+  ApiAuthRepository(
+    this._googleAuthDataSource,
+    this._remoteDataSource,
+    this._localDataSource,
+  );
 
-  final ApiClient _apiClient;
-  final GoogleSignIn _googleSignIn;
+  final GoogleAuthDataSource _googleAuthDataSource;
+  final AuthRemoteDataSource _remoteDataSource;
+  final AuthLocalDataSource _localDataSource;
 
   @override
   Future<void> initialize() async {
-    await _googleSignIn.initialize(
-      serverClientId:
-          '133016414218-hujhmf162df52jsqp0qmf4aqqf4baupg.apps.googleusercontent.com',
+    await _googleAuthDataSource.initialize(
+      '133016414218-hujhmf162df52jsqp0qmf4aqqf4baupg.apps.googleusercontent.com',
     );
   }
 
   @override
+  Future<(String, User)?> restoreSession() async {
+    final session = await _localDataSource.loadSession();
+    if (session == null) return null;
+
+    final (token, userModel) = session;
+    return (token, userModel.toDomain());
+  }
+
+  @override
   Future<(String, User)> signInWithGoogle() async {
-    final account = await _googleSignIn.authenticate();
-    final idToken = account.authentication.idToken;
+    final idToken = await _googleAuthDataSource.authenticate();
     if (idToken == null) {
       throw Exception('Failed to retrieve Google ID token.');
     }
 
-    final json = await _apiClient.post(
-      '/auth/google',
-      body: {'id_token': idToken},
-    );
-    final response = AuthResponseModel.fromJson(json as Map<String, dynamic>);
+    final response = await _remoteDataSource.signInWithGoogle(idToken);
 
+    await _localDataSource.saveSession(response.token, response.user);
     return (response.token, response.user.toDomain());
   }
 
   @override
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
+    await Future.wait([
+      _googleAuthDataSource.signOut(),
+      _localDataSource.clearSession(),
+    ]);
   }
 }

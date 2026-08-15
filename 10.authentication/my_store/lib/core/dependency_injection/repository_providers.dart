@@ -1,5 +1,5 @@
+import 'package:my_store/core/dependency_injection/datasource_providers.dart';
 import 'package:my_store/core/dependency_injection/network_providers.dart';
-import 'package:my_store/core/dependency_injection/service_providers.dart';
 import 'package:my_store/features/auth/data/repositories/api_auth_repository.dart';
 import 'package:my_store/features/auth/domain/repositories/auth_repository.dart';
 import 'package:my_store/features/cart/data/repositories/api_cart_repository.dart';
@@ -31,8 +31,9 @@ RemoteConfigRepository remoteConfigRepository(Ref ref) {
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) {
   return ApiAuthRepository(
-    ref.watch(apiClientProvider),
-    ref.watch(googleSignInProvider),
+    ref.watch(googleAuthDataSourceProvider),
+    ref.watch(authRemoteDataSourceProvider),
+    ref.watch(authLocalDataSourceProvider),
   );
 }
 
