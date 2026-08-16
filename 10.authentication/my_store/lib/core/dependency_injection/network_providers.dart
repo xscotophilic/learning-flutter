@@ -38,7 +38,6 @@ ApiClient apiClient(Ref ref) {
 
   return ApiClient(
     httpClient: httpClient,
-    baseUrl:
-        'https://victorious-determination-production-344e.up.railway.app/api/v2',
+    baseUrl: 'https://your-app.domain/api/v2',
   );
 }
