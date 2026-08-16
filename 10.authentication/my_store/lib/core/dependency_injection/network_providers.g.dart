@@ -100,7 +100,7 @@ final class AuthInterceptorProvider
   }
 }
 
-String _$authInterceptorHash() => r'6e4ba7b26c37a98a676115bfb0f8ef158b67960a';
+String _$authInterceptorHash() => r'5dc291a285d098a5ebd34058eefc1675b7a24b42';
 
 @ProviderFor(apiClient)
 final apiClientProvider = ApiClientProvider._();

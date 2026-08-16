@@ -1,4 +1,6 @@
 import 'package:my_store/core/dependency_injection/service_providers.dart';
+import 'package:my_store/core/events/app_event.dart';
+import 'package:my_store/core/events/event_bus.dart';
 import 'package:my_store/core/network/api_client.dart';
 import 'package:my_store/core/network/chained_client.dart';
 import 'package:my_store/core/network/interceptors/auth_interceptor.dart';
@@ -22,6 +24,7 @@ AuthInterceptor authInterceptor(Ref ref) {
     tokenProvider: () => ref.read(authTokenProvider),
     onUnauthorized: () {
       ref.read(authTokenProvider.notifier).setToken(null);
+      ref.read(eventBusProvider.notifier).emit(SessionExpiredEvent());
     },
   );
 }
