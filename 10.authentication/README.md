@@ -1,158 +1,59 @@
-### To setup android app you will need SHA-1 fingerprint.
+# Authentication
 
-If you are just learning and not planning to deploy the app, you can use the debug keystore.
+## Project Structure
 
-```bash
-keytool -list -v \
-  -alias androiddebugkey \
-  -keystore ~/.android/debug.keystore \
-  -storepass android \
-  -keypass android
+```text
+├── README.md
+├── docs/
+│   ├── 01.google_sign_in_and_oauth_setup.md
+│   ├── 02.secure_storage_and_session_persistence.md
+│   ├── 03.request_interception_and_token_management.md
+│   ├── 04.auth_state_notifier_and_usecases.md
+│   └── 05.my_store_auth_walkthrough.md
+└── my_store/
+    └── Complete showcase application with Google Sign-In
 ```
 
-if you wanna generate your own keystore run this command (preferred for deployment):
+## What We Will Learn
 
-```bash
-keytool -genkeypair -v \
-  -keystore ~/upload-keystore.jks \
-  -keyalg RSA \
-  -keysize 2048 \
-  -validity 10000 \
-  -alias upload
-```
+- Integrate Google Sign-In authentication in Flutter
+- Configure Google Cloud OAuth Client credentials for Web, Android, and iOS platforms
+- Persist authentication tokens and user profiles using `flutter_secure_storage`
+- Build a custom request interceptor pipeline using `ChainedClient` to attach bearer tokens automatically
+- Handle session expiration (`401 Unauthorized`) globally using a central Event Bus
+- Guard UI navigation and feature actions (such as adding favorites or modifying cart) based on authentication state
+- Wipe in-memory and UI state cache (Cart, Favorites) upon logout or token invalidation
 
-This will generate a keystore file in your home directory named `upload-keystore.jks`.
+---
 
-Move this keystore to your project's android/ directory. Now you can get SHA-1 of this keystore by running the following command:
+## Documentation
 
-```bash
-keytool -list -v -keystore android/upload-keystore.jks
-```
+### Recommended Reading Order
 
-Store this SHA-1 fingerprint somewhere, we will need it later.
+Read these guides in order:
 
-In the android/ directory of your Flutter project, create a file named: android/key.properties
+1. [docs/01.google_sign_in_and_oauth_setup.md](docs/01.google_sign_in_and_oauth_setup.md)
+2. [docs/02.secure_storage_and_session_persistence.md](docs/02.secure_storage_and_session_persistence.md)
+3. [docs/03.request_interception_and_token_management.md](docs/03.request_interception_and_token_management.md)
+4. [docs/04.auth_state_notifier_and_usecases.md](docs/04.auth_state_notifier_and_usecases.md)
+5. [docs/05.my_store_auth_walkthrough.md](docs/05.my_store_auth_walkthrough.md)
 
-```
-storePassword=YOUR_KEYSTORE_PASSWORD
-keyPassword=YOUR_KEY_PASSWORD
-keyAlias=YOUR_ALIAS
-storeFile=/absolute/path/to/upload-keystore.jks
-```
+### Section 1: Google Sign-In & OAuth Setup
 
-Configure Gradle `android/app/build.gradle.kts`
+Configure developer credentials in the Google Cloud Console, retrieve SHA-1 fingerprints for Android, register reversed schemes in iOS, and wire up `google_sign_in` in Dart. See [docs/01.google_sign_in_and_oauth_setup.md](docs/01.google_sign_in_and_oauth_setup.md).
 
-Example
+### Section 2: Secure Storage & Session Persistence
 
-```
-import java.util.Properties
+Implement secure key-value storage using the `flutter_secure_storage` library and serialize the user session to keep the user signed in across app launches. See [docs/02.secure_storage_and_session_persistence.md](docs/02.secure_storage_and_session_persistence.md).
 
-plugins {
-    ...
-}
+### Section 3: Request Interception & Token Management
 
-val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("key.properties")
+Build interceptors to attach Authorization headers to outgoing network requests and handle expired tokens globally. See [docs/03.request_interception_and_token_management.md](docs/03.request_interception_and_token_management.md).
 
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(keystorePropertiesFile.inputStream())
-}
+### Section 4: Auth State Notifier & Clean Architecture Usecases
 
-android {
-    ...
+Review the domain entities, usecases, repositories, and Riverpod providers used to manage and expose auth state. See [docs/04.auth_state_notifier_and_usecases.md](docs/04.auth_state_notifier_and_usecases.md).
 
-    signingConfigs {
-        if (keystorePropertiesFile.exists()) {
-            create("release") {
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-                storeFile = file(keystoreProperties["storeFile"] as String)
-                storePassword = keystoreProperties["storePassword"] as String
-            }
-        }
-    }
+### Section 5: Showcase App Walkthrough
 
-    buildTypes {
-        debug {
-            signingConfig = signingConfigs.getByName("debug")
-        }
-
-        release {
-            signingConfig = if (keystorePropertiesFile.exists()) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
-            }
-        }
-    }
-}
-```
-
-#### Setting up OAuth client IDs in Google Cloud Console
-
-Even if you only have a Flutter app (Android + iOS) with no separate
-website, you still need to create a **Web application** OAuth client ID.
-It's what makes tokens from your native apps verifiable by this backend —
-Android/iOS-type client IDs exist only to authorize those native apps to
-sign in, they cannot be used as `serverClientId` or as this backend's
-`GOOGLE_CLIENT_ID`.
-
-1. In [Google Cloud Console](https://console.cloud.google.com/),
-   create/select a project, then configure the **OAuth consent screen**
-   under _APIs & Services_.
-2. Under _APIs & Services → Credentials → Create Credentials → OAuth
-   client ID_, create one client ID per platform:
-   - **Web application** - required even without a real webapp; this is
-     the only client ID type this backend can verify tokens against. You
-     can leave "Authorized JavaScript origins" / "redirect URIs" empty if
-     you have no browser-based flow yet.
-   - **Android** - requires your app's package name + SHA-1 signing
-     fingerprint.
-   - **iOS** - requires your app's bundle ID.
-   - Each client ID is shown on screen once created (Cloud Console also
-     lets you download a generic OAuth client JSON/plist for your own
-     reference, but this is not the same as Firebase's
-     `google-services.json` / `GoogleService-Info.plist` — it won't be
-     auto-read by the plugin, so just note down each client ID to use
-     manually below, we will need them later).
-
-3. Set `GOOGLE_CLIENT_ID` in this backend's `.env` to the **Web
-   application** client ID. If you ever have tokens audienced to more
-   than one client ID, `GOOGLE_CLIENT_ID` also supports a comma-separated
-   list, and any of them will be accepted as a valid audience.
-
-4. Wire up the Flutter app so every platform's sign-in produces a token audienced to that same Web client ID, which is what lets this backend verify tokens from Android and iOS alike:
-   - **Android**: The Android client ID itself isn't passed anywhere in android native code nor in Dart. Google resolves it automatically from your package name and SHA-1 registered.
-   - **iOS**: add the **iOS** client ID to `ios/Runner/Info.plist` as `GIDClientID`, and add the required `CFBundleURLTypes` URL scheme (reversed client ID) — this URL scheme entry is required regardless of how `clientId`/`serverClientId` are configured.
-
-```xml
-    <!-- ios/Runner/Info.plist -->
-    <key>GIDClientID</key>
-    <string>YOUR_IOS_CLIENT_ID.apps.googleusercontent.com</string>
-
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <!-- REVERSED_CLIENT_ID for the iOS client -->
-          <string>com.googleusercontent.apps.YOUR_IOS_CLIENT_ID</string>
-        </array>
-      </dict>
-    </array>
-```
-
-- Common: pass the **Web** client ID as `serverClientId` when initializing `GoogleSignIn` in dart
-
-```dart
-       final googleSignIn = GoogleSignIn(
-         serverClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
-       );
-```
-
-Either way, Google issues an ID token audienced to the Web client ID
-even when the user signs in from a native app, so every client
-produces tokens this backend can verify against the same
-`GOOGLE_CLIENT_ID`.
+Observe how authentication guards navigation and actions in the UI, coordinates state clearing reactively, and behaves on startup. See [docs/05.my_store_auth_walkthrough.md](docs/05.my_store_auth_walkthrough.md).
