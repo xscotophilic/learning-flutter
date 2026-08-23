@@ -9,8 +9,10 @@ part 'splash_notifier.g.dart';
 class SplashNotifier extends _$SplashNotifier {
   @override
   Future<SplashState> build() async {
-    // We need token, user, and splash data before we continue,
-    // so we wait for auth state and splash data to be ready
+    // We wait for both auth and splash data before continuing. Auth is
+    // `read` (not `watch`) since we just need token/user populated once
+    // before proceeding, and we don't need to react to auth changes
+    // afterwards.
     final results = await (
       ref.read(authProvider.future),
       ref.watch(checkAppStatusUseCaseProvider).execute(),
