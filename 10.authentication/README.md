@@ -24,8 +24,6 @@
 - Guard UI navigation and feature actions (such as adding favorites or modifying cart) based on authentication state
 - Wipe in-memory and UI state cache (Cart, Favorites) upon logout or token invalidation
 
----
-
 ## Documentation
 
 ### Recommended Reading Order
