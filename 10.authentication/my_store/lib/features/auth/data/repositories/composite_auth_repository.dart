@@ -18,7 +18,7 @@ final class CompositeAuthRepository implements AuthRepository {
   @override
   Future<void> initialize() async {
     await _googleAuthDataSource.initialize(
-      '133016414218-hujhmf162df52jsqp0qmf4aqqf4baupg.apps.googleusercontent.com',
+      'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
     );
   }
 
