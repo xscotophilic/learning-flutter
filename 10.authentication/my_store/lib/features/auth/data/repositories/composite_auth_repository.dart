@@ -4,8 +4,8 @@ import 'package:my_store/features/auth/data/local/google_auth_data_source.dart';
 import 'package:my_store/features/auth/domain/entities/auth.dart';
 import 'package:my_store/features/auth/domain/repositories/auth_repository.dart';
 
-final class ApiAuthRepository implements AuthRepository {
-  ApiAuthRepository(
+final class CompositeAuthRepository implements AuthRepository {
+  CompositeAuthRepository(
     this._googleAuthDataSource,
     this._remoteDataSource,
     this._localDataSource,
