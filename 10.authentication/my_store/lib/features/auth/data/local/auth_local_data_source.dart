@@ -21,8 +21,10 @@ class AuthLocalDataSource {
   }
 
   Future<(String, UserModel)?> loadSession() async {
-    final token = await _storage.read(_Keys.token);
-    final userJson = await _storage.read(_Keys.user);
+    final (token, userJson) = await (
+      _storage.read(_Keys.token),
+      _storage.read(_Keys.user),
+    ).wait;
 
     if (token == null || userJson == null) return null;
 
