@@ -139,7 +139,8 @@ Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: meal.id);
 
 Most real-world navigation involves sending data to the destination screen. Flutter handles this through the `arguments` parameter on `pushNamed`; you can pass any object.
 
-> **Note:** You will notice that we access args in the `build` method. To understand why this is necessary and how to safely access arguments earlier in the lifecycle, check out [Reading Route Arguments Early](complex_navigation_concepts.md#reading-route-arguments-early) in the complex navigation guide.
+> [!NOTE]
+> You will notice that we access args in the `build` method. To understand why this is necessary and how to safely access arguments earlier in the lifecycle, check out [Reading Route Arguments Early](complex_navigation_concepts.md#reading-route-arguments-early) in the complex navigation guide.
 
 ### Passing a map (e.g. category ID and title)
 
@@ -170,7 +171,8 @@ Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: meal.id);
 final mealID = ModalRoute.of(context)?.settings.arguments as String;
 ```
 
-> **Tip:** Use `?.settings.arguments` (with `?`) when arguments might be null.
+> [!TIP]
+> Use `?.settings.arguments` (with `?`) when arguments might be null.
 
 ## Unknown routes
 
@@ -209,7 +211,8 @@ ListTile(
 )
 ```
 
-> **Important:** Use `pushReplacementNamed` for drawer navigation. Using `pushNamed` adds a new screen to the stack on every tap, so the user has to press back through all of them.
+> [!IMPORTANT]
+> Use `pushReplacementNamed` for drawer navigation. Using `pushNamed` adds a new screen to the stack on every tap, so the user has to press back through all of them.
 
 ## Bottom navigation bar
 
@@ -270,7 +273,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 ```
 
-> **Tip:** You can use Flutter's built-in `BottomNavigationBar` widget for standard Material styling, or build a fully custom one with `Row` and `InkWell`; the state management pattern is the same either way.
+> [!TIP]
+> You can use Flutter's built-in `BottomNavigationBar` widget for standard Material styling, or build a fully custom one with `Row` and `InkWell`; the state management pattern is the same either way.
 
 The more complex way to implement bottom navigation is using multiple navigators, each navigator has its own stack. This is useful for apps that have multiple independent navigation stacks, such as a tab bar with nested navigation. You can refer to [Persistent bottom navigation with nested stacks](complex_navigation_concepts.md#persistent-bottom-navigation-with-nested-stacks) for more details.
 

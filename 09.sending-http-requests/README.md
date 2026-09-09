@@ -1,5 +1,8 @@
 # Sending HTTP Requests
 
+> [!IMPORTANT]
+> **Backend Setup:** This section requires a running REST API backend. You can either use the sample backend at [`extras/mystore-backend`](../extras/mystore-backend/) (locally or deployed - use v1 end-points) or connect your own backend. Detailed setup and configuration instructions can be found in [`my_store/README.md`](my_store/README.md).
+
 ## Project Structure
 
 ```text
@@ -12,9 +15,6 @@
 └── my_store/
     └── Complete showcase application
 ```
-
-> [!NOTE]
-> **Backend Setup:** This section requires a running REST API backend. You can either use the sample backend at [`extras/mystore-backend`](../extras/mystore-backend/) (locally or deployed - use v1 end-points) or connect your own backend. Detailed setup and configuration instructions can be found in [`my_store/README.md`](my_store/README.md).
 
 ## What We Will Learn
 

@@ -12,7 +12,7 @@ By default this points to a placeholder value; swap it out for the API you want 
 
 **Options:**
 
-- **Demo backend (for following along with this tutorial)** - a sample server is included at [`extras/mystore-backend`](../../extras/mystore-backend/). If you are using sample server, make sure you are using v1 endpoints (cause they don't require any authentication).
+- **Demo backend (for following along with this tutorial)** - a sample server is included at [`extras/mystore-backend`](../../extras/mystore-backend/). If you are using sample server, **make sure you are using v1 endpoints (cause they don't require any authentication)**.
   - Run it locally and set `baseUrl` accordingly: `http://[YOUR_LOCAL_IP]:3000/api/v1`
   - Deploy it yourself - you can also deploy the demo backend (or your own) to a server and just paste that API URL into `baseUrl`.
 - **Your own backend** - point `baseUrl` directly at it. But with that you'll have to change the flutter code to match your backend.

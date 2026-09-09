@@ -1,5 +1,8 @@
 # Authentication
 
+> [!IMPORTANT]
+> **Backend Setup:** This section requires a running REST API backend. You can either use the sample backend at [`extras/mystore-backend`](../extras/mystore-backend/) (locally or deployed - use v2 end-points) or connect your own backend. Detailed setup and configuration instructions can be found in [`my_store/README.md`](my_store/README.md).
+
 ## Project Structure
 
 ```text
@@ -9,13 +12,10 @@
 │   ├── 02.secure_storage_and_session_persistence.md
 │   ├── 03.request_interception_and_token_management.md
 │   ├── 04.auth_state_notifier_and_usecases.md
-│   └── 05.my_store_auth_walkthrough.md
+│   └── 05.my_store_walkthrough.md
 └── my_store/
     └── Complete showcase application with Google Sign-In
 ```
-
-> [!NOTE]
-> **Backend Setup:** This section requires a running REST API backend. You can either use the sample backend at [`extras/mystore-backend`](../extras/mystore-backend/) (locally or deployed - use v2 end-points) or connect your own backend. Detailed setup and configuration instructions can be found in [`my_store/README.md`](my_store/README.md).
 
 ## What We Will Learn
 
@@ -37,7 +37,7 @@ Read these guides in order:
 2. [docs/02.secure_storage_and_session_persistence.md](docs/02.secure_storage_and_session_persistence.md)
 3. [docs/03.request_interception_and_token_management.md](docs/03.request_interception_and_token_management.md)
 4. [docs/04.auth_state_notifier_and_usecases.md](docs/04.auth_state_notifier_and_usecases.md)
-5. [docs/05.my_store_auth_walkthrough.md](docs/05.my_store_auth_walkthrough.md)
+5. [docs/05.my_store_walkthrough.md](docs/05.my_store_walkthrough.md)
 
 ### Section 1: Google Sign-In & OAuth Setup
 
@@ -57,4 +57,4 @@ Review the domain entities, usecases, repositories, and Riverpod providers used 
 
 ### Section 5: Showcase App Walkthrough
 
-Observe how authentication guards navigation and actions in the UI, coordinates state clearing reactively, and behaves on startup. See [docs/05.my_store_auth_walkthrough.md](docs/05.my_store_auth_walkthrough.md).
+Observe how authentication guards navigation and actions in the UI, coordinates state clearing reactively, and behaves on startup. See [docs/05.my_store_walkthrough.md](docs/05.my_store_walkthrough.md).

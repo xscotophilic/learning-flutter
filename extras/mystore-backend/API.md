@@ -457,7 +457,8 @@ Places an order from the authenticated user's active cart. Copies each cart item
 { "message": "Invalid cart" }
 ```
 
-> Note: an empty active cart (no items) is not rejected — it will produce an order with an empty `line_items` array.
+> [!NOTE]
+> An empty active cart (no items) is not rejected — it will produce an order with an empty `line_items` array.
 
 ### `GET /orders`
 

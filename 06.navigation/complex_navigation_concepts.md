@@ -1,6 +1,7 @@
 # Complex Navigation Concepts
 
-> **Note:** For fundamental routing, pushing, popping, and named routes, see [README.md](README.md).
+> [!NOTE]
+> For fundamental routing, pushing, popping, and named routes, see [README.md](README.md).
 
 ## Table of Contents
 
@@ -195,4 +196,5 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Each tab's `Navigator` manages its own stack independently; navigating inside tab A doesn't affect tab B's stack at all.
 
-> **Note:** This is significantly more complex to set up and debug. Only reach for it when your app genuinely needs per-tab navigation history. For most apps, the simple index-swap pattern is enough.
+> [!NOTE]
+> This is significantly more complex to set up and debug. Only reach for it when your app genuinely needs per-tab navigation history. For most apps, the simple index-swap pattern is enough.
