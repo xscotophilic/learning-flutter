@@ -23,7 +23,7 @@ A responsive Flutter app reads the current screen dimensions and adjusts its lay
 | **`LayoutBuilder`**      | Provides the _parent widget's_ constraints, making it ideal for responsive child layouts. |
 | **`AspectRatio`**        | Forces a child widget to maintain a specific width-to-height ratio.                       |
 | **`FittedBox`**          | Scales and positions its child to fit within the available space.                         |
-| **`OrientationBuilder`** | Rebuilds its subtree when the device orientation changes (portrait ↔ landscape).          |
+| **`OrientationBuilder`** | Rebuilds its subtree when the device orientation changes (portrait <-> landscape).        |
 
 ### Example: Switching Layout on Orientation
 
