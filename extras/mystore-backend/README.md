@@ -1,111 +1,38 @@
 # MyStore Backend
 
-A REST API backend for the MyStore application.
+MyStore is a small REST API built as an **educational project only**.
 
-For detailed API documentation, endpoint descriptions, and payloads, see the [API Specification](./API.md).
+The code is intentionally structured so you can see how routing, authentication, controllers, services, models, PostgreSQL, migrations, Docker, and integration testing fit together without a large framework or unnecessary abstraction.
 
-## Getting Started
+> [!IMPORTANT]
+> **Educational project only.** Some choices are intentionally simplified for learning, including the fixed demo identity used by v1 and the illustrative payment-related data.
 
-Follow these steps to set up and run the backend locally.
+## Where should I start?
 
-### Prerequisites
+Choose the path that matches what you want to do:
 
-- [Node.js](https://nodejs.org/) (v22 or later recommended)
-- [PostgreSQL](https://www.postgresql.org/) database (running locally or via Docker)
+- **I just want to run it** -> [Local Setup](./docs/SETUP.md)
+- **I want to understand how it works** -> [Learning Guide](./docs/LEARNING_GUIDE.md)
+- **I want to understand the architecture** -> [Architecture & Design](./docs/ARCHITECTURE.md)
+- **I am looking for an endpoint** -> [API Reference](./openapi.yaml)
 
-### Setup and Installation
+If you are learning backend development, start with the [Learning Guide](./docs/LEARNING_GUIDE.md). It explains the request flow in plain language and then points you to the exact files to read.
 
-1. **Install dependencies:**
+## Quick start
 
-   ```bash
-   npm install
-   ```
+Check [Local Setup](./docs/SETUP.md) for the setup instructions.
 
-2. **Configure Environment Variables:**
-   Copy the example environment file to `.env`:
+## Documentation
 
-   ```bash
-   cp .env.example .env
-   ```
+| Document                                        | Use it for                                                                                           |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [Local Setup](./docs/SETUP.md)                  | configuration, migrations, running the project, and troubleshooting                                  |
+| [Learning Guide](./docs/LEARNING_GUIDE.md)      | A step-by-step path for studying and extending the code                                              |
+| [Architecture & Design](./docs/ARCHITECTURE.md) | Architecture, request lifecycle, authentication, database design, transactions, and design decisions |
+| [API Reference](./openapi.yaml)                 | Endpoints, request/response formats, authentication, errors, and examples                            |
 
-   Open the `.env` file and configure your local settings:
-   - `PORT`: Server port (defaults to `3000`).
-   - `DATABASE_URL`: PostgreSQL connection URI.
-   - `JWT_SECRET`: Secret key for JWT generation (required for `/api/v2/*` JWT tokens).
-   - `GOOGLE_CLIENT_ID`: Google OAuth client ID (required for `/api/v2/*` Google Sign-In).
+## Project scope
 
-#### Getting a `GOOGLE_CLIENT_ID`
+The repository is intentionally small enough to study while still demonstrating concepts commonly found in larger backend applications. It is **not intended to be used as a real commerce backend** without substantial additional work.
 
-If you have multiple clients (e.g. a Flutter app and a webapp), you'll create multiple OAuth client IDs in Google Cloud Console, but the backend generally only needs **one** of them:
-
-1. In [Google Cloud Console](https://console.cloud.google.com/), create/select a project, then configure the **OAuth consent screen** under _APIs & Services_.
-2. Under _APIs & Services → Credentials → Create Credentials → OAuth client ID_, create one client ID per platform:
-   - **Web application** - used by your webapp directly.
-   - **Android** - requires your app's package name + SHA-1 signing fingerprint.
-   - **iOS** - requires your app's bundle ID.
-3. In the Flutter app, configure `google_sign_in` with the **Web** client ID as `serverClientId`:
-
-   ```dart
-   final googleSignIn = GoogleSignIn(
-     serverClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
-   );
-   ```
-
-   This makes Google issue an ID token audienced to your Web client ID even when the user signs in from the native app, so both clients produce tokens your backend can verify against the same ID.
-
-4. Set `GOOGLE_CLIENT_ID` in your backend's `.env` to that **Web application** client ID.
-
-If you end up with tokens audienced to more than one client ID (e.g. a native flow that doesn't use `serverClientId`), `GOOGLE_CLIENT_ID` can be set to a comma-separated list and all of them will be accepted as valid audiences.
-
-### Running the Server
-
-- **Development Mode** (with hot-reloading on file changes):
-
-  ```bash
-  npm run dev
-  ```
-
-- **Production Mode**:
-  ```bash
-  npm start
-  ```
-
-### Docker
-
-#### Run Locally
-
-1. **Build the Docker image:**
-
-   ```bash
-   docker build -t mystore-backend .
-   ```
-
-2. **Run the container:**
-
-   Make sure your `.env` file is configured, then run:
-
-   ```bash
-   docker run -p 3000:3000 --env-file .env mystore-backend
-   ```
-
-#### Push to Docker Hub (Multi-Platform / Cross-Platform)
-
-To build and push images supporting multiple architectures (e.g., `linux/amd64` and `linux/arm64`):
-
-1. **Log in to Docker Hub:**
-
-   ```bash
-   docker login
-   ```
-
-2. **Create and use a new buildx builder (if you haven't already):**
-
-   ```bash
-   docker buildx create --use
-   ```
-
-3. **Build and push the multi-platform image:**
-
-   ```bash
-   docker buildx build --platform linux/amd64,linux/arm64 -t <your-dockerhub-username>/mystore-backend:latest --push .
-   ```
+See [Architecture & Design](./docs/ARCHITECTURE.md#11-intentional-limitations) for the boundaries and deliberate simplifications in the project.

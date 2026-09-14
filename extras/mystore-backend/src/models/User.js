@@ -2,7 +2,6 @@ import { query } from "../db/index.js";
 
 const mapRow = (row) => ({
   id: row.id,
-  google_sub: row.google_sub,
   email: row.email,
   name: row.name,
   picture: row.picture,
