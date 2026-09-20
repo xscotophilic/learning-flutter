@@ -40,24 +40,22 @@ export async function createProduct(req, res) {
 }
 
 export async function updateProduct(req, res) {
+  const productId = req.params.id;
   const { name, description, price, image_url: imageUrl } = req.body;
 
-  const product = await productService.updateProduct(
-    req.params.id,
-    req.user_id,
-    {
-      name,
-      description,
-      price,
-      imageUrl,
-    },
-  );
+  const product = await productService.updateProduct(productId, req.user_id, {
+    name,
+    description,
+    price,
+    imageUrl,
+  });
 
   res.status(200).json({ data: product });
 }
 
 export async function deleteProduct(req, res) {
-  await productService.deleteProduct(req.params.id, req.user_id);
+  const productId = req.params.id;
+  await productService.deleteProduct(productId, req.user_id);
 
   res.status(200).json({ data: null });
 }

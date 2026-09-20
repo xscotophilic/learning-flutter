@@ -6,7 +6,7 @@ export async function getFavoriteIds(req, res) {
 }
 
 export async function addFavorite(req, res) {
-  const productId = req.body.product_id;
+  const { product_id: productId } = req.body;
   await favoritesService.addFavorite(req.user_id, productId);
   res.status(200).json({ data: null });
 }

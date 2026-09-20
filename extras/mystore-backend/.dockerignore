@@ -1,4 +1,20 @@
+# Dependencies
 node_modules
-.git
+
+# Environment & secrets
 .env
-npm-debug.log
+.env.*
+!.env.example
+
+# Development
+.git
+.gitignore
+.vscode
+.idea
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store

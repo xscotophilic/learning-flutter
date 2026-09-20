@@ -12,10 +12,6 @@ export async function query(sql, params = []) {
   return result.rows;
 }
 
-export async function getClient() {
-  return pool.connect();
-}
-
 const connectDB = async () => {
   try {
     if (!env.databaseUrl) {
