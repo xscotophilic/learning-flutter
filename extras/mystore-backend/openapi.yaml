@@ -1,0 +1,761 @@
+openapi: 3.0.3
+info:
+  title: MyStore Backend API
+  description:
+    "MyStore Backend API. The API version is selected dynamically with
+    the `{version}` path parameter (`v1` or `v2`). Bearer authentication is optional
+    in the OpenAPI definition: clients may send an application JWT when available."
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development
+tags:
+  - name: Authentication
+  - name: Products
+  - name: Favorites
+  - name: Cart
+  - name: Orders
+paths:
+  /api/{version}/products/hero:
+    get:
+      tags:
+        - Products
+      summary: Get hero product
+      responses:
+        "200":
+          $ref: "#/components/responses/ProductResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      operationId: getHeroProduct
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/products/featured:
+    get:
+      tags:
+        - Products
+      summary: List products
+      responses:
+        "200":
+          $ref: "#/components/responses/ProductsResponse"
+      operationId: getFeaturedProducts
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/products/bulk:
+    post:
+      tags:
+        - Products
+      summary: Get products by IDs
+      responses:
+        "200":
+          $ref: "#/components/responses/ProductsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      operationId: getProductsBulk
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkProductsRequest"
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/products/mine:
+    get:
+      tags:
+        - Products
+      summary: List my products
+      responses:
+        "200":
+          $ref: "#/components/responses/ProductsResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      operationId: getMyProducts
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/products:
+    post:
+      tags:
+        - Products
+      summary: Create product
+      responses:
+        "201":
+          $ref: "#/components/responses/ProductResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProductRequest"
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/products/{id}:
+    put:
+      tags:
+        - Products
+      summary: Update product
+      responses:
+        "200":
+          $ref: "#/components/responses/ProductResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      operationId: updateProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProductRequest"
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    delete:
+      tags:
+        - Products
+      summary: Delete product
+      responses:
+        "200":
+          $ref: "#/components/responses/NullDataResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      operationId: deleteProduct
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/favorites:
+    get:
+      tags:
+        - Favorites
+      summary: List favorites
+      responses:
+        "200":
+          $ref: "#/components/responses/FavoritesResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      operationId: getFavorites
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    post:
+      tags:
+        - Favorites
+      summary: Add favorite
+      responses:
+        "200":
+          $ref: "#/components/responses/NullDataResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      operationId: addFavorite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddFavoriteRequest"
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/favorites/{productId}:
+    delete:
+      tags:
+        - Favorites
+      summary: Remove favorite
+      responses:
+        "200":
+          $ref: "#/components/responses/NullDataResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      operationId: removeFavorite
+      parameters:
+        - $ref: "#/components/parameters/FavoriteProductId"
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/cart:
+    get:
+      tags:
+        - Cart
+      summary: Get active cart
+      responses:
+        "200":
+          $ref: "#/components/responses/CartResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      operationId: getCart
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/cart/items:
+    patch:
+      tags:
+        - Cart
+      summary: Add, update, or remove cart item
+      responses:
+        "200":
+          $ref: "#/components/responses/CartResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      operationId: updateCartItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartItemRequest"
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/{version}/orders:
+    post:
+      tags:
+        - Orders
+      summary: Create order
+      responses:
+        "201":
+          $ref: "#/components/responses/OrderResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderRequest"
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    get:
+      tags:
+        - Orders
+      summary: List my orders
+      responses:
+        "200":
+          $ref: "#/components/responses/OrdersResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      operationId: getOrders
+      security:
+        - bearerAuth: []
+        - {}
+      description: "If a token is provided, send it as **`Authorization: Bearer <application-jwt>`**."
+    parameters:
+      - $ref: "#/components/parameters/ApiVersion"
+  /api/v2/auth/google:
+    post:
+      tags:
+        - Authentication
+      summary: Sign in with Google
+      operationId: v2_googleLogin
+      description: Exchanges a Google ID token for a MyStore application JWT.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoogleLoginRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/GoogleLoginResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/InvalidGoogleToken"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+components:
+  parameters:
+    Version:
+      name: version
+      in: path
+      required: true
+      description: API version. Use v1 or v2.
+      schema:
+        type: string
+        enum:
+          - v1
+          - v2
+    ProductId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    FavoriteProductId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ApiVersion:
+      name: version
+      in: path
+      required: true
+      description: API version. Use `v1` or `v2`.
+      schema:
+        type: string
+        enum:
+          - v1
+          - v2
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: MyStore application JWT. Used by v2 protected endpoints.
+  schemas:
+    Price:
+      type: object
+      required:
+        - amount
+        - currency
+      properties:
+        amount:
+          type: number
+          format: double
+          example: 19.99
+        currency:
+          type: string
+          example: USD
+        discount_percent:
+          type: number
+          format: double
+          example: 10
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - price
+        - image_url
+        - creator_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          $ref: "#/components/schemas/Price"
+        image_url:
+          type: string
+          format: uri
+        creator_id:
+          type: string
+          format: uuid
+    CreateProductRequest:
+      type: object
+      required:
+        - name
+        - description
+        - price
+        - image_url
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          $ref: "#/components/schemas/Price"
+        image_url:
+          type: string
+          format: uri
+    UpdateProductRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          $ref: "#/components/schemas/Price"
+        image_url:
+          type: string
+          format: uri
+    GoogleLoginRequest:
+      type: object
+      required:
+        - id_token
+      properties:
+        id_token:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        picture:
+          type: string
+          format: uri
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    GoogleLoginResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - token
+            - user
+          properties:
+            token:
+              type: string
+            user:
+              $ref: "#/components/schemas/User"
+    ProductResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/Product"
+    ProductsResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - products
+          properties:
+            products:
+              type: array
+              items:
+                $ref: "#/components/schemas/Product"
+    FavoritesResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+            format: uuid
+    AddFavoriteRequest:
+      type: object
+      required:
+        - product_id
+      properties:
+        product_id:
+          type: string
+          format: uuid
+    CartItemRequest:
+      type: object
+      required:
+        - cart_id
+        - product_id
+        - quantity
+      properties:
+        cart_id:
+          type: string
+          format: uuid
+        product_id:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          description:
+            Positive values add/update; zero or negative values remove
+            the item.
+    CartItem:
+      type: object
+      properties:
+        product_id:
+          type: string
+          format: uuid
+        unit_price:
+          $ref: "#/components/schemas/Price"
+        quantity:
+          type: integer
+    CartTotals:
+      type: object
+      properties:
+        subtotal:
+          type: number
+        discount:
+          type: number
+        total:
+          type: number
+        currency:
+          type: string
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        owner_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          example: active
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartItem"
+        total:
+          $ref: "#/components/schemas/CartTotals"
+    CartResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - cart
+          properties:
+            cart:
+              $ref: "#/components/schemas/Cart"
+    CreateOrderRequest:
+      type: object
+      required:
+        - cart_id
+        - payment_id
+        - payment_method_id
+      properties:
+        cart_id:
+          type: string
+          format: uuid
+        payment_id:
+          type: string
+        payment_method_id:
+          type: string
+    OrderLineItem:
+      type: object
+      properties:
+        product_id:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+        purchase_price:
+          $ref: "#/components/schemas/Price"
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        placed_at:
+          type: string
+          format: date-time
+        payment_id:
+          type: string
+        payment_method_id:
+          type: string
+        line_items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderLineItem"
+    OrderResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/Order"
+    OrdersResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - orders
+          properties:
+            orders:
+              type: array
+              items:
+                $ref: "#/components/schemas/Order"
+    NullDataResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          nullable: true
+          example: null
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    BulkProductsRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          default: []
+  responses:
+    BadRequest:
+      description: Invalid input or workflow state
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: Missing or invalid authentication
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Forbidden:
+      description: Authenticated user lacks ownership or permission
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Resource or route does not exist
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InternalServerError:
+      description: Unexpected server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InvalidGoogleToken:
+      description: Invalid Google ID token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            message: Invalid Google ID token
+    ProductResponse:
+      description: Product
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProductResponse"
+    ProductsResponse:
+      description: Products
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProductsResponse"
+    FavoritesResponse:
+      description: Favorites
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/FavoritesResponse"
+    NullDataResponse:
+      description: NullData
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NullDataResponse"
+    CartResponse:
+      description: Cart
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CartResponse"
+    OrderResponse:
+      description: Order
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrderResponse"
+    OrdersResponse:
+      description: Orders
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrdersResponse"
+    GoogleLoginResponse:
+      description: GoogleLogin
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GoogleLoginResponse"
