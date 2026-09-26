@@ -12,6 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Authentication
+  google_sign_in: ^7.2.0
+
   # Network
   http: ^1.6.0
 
@@ -23,6 +26,7 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # Utilities
+  flutter_secure_storage: ^11.0.0
   intl: ^0.20.2
   package_info_plus: ^10.1.0
 

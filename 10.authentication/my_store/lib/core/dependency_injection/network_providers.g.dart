@@ -9,46 +9,98 @@ part of 'network_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(httpClient)
-final httpClientProvider = HttpClientProvider._();
+@ProviderFor(AuthToken)
+final authTokenProvider = AuthTokenProvider._();
 
-final class HttpClientProvider
-    extends $FunctionalProvider<http.Client, http.Client, http.Client>
-    with $Provider<http.Client> {
-  HttpClientProvider._()
+final class AuthTokenProvider extends $NotifierProvider<AuthToken, String?> {
+  AuthTokenProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'httpClientProvider',
+        name: r'authTokenProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$httpClientHash();
+  String debugGetCreateSourceHash() => _$authTokenHash();
 
   @$internal
   @override
-  $ProviderElement<http.Client> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  http.Client create(Ref ref) {
-    return httpClient(ref);
-  }
+  AuthToken create() => AuthToken();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(http.Client value) {
+  Override overrideWithValue(String? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<http.Client>(value),
+      providerOverride: $SyncValueProvider<String?>(value),
     );
   }
 }
 
-String _$httpClientHash() => r'd264add0180735bd60a171263e3981deb730538d';
+String _$authTokenHash() => r'c48752bcc50224d457beaa1aa5715a274aa61134';
+
+abstract class _$AuthToken extends $Notifier<String?> {
+  String? build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<String?, String?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String?, String?>,
+              String?,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(authInterceptor)
+final authInterceptorProvider = AuthInterceptorProvider._();
+
+final class AuthInterceptorProvider
+    extends
+        $FunctionalProvider<AuthInterceptor, AuthInterceptor, AuthInterceptor>
+    with $Provider<AuthInterceptor> {
+  AuthInterceptorProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authInterceptorProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$authInterceptorHash();
+
+  @$internal
+  @override
+  $ProviderElement<AuthInterceptor> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AuthInterceptor create(Ref ref) {
+    return authInterceptor(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AuthInterceptor value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AuthInterceptor>(value),
+    );
+  }
+}
+
+String _$authInterceptorHash() => r'5dc291a285d098a5ebd34058eefc1675b7a24b42';
 
 @ProviderFor(apiClient)
 final apiClientProvider = ApiClientProvider._();
@@ -89,4 +141,4 @@ final class ApiClientProvider
   }
 }
 
-String _$apiClientHash() => r'e5ebaeaff62e66d79d8350533a9cae4b532184fb';
+String _$apiClientHash() => r'982f8aad67edbb9bf0f3cbf82f6b9a0460f5d03a';
