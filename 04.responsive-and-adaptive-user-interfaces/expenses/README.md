@@ -1,6 +1,6 @@
-# Expenses App
+# Expenses App (Responsive & Adaptive)
 
-A personal expense tracker application demonstrating intermediate Flutter widget concepts, theme customization, list rendering, modal bottom sheets, form input handling, date pickers, and custom chart bars.
+An enhanced version of the expense tracker app demonstrating responsive layout design and platform-adaptive UI across iOS, Android, and web. It handles dynamic screen dimensions, landscape/portrait orientations, device notches with `SafeArea`, and platform-native widgets (Material vs Cupertino).
 
 ## Quick Start
 
@@ -18,13 +18,14 @@ flutter test
 
 ## Project Structure
 
-- `lib/main.dart` - Application entry point configuring theme data, custom text themes, and primary color schemes.
-- `lib/home_page.dart` - Main stateful screen managing transactions, computing 7-day spending, and handling modal sheet display for new transactions.
+- `lib/main.dart` - Application entry point configuring theme palettes, custom text themes, and scaffold structure.
+- `lib/home_page.dart` - Responsive screen utilizing `MediaQuery` to adapt layouts between portrait and landscape modes, and conditionally rendering Material or Cupertino navigation bars and switches.
 - `lib/models/` - Data models:
-  - `transaction.dart` - Defines the `Transaction` entity with ID, title, amount, and date.
-- `lib/widgets/` - Reusable UI components:
-  - `chart_bar.dart` - Visual bar representation of spending percentage per day.
-  - `chart.dart` - Top summary widget calculating daily spending distribution over the past 7 days.
-  - `new_transaction.dart` - Bottom sheet modal form with inputs for title, amount, and date selection.
-  - `transaction_list.dart` - Scrollable list displaying transaction cards with delete actions or an empty state illustration.
+  - `transaction.dart` - Model representing an individual transaction item (ID, title, amount, and date).
+- `lib/widgets/` - Adaptive and responsive UI components:
+  - `adaptive_flat_button.dart` - Cross-platform button rendering Cupertino or Material text buttons based on platform.
+  - `chart.dart` - Weekly expense bar chart adapting its height to available screen dimensions.
+  - `chart_bar.dart` - Individual day bar using `LayoutBuilder` to size labels and progress bars proportionally.
+  - `new_transaction.dart` - Adaptive bottom sheet form with platform-aware inputs, date pickers, and keyboard avoidance.
+  - `transaction_list.dart` - Responsive list view with adaptive delete controls and empty state illustrations.
 - `test/widget_test.dart` - Basic widget smoke test for the app.

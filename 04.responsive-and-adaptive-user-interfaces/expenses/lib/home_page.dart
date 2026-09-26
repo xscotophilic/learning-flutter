@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:expenses/models/transaction.dart';
 import 'package:expenses/widgets/chart.dart';
 import 'package:expenses/widgets/new_transaction.dart';
 import 'package:expenses/widgets/transaction_list.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -12,6 +16,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
+
   /// list of transactions
   final List<Transaction> _userTransactions = [];
 
@@ -44,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showAddNewTransaction() {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       builder: (_) {
         return GestureDetector(
           onTap: () {},
@@ -60,16 +67,79 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Expenses')),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: <Widget>[
-              Chart(recentTransactions: _recentTransactions),
+  ObstructingPreferredSizeWidget _buildIosNavBar() {
+    return CupertinoNavigationBar(
+      middle: const Text('Expenses'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          GestureDetector(
+            onTap: _showAddNewTransaction,
+            child: const Icon(CupertinoIcons.add),
+          ),
+        ],
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAndroidAppBar() {
+    return AppBar(
+      title: const Text('Expenses', style: TextStyle(color: Colors.white)),
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+
+  void _toggleShowChart(bool value) {
+    setState(() {
+      _showChart = value;
+    });
+  }
+
+  Widget _buildChartSwitch() {
+    return Row(
+      children: <Widget>[
+        Text('Show Chart', style: Theme.of(context).textTheme.titleLarge),
+        const Spacer(),
+        if (kIsWeb ? false : Platform.isIOS)
+          CupertinoSwitch(value: _showChart, onChanged: _toggleShowChart)
+        else
+          Switch(value: _showChart, onChanged: _toggleShowChart),
+      ],
+    );
+  }
+
+  Widget _buildBody() {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final height = mediaQuery.size.height;
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: <Widget>[
+            if (kIsWeb ? height < 600 : isLandscape) ...[
+              _buildChartSwitch(),
+              const SizedBox(height: 16),
+              if (_showChart) ...[
+                Expanded(
+                  child: Chart(
+                    preferredHeight: double.infinity,
+                    recentTransactions: _recentTransactions,
+                  ),
+                ),
+              ] else ...[
+                Expanded(
+                  child: TransactionList(
+                    transactions: _userTransactions.reversed.toList(),
+                    deleteTxHandler: _deleteTransaction,
+                  ),
+                ),
+              ],
+            ] else ...[
+              Chart(
+                preferredHeight: mediaQuery.size.height * 0.16,
+                recentTransactions: _recentTransactions,
+              ),
               const SizedBox(height: 16),
               Expanded(
                 child: TransactionList(
@@ -78,10 +148,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ],
-          ),
+          ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (kIsWeb ? false : Platform.isIOS) {
+      return CupertinoPageScaffold(
+        navigationBar: _buildIosNavBar(),
+        child: _buildBody(),
+      );
+    }
+    return Scaffold(
+      appBar: _buildAndroidAppBar(),
+      body: _buildBody(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddNewTransaction,
         child: const Icon(Icons.add),
