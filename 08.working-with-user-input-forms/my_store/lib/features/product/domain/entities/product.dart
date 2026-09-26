@@ -7,6 +7,7 @@ class Product {
     required this.description,
     required this.price,
     required this.imageUrl,
+    required this.creatorId,
   });
 
   final String id;
@@ -14,4 +15,5 @@ class Product {
   final String description;
   final Price price;
   final String imageUrl;
+  final String creatorId;
 }

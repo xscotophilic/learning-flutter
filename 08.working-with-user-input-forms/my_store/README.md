@@ -1,6 +1,6 @@
 # My Store
 
-An e-commerce mobile application demonstrating production-grade Flutter architecture, feature-first project structure, and reactive state management.
+An e-commerce mobile application demonstrating Flutter form handling, user input validation, controller management, and CRUD operations within a feature-first architecture.
 
 ## Quick Start
 

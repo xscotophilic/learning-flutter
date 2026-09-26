@@ -60,4 +60,38 @@ final class MockProductRepository implements ProductRepository {
   }) async {
     return await _fetchAndCacheProducts(productIds);
   }
+
+  @override
+  Future<List<Product>> getMyProducts() async {
+    final products = await MockServer.getMyProducts();
+    return _cacheProductsFromResponse(products);
+  }
+
+  @override
+  Future<Product> createProduct(Product productRequest) async {
+    final productModel = ProductModel.fromDomain(productRequest);
+    final productJson = productModel.toJson();
+
+    final rawProduct = await MockServer.createProduct(data: productJson);
+
+    final product = ProductModel.fromJson(rawProduct).toDomain();
+    _allProductsCache[product.id] = product;
+    return product;
+  }
+
+  @override
+  Future<Product> updateProduct(Product productRequest) async {
+    final rawProduct = await MockServer.updateProduct(
+      data: ProductModel.fromDomain(productRequest).toJson(),
+    );
+    final product = ProductModel.fromJson(rawProduct).toDomain();
+    _allProductsCache[product.id] = product;
+    return product;
+  }
+
+  @override
+  Future<void> deleteProduct({required String id}) async {
+    await MockServer.deleteProduct(id: id);
+    _allProductsCache.remove(id);
+  }
 }
