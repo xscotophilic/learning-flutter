@@ -3,6 +3,8 @@ import 'package:my_store/shared/remote_config/domain/entities/remote_config.dart
 import 'package:my_store/shared/remote_config/domain/repositories/remote_config_repository.dart';
 
 final class MockRemoteConfigRepository implements RemoteConfigRepository {
+  MockRemoteConfigRepository();
+
   RemoteConfig? _config;
 
   @override

@@ -1,6 +1,8 @@
 import 'package:my_store/features/favorites/domain/repositories/favorites_repository.dart';
 
 final class MockFavoritesRepository implements FavoritesRepository {
+  MockFavoritesRepository();
+
   static const Duration _kNetworkDelay = Duration(milliseconds: 250);
 
   final Set<String> _favoriteIds = {};

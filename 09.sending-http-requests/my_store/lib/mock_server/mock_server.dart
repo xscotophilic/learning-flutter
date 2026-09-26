@@ -131,7 +131,7 @@ class MockServer {
   Future<Map<String, dynamic>> getOrCreateCart() async {
     await Future<void>.delayed(_kNetworkDelay);
 
-    final userId = 'demo-user';
+    final userId = 'mock-user-id';
 
     final Map<String, dynamic>? payload = MockCartData.getActiveCart(userId);
     if (payload?['cart'] != null) {
