@@ -34,7 +34,7 @@ final class CartNotifierProvider
   CartNotifier create() => CartNotifier();
 }
 
-String _$cartNotifierHash() => r'2533d93f012632daa509ff95a6ef922060f71f73';
+String _$cartNotifierHash() => r'b2cd9ad2b0ff8ef5afa8f17f90d8587eebe4f901';
 
 abstract class _$CartNotifier
     extends $AsyncNotifier<CartSnapshot<HydratedCartItem>> {

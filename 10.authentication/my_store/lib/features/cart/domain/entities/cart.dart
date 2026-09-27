@@ -55,6 +55,17 @@ class Cart<T> {
     required this.total,
   });
 
+  factory Cart.empty() {
+    return Cart<T>(
+      id: '',
+      ownerId: '',
+      createdAt: DateTime.fromMillisecondsSinceEpoch(0),
+      status: CartStatus.active,
+      items: const [],
+      total: const Total(subtotal: 0, discount: 0, total: 0, currency: ''),
+    );
+  }
+
   Cart<T> copyWith({
     String? id,
     String? ownerId,

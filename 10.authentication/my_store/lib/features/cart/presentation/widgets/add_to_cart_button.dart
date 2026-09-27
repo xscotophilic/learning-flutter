@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_store/core/dependency_injection/network_providers.dart';
 import 'package:my_store/features/cart/presentation/providers/cart_notifier.dart';
 import 'package:my_store/features/product/domain/entities/product.dart';
 import 'package:my_store/shared/widgets/primary_button.dart';
@@ -21,6 +22,16 @@ class AddToCartButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressed() {
+      final token = ref.read(authTokenProvider);
+      if (token == null) {
+        AppSnackBar.showErrorSnackBar(
+          context,
+          clearSnackBars: true,
+          message: 'Please sign in to add items to your cart.',
+        );
+        return;
+      }
+
       final snapshot = ref.read(cartProvider);
       final isMutationPending = snapshot.value?.isMutating ?? false;
 

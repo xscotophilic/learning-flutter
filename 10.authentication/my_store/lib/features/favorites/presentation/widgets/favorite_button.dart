@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_store/core/dependency_injection/network_providers.dart';
 import 'package:my_store/features/favorites/presentation/providers/favorites_notifier.dart';
+import 'package:my_store/shared/widgets/snackbar.dart';
 
 class FavoriteButton extends ConsumerStatefulWidget {
   const FavoriteButton({super.key, required this.productId, this.iconSize});
@@ -59,6 +61,16 @@ class _FavoriteButtonState extends ConsumerState<FavoriteButton>
 
     return GestureDetector(
       onTap: () {
+        final token = ref.read(authTokenProvider);
+        if (token == null) {
+          AppSnackBar.showErrorSnackBar(
+            context,
+            clearSnackBars: true,
+            message: 'Please sign in to add items to your favorites.',
+          );
+          return;
+        }
+
         _controller.forward(from: 0.0);
         ref.read(favoritesProvider.notifier).toggle(widget.productId);
       },
