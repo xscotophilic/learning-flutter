@@ -1,17 +1,28 @@
-# quizapp
+# Quiz App
 
-A new Flutter project.
+An interactive quiz application demonstrating Flutter fundamentals, including stateful and stateless widgets, callback handlers, conditional rendering, and passing data between custom widgets.
 
-## Getting Started
+## Quick Start
 
-This project is a starting point for a Flutter application.
+### Run the App
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter run
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+### Run Tests
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter test
+```
+
+## Project Structure
+
+- `lib/main.dart` - Entry point configuring the app structure and defining sample quiz questions with answers and scores.
+- `lib/home_content.dart` - Main stateful component managing the current question index, total score tracking, and restart logic.
+- `lib/widgets/` - Reusable modular UI components:
+  - `quiz.dart` - Coordinates the display of questions and answer options.
+  - `question.dart` - Formatted question text widget.
+  - `answer.dart` - Custom styled answer button widget.
+  - `result.dart` - Score summary screen with personalized feedback and reset button.
+- `test/widget_test.dart` - Basic widget smoke test for the app.
