@@ -1,17 +1,23 @@
-# my_store
+# My Store
 
-A new Flutter project.
+An e-commerce mobile application demonstrating production-grade Flutter architecture, feature-first project structure, and reactive state management.
 
-## Getting Started
+## Quick Start
 
-This project is a starting point for a Flutter application.
+### Code generation
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+### Run the App
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter run
+```
+
+### Run Tests
+
+```bash
+flutter test
+```
