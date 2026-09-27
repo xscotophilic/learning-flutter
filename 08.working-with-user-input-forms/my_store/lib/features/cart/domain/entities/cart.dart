@@ -1,0 +1,122 @@
+import 'package:my_store/features/cart/domain/entities/total.dart';
+import 'package:my_store/features/product/domain/entities/price.dart';
+import 'package:my_store/features/product/domain/entities/product.dart';
+
+enum CartStatus { active, completed, abandoned }
+
+class CartItem {
+  const CartItem({
+    required this.productId,
+    required this.unitPrice,
+    required this.quantity,
+  });
+
+  CartItem copyWith({String? productId, Price? unitPrice, int? quantity}) {
+    return CartItem(
+      productId: productId ?? this.productId,
+      unitPrice: unitPrice ?? this.unitPrice,
+      quantity: quantity ?? this.quantity,
+    );
+  }
+
+  final String productId;
+  final Price unitPrice;
+  final int quantity;
+
+  double get calculateSubtotal => unitPrice.amount * quantity;
+
+  double get calculateTotalDiscount {
+    final discountPercent = unitPrice.discountPercent ?? 0;
+    if (discountPercent > 0) {
+      return (unitPrice.amount * discountPercent / 100) * quantity;
+    }
+    return 0;
+  }
+
+  double get calculateTotal {
+    return calculateSubtotal - calculateTotalDiscount;
+  }
+}
+
+class HydratedCartItem {
+  const HydratedCartItem({required this.cartItem, required this.product});
+
+  final CartItem cartItem;
+  final Product product;
+}
+
+class Cart<T> {
+  const Cart({
+    required this.id,
+    required this.ownerId,
+    required this.createdAt,
+    required this.status,
+    required this.items,
+    required this.total,
+  });
+
+  Cart<T> copyWith({
+    String? id,
+    String? ownerId,
+    DateTime? createdAt,
+    CartStatus? status,
+    List<T>? items,
+    Total? total,
+  }) {
+    return Cart<T>(
+      id: id ?? this.id,
+      ownerId: ownerId ?? this.ownerId,
+      createdAt: createdAt ?? this.createdAt,
+      status: status ?? this.status,
+      items: items ?? this.items,
+      total: total ?? this.total,
+    );
+  }
+
+  final String id;
+  final String ownerId;
+  final DateTime createdAt;
+  final CartStatus status;
+  final List<T> items;
+  final Total total;
+}
+
+class CartSnapshot<T> {
+  const CartSnapshot({required this.isMutating, required this.cart});
+
+  CartSnapshot<T> copyWith({bool? isMutating, Cart<T>? cart}) {
+    return CartSnapshot<T>(
+      isMutating: isMutating ?? this.isMutating,
+      cart: cart ?? this.cart,
+    );
+  }
+
+  final bool isMutating;
+  final Cart<T> cart;
+}
+
+extension HydratedCartExtension on Cart<HydratedCartItem> {
+  Cart<HydratedCartItem> updateItemQuantity(String productId, int quantity) {
+    final List<HydratedCartItem> updatedItems = [];
+    for (final item in items) {
+      if (item.product.id == productId) {
+        if (quantity > 0) {
+          updatedItems.add(
+            HydratedCartItem(
+              cartItem: item.cartItem.copyWith(quantity: quantity),
+              product: item.product,
+            ),
+          );
+        }
+      } else {
+        updatedItems.add(item);
+      }
+    }
+
+    final updatedTotal = Total.fromCartItems(
+      updatedItems.map((item) => item.cartItem).toList(),
+    );
+
+    return copyWith(items: updatedItems, total: updatedTotal);
+  }
+}
