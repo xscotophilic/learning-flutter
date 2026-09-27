@@ -22,7 +22,7 @@ class LoadingOverlay extends StatelessWidget {
             child: ClipRRect(
               borderRadius: borderRadius ?? BorderRadius.zero,
               child: ColoredBox(
-                color: Theme.of(context).colorScheme.onSecondary.withAlpha(07),
+                color: Theme.of(context).colorScheme.surface.withAlpha(150),
                 child: const Center(child: CircularProgressIndicator()),
               ),
             ),

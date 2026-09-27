@@ -17,6 +17,14 @@ class PriceModel {
     );
   }
 
+  factory PriceModel.fromDomain(Price price) {
+    return PriceModel(
+      amount: price.amount,
+      currency: price.currency,
+      discountPercent: price.discountPercent,
+    );
+  }
+
   final double amount;
   final String currency;
   final double? discountPercent;
@@ -28,6 +36,14 @@ class PriceModel {
       discountPercent: discountPercent,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'amount': amount,
+      'currency': currency,
+      if ((discountPercent ?? 0) > 0) 'discount_percent': discountPercent,
+    };
+  }
 }
 
 class ProductModel {
@@ -37,6 +53,7 @@ class ProductModel {
     required this.description,
     required this.price,
     required this.imageUrl,
+    required this.creatorId,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +63,18 @@ class ProductModel {
       description: json['description'] as String,
       price: PriceModel.fromJson(json['price'] as Map<String, dynamic>),
       imageUrl: json['image_url'] as String,
+      creatorId: json['creator_id'] as String,
+    );
+  }
+
+  factory ProductModel.fromDomain(Product product) {
+    return ProductModel(
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: PriceModel.fromDomain(product.price),
+      imageUrl: product.imageUrl,
+      creatorId: product.creatorId,
     );
   }
 
@@ -54,6 +83,7 @@ class ProductModel {
   final String description;
   final PriceModel price;
   final String imageUrl;
+  final String creatorId;
 
   Product toDomain() {
     return Product(
@@ -62,7 +92,18 @@ class ProductModel {
       description: description,
       price: price.toDomain(),
       imageUrl: imageUrl,
+      creatorId: creatorId,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id.isNotEmpty) 'id': id,
+      'name': name,
+      'description': description,
+      'price': price.toJson(),
+      'image_url': imageUrl,
+    };
   }
 }
 

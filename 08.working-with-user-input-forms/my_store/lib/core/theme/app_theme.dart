@@ -127,6 +127,41 @@ class AppTheme {
           ),
         ),
       ),
+
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        isDense: true,
+        fillColor: _onBackground.withAlpha(20),
+        hintStyle: TextStyle(color: _onBackground.withAlpha(150)),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: AppDimensions.defaultPadding / 2,
+          horizontal: AppDimensions.defaultPadding / 3,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            AppDimensions.defaultBorderRadius,
+          ),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            AppDimensions.defaultBorderRadius,
+          ),
+          borderSide: BorderSide(color: _primary),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            AppDimensions.defaultBorderRadius,
+          ),
+          borderSide: BorderSide(color: _secondary.withAlpha(200)),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            AppDimensions.defaultBorderRadius,
+          ),
+          borderSide: BorderSide(color: _secondary),
+        ),
+      ),
     );
   }
 }
