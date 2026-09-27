@@ -1,3 +1,4 @@
+import 'package:expenses/widgets/adaptive_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -68,10 +69,9 @@ class _NewTransactionState extends State<NewTransaction> {
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        child: ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            const SizedBox(height: 12),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
@@ -95,17 +95,11 @@ class _NewTransactionState extends State<NewTransaction> {
 
             Row(
               children: <Widget>[
-                TextButton(
+                AdaptiveFlatButton(
+                  text: _selectedDateController == null
+                      ? 'Choose date'
+                      : 'Change date',
                   onPressed: _presentDatePicker,
-                  child: Text(
-                    _selectedDateController == null
-                        ? 'Choose date'
-                        : 'Change date',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ),
                 const Expanded(child: SizedBox(width: 12)),
                 Text(
@@ -128,7 +122,6 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
               child: const Text('Add transaction'),
             ),
-            const SizedBox(height: 12),
           ],
         ),
       ),
