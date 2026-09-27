@@ -1,17 +1,30 @@
-# expenses
+# Expenses App
 
-A new Flutter project.
+A personal expense tracker application demonstrating intermediate Flutter widget concepts, theme customization, list rendering, modal bottom sheets, form input handling, date pickers, and custom chart bars.
 
-## Getting Started
+## Quick Start
 
-This project is a starting point for a Flutter application.
+### Run the App
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter run
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+### Run Tests
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter test
+```
+
+## Project Structure
+
+- `lib/main.dart` - Application entry point configuring theme data, custom text themes, and primary color schemes.
+- `lib/home_page.dart` - Main stateful screen managing transactions, computing 7-day spending, and handling modal sheet display for new transactions.
+- `lib/models/` - Data models:
+  - `transaction.dart` - Defines the `Transaction` entity with ID, title, amount, and date.
+- `lib/widgets/` - Reusable UI components:
+  - `chart_bar.dart` - Visual bar representation of spending percentage per day.
+  - `chart.dart` - Top summary widget calculating daily spending distribution over the past 7 days.
+  - `new_transaction.dart` - Bottom sheet modal form with inputs for title, amount, and date selection.
+  - `transaction_list.dart` - Scrollable list displaying transaction cards with delete actions or an empty state illustration.
+- `test/widget_test.dart` - Basic widget smoke test for the app.
