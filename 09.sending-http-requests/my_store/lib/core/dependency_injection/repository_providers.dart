@@ -1,10 +1,11 @@
-import 'package:my_store/features/cart/data/repositories/mock_cart_repository.dart';
+import 'package:my_store/core/dependency_injection/network_providers.dart';
+import 'package:my_store/features/cart/data/repositories/api_cart_repository.dart';
 import 'package:my_store/features/cart/domain/repositories/cart_repository.dart';
-import 'package:my_store/features/favorites/data/repositories/mock_favorites_repository.dart';
+import 'package:my_store/features/favorites/data/repositories/api_favorites_repository.dart';
 import 'package:my_store/features/favorites/domain/repositories/favorites_repository.dart';
-import 'package:my_store/features/orders/data/repositories/mock_orders_repository.dart';
+import 'package:my_store/features/orders/data/repositories/api_orders_repository.dart';
 import 'package:my_store/features/orders/domain/repositories/orders_repository.dart';
-import 'package:my_store/features/product/data/repositories/mock_product_repository.dart';
+import 'package:my_store/features/product/data/repositories/api_product_repository.dart';
 import 'package:my_store/features/product/domain/repositories/product_repository.dart';
 import 'package:my_store/shared/app_info/data/repositories/package_info_repository.dart';
 import 'package:my_store/shared/app_info/domain/repositories/app_info_repository.dart';
@@ -26,20 +27,20 @@ RemoteConfigRepository remoteConfigRepository(Ref ref) {
 
 @Riverpod(keepAlive: true)
 ProductRepository productRepository(Ref ref) {
-  return MockProductRepository();
+  return ApiProductRepository(ref.watch(apiClientProvider));
 }
 
 @Riverpod(keepAlive: true)
 CartRepository cartRepository(Ref ref) {
-  return MockCartRepository();
+  return ApiCartRepository(ref.watch(apiClientProvider));
 }
 
 @Riverpod(keepAlive: true)
 FavoritesRepository favoritesRepository(Ref ref) {
-  return MockFavoritesRepository();
+  return ApiFavoritesRepository(ref.watch(apiClientProvider));
 }
 
 @Riverpod(keepAlive: true)
 OrdersRepository ordersRepository(Ref ref) {
-  return const MockOrdersRepository();
+  return ApiOrdersRepository(ref.watch(apiClientProvider));
 }
