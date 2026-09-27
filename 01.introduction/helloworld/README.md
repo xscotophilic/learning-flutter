@@ -1,17 +1,22 @@
-# helloworld
+# Hello World Example
 
-A new Flutter project.
+A minimal Flutter starter application that displays "Hello World!" on the screen using basic Material Design widgets.
 
-## Getting Started
+## Quick Start
 
-This project is a starting point for a Flutter application.
+### Run the App
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter run
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+### Run Tests
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter test
+```
+
+## Project Structure
+
+- `lib/main.dart` - Entry point launching `MyApp` with a `MaterialApp`, `Scaffold`, `AppBar`, and centered `Text`.
+- `test/widget_test.dart` - Basic smoke test verifying the presence of "Hello World!".
